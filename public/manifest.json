@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "HyperTube",
+  "name": "Popcorntime like project from 42 school",
   "icons": [
     {
       "src": "favicon.ico",
