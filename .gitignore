@@ -60,3 +60,6 @@ typings/
 # remove css file push because use scss
 *.css
 
+# not send private config to github
+.config.json
+
