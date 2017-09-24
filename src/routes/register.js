@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import './scss/App.css'
 
-class App extends Component {
+class Register extends Component {
   render () {
     return (
-      <div className='App'>
+      <div>
         Salut
       </div>
     )
   }
 }
 
-export default App
+export default Register
