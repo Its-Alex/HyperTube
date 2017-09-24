@@ -1,4 +1,5 @@
 const express = require('express')
+const passport = require('passport')
 const router = express.Router()
 // const middle = require('../middlewares.js')
 
@@ -12,5 +13,9 @@ router.get('/', (req, res) => {
 
 // All paths
 router.use('/auth', require('./auth.js'))
+router.get('/test', (req, res) => {
+  console.log(req.isAuthenticated())
+  res.json({success: true})
+})
 
 module.exports = router

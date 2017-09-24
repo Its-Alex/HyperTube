@@ -2177,9 +2177,9 @@ element-react@^1.2.1:
     react-transition-group "^1.2.0"
     throttle-debounce "^1.0.1"
 
-element-theme-default@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/element-theme-default/-/element-theme-default-1.4.4.tgz#afdd85acb5db1c5533f676a3071445f7f7234449"
+element-theme-default@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/element-theme-default/-/element-theme-default-1.4.5.tgz#95e33ed7976e88a34163ef48c605a125d7c65236"
 
 elliptic@^6.0.0:
   version "6.4.0"
@@ -5204,33 +5204,6 @@ passport-github@^1.1.0:
   resolved "https://registry.yarnpkg.com/passport-github/-/passport-github-1.1.0.tgz#8ce1e3fcd61ad7578eb1df595839e4aea12355d4"
   dependencies:
     passport-oauth2 "1.x.x"
-
-passport-google-oauth1@1.x.x:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/passport-google-oauth1/-/passport-google-oauth1-1.0.0.tgz#af74a803df51ec646f66a44d82282be6f108e0cc"
-  dependencies:
-    passport-oauth1 "1.x.x"
-
-passport-google-oauth20@1.x.x:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/passport-google-oauth20/-/passport-google-oauth20-1.0.0.tgz#3b960e8a1d70d1dbe794615c827c68c40392a5d0"
-  dependencies:
-    passport-oauth2 "1.x.x"
-
-passport-google-oauth@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/passport-google-oauth/-/passport-google-oauth-1.0.0.tgz#65f50633192ad0627a18b08960077109d84eb76d"
-  dependencies:
-    passport-google-oauth1 "1.x.x"
-    passport-google-oauth20 "1.x.x"
-
-passport-oauth1@1.x.x:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/passport-oauth1/-/passport-oauth1-1.1.0.tgz#a7de988a211f9cf4687377130ea74df32730c918"
-  dependencies:
-    oauth "0.9.x"
-    passport-strategy "1.x.x"
-    utils-merge "1.x.x"
 
 passport-oauth2@1.x, passport-oauth2@1.x.x:
   version "1.4.0"

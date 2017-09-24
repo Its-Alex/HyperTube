@@ -1,20 +1,25 @@
-const cors = require('cors')
-const bodyParser = require('body-parser')
 const express = require('express')
 const app = express()
-const db = require('./utils/db.js')
+const bodyParser = require('body-parser')
+const passport = require('passport')
+const cors = require('cors')
+const path = require('path')
 const fs = require('fs')
-const port = 3005
 
-const config = JSON.parse(fs.readFileSync('./app/.config.json', 'utf8'))
+const db = require('./utils/db.js')
 
-db.connect(config.db)
+global.config = JSON.parse(fs.readFileSync(path.resolve(__dirname, '.config.json'), 'UTF-8'))
+const port = global.config.port || 3005
 
-app.disable('x-powered-by')
+db.connect(global.config.db)
+
+require('./utils/passport.js')
 
 app.use(cors())
+app.use(require('cookie-parser')())
 app.use(bodyParser.urlencoded({extended: true, limit: '512kb'}))
 app.use(bodyParser.json({limit: '5mb'}))
+app.use(passport.initialize())
 
 // Global api route
 app.use('/', require('./routes/index.js'))
@@ -30,10 +35,4 @@ app.use((req, res) => {
 // Start web server
 app.listen(port, () => {
   console.log('Start at ' + port)
-})
-
-// End connecton with database
-process.on('SIGINT', () => {
-  db.end()
-  process.exit()
 })

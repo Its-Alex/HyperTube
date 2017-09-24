@@ -1,14 +1,14 @@
 const mysql = require('mysql')
 
-let error
+var error
 var db
 
-let connect = (db) => {
+let connect = (config) => {
   db = mysql.createConnection({
-    host: db.host,
-    database: db.database,
-    user: db.user,
-    password: db.password,
+    host: config.host,
+    database: config.database,
+    user: config.user,
+    password: config.password,
     debug: false
   })
   db.connect((err) => {
@@ -17,9 +17,9 @@ let connect = (db) => {
       error = err.stack
     }
     if (db.threadId !== null) {
-      // console.log('Connected as id ' + db.threadId)
+      console.log('Connected as id ' + db.threadId)
     } else {
-      // console.log('Connection to database failed!')
+      console.log('Connection to database failed!')
       process.exit(1)
     }
   })
@@ -40,13 +40,6 @@ module.exports = {
         return resolve(db)
       } else {
         return reject(error)
-      }
-    })
-  },
-  end: () => {
-    db.end((err) => {
-      if (err) {
-        console.log('Database end error : ' + err)
       }
     })
   }
