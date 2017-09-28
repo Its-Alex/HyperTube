@@ -29,6 +29,7 @@ module.exports = (req, res) => {
   }
 
   if (!isEmail(req.body.mail)) return error(res, 'Invalid mail', 403)
+  req.body.mail = req.body.mail.toLowerCase()
 
   if (isEmpty(req.body.password) || req.body.password.length < 8 ||
   req.body.password.length > 60) {

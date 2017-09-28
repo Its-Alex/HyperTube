@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { Button, Input, Icon } from 'semantic-ui-react'
 import axios from 'axios'
 
-class Auth extends Component {
+class Login extends Component {
   componentWillMount () {
-    if (global.localStorage.getItem('token')) {
-      this.props.history.push('/')
-    }
+    // if (global.localStorage.getItem('token')) {
+    //   this.props.history.push('/')
+    // }
 
     this.state = {
       mail: '',
@@ -29,6 +29,14 @@ class Auth extends Component {
       .catch(err => {
         this.setState({loadingBtn: false})
         console.log(err.response)
+        this.props.toast.warning(
+          err.response.data.error,
+          'An error occurred', {
+            showAnimation: 'animated zoomIn',
+            hideAnimation: 'animated zoomOut',
+            timeOut: 2000
+          }
+        )
       })
     }
   }
@@ -73,4 +81,4 @@ class Auth extends Component {
   }
 }
 
-export default Auth
+export default Login

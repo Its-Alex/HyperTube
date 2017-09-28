@@ -16,7 +16,6 @@ db.connect(global.config.db)
 require('./utils/passport.js')
 
 app.use(cors())
-app.use(require('cookie-parser')())
 app.use(bodyParser.urlencoded({extended: true, limit: '512kb'}))
 app.use(bodyParser.json({limit: '5mb'}))
 app.use(passport.initialize())
@@ -26,7 +25,8 @@ app.use('/', require('./routes/index.js'))
 
 // 404 not found api response
 app.use((req, res) => {
-  res.status(404).json({
+  res.status(404)
+  res.json({
     success: false,
     error: 'URL not found'
   })

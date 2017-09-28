@@ -1,6 +1,6 @@
 const isEmpty = require('validator/lib/isEmpty')
 const isEmail = require('validator/lib/isEmail')
-const base64Regex = require('base64-regex');
+const base64Regex = require('base64-regex')
 const bcrypt = require('bcryptjs')
 const uuid = require('uuid')
 const fs = require('fs')
@@ -39,6 +39,7 @@ module.exports = (req, res) => {
   }
 
   if (!isEmail(req.body.mail)) return error(res, 'Invalid mail', 403)
+  req.body.mail = req.body.mail.toLowerCase()
 
   if (isEmpty(req.body.firstName) || req.body.firstName.length > 36) {
     return error(res, 'Invalid first name', 403)

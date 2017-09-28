@@ -41,6 +41,16 @@ module.exports = {
       }).catch(err => reject(err))
     })
   },
+  getUserByToken: (token) => {
+    return new Promise((resolve, reject) => {
+      db.get().then(db => {
+        db.query('SELECT * FROM users INNER JOIN tokens ON users.id = tokens.userId WHERE tokens.token = ?', [token], (err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
+      }).catch(err => reject(err))
+    })
+  },
   addUser: (user) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
@@ -54,6 +64,23 @@ module.exports = {
           user.id_42,
           user.id_github,
           Date.now()
+        ], (err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
+      }).catch(err => reject(err))
+    })
+  },
+  updateUser: (user) => {
+    return new Promise((resolve, reject) => {
+      db.get().then(db => {
+        db.query('UPDATE users SET mail = ?, username = ?, firstName = ?, lastName = ?, password = ? WHERE id = ?', [
+          user.mail,
+          user.username,
+          user.firstName,
+          user.lastName,
+          user.password,
+          user.id
         ], (err, res) => {
           if (err) reject(err)
           resolve(res)
