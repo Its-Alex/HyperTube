@@ -34,7 +34,9 @@ class Login extends Component {
           'An error occurred', {
             showAnimation: 'animated zoomIn',
             hideAnimation: 'animated zoomOut',
-            timeOut: 2000
+            closeButton: true,
+            timeOut: 1500,
+            extendedTimeOut: 1000
           }
         )
       })
@@ -48,7 +50,7 @@ class Login extends Component {
           type='text'
           placeholder='Mail'
           name='mail'
-          label={{content: 'Mail', color: 'grey'}}
+          label={{content: 'Mail', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.mail}
           onChange={this.handleChange.bind(this)}
@@ -58,7 +60,7 @@ class Login extends Component {
           type='password'
           placeholder='Password'
           name='password'
-          label={{content: 'Password', color: 'grey'}}
+          label={{content: 'Password', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.password}
           onChange={this.handleChange.bind(this)}

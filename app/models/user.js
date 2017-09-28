@@ -54,7 +54,7 @@ module.exports = {
   addUser: (user) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
-        db.query('INSERT INTO users (id, mail, username, firstName, lastName, password, id_42, id_github, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+        db.query('INSERT INTO users (id, mail, username, firstName, lastName, password, id_42, id_github, id_facebook, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
           user.id,
           user.mail,
           user.username,
@@ -63,6 +63,7 @@ module.exports = {
           user.password,
           user.id_42,
           user.id_github,
+          user.id_facebook,
           Date.now()
         ], (err, res) => {
           if (err) reject(err)

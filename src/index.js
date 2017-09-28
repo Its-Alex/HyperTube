@@ -28,7 +28,8 @@ class Index extends React.Component {
       <div id='container-toast'>
         <ToastContainer ref='toast'
           toastMessageFactory={ToastMessageFactory}
-          preventDuplicates={false}
+          preventDuplicates
+          newestOnTop={false}
           className='toast-top-right' />
         <BrowserRouter>
           <Switch>

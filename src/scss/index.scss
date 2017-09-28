@@ -1,3 +1,6 @@
+$bg-color: #F8F8F8;
+$font: 'Rubik', sans-serif;
+
 @import url('./login.scss');
 @import url('./register.scss');
 
@@ -6,5 +9,6 @@ html, body, #root, #container-toast {
     padding: 0;
     width: 100%;
     height: 100%;
-    font-family: 'Rubik', sans-serif;
+    background-color: $bg-color;
+    font-family: $font;
 }
