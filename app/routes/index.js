@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
 
 // All paths
 router.use('/auth', require('./auth.js'))
+router.use('/user', require('./user.js'))
 router.get('/test', (req, res) => {
   console.log(req.isAuthenticated())
   res.json({success: true})
