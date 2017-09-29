@@ -12,5 +12,6 @@ router.get('/', (req, res) => {
 // All paths
 router.use('/auth', require('./auth.js'))
 router.use('/user', require('./user.js'))
+router.use('/picture', require('./picture.js'))
 
 module.exports = router

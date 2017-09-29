@@ -6,9 +6,7 @@ const model = require('../../models/user.js')
 const picturesDir = require('path').dirname(require.main.filename) + '/pictures'
 
 let saveProfilePicture = (url, id, provider) => {
-  if (!fs.existsSync(picturesDir)) {
-    fs.mkdirSync(picturesDir)
-  }
+  if (!fs.existsSync(picturesDir)) fs.mkdirSync(picturesDir)
   if (provider !== 'facebook') {
     axios.get(url, {
       responseType: 'arraybuffer'
