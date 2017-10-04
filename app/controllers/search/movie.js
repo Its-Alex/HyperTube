@@ -7,5 +7,5 @@ function error (res, error, status) {
 }
 
 module.exports = (req, res) => {
-  res.json({success: false})
+  res.json({success: true})
 }

@@ -3,12 +3,9 @@ const app = express()
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const cors = require('cors')
-const path = require('path')
-const fs = require('fs')
-
 const db = require('./utils/db.js')
 
-global.config = JSON.parse(fs.readFileSync(path.resolve(__dirname, '.config.json'), 'UTF-8'))
+global.config = JSON.parse(require('fs').readFileSync(require('path').resolve(require('path').dirname(__dirname), '.config.json'), 'UTF-8'))
 const port = global.config.port || 3005
 
 db.connect(global.config.db)
