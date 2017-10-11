@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button, Input, Icon } from 'semantic-ui-react'
-// import store from '../utils/store.js'
 import _ from 'lodash'
 import axios from 'axios'
 
@@ -72,20 +71,20 @@ class Login extends Component {
           color='instagram'
           name='submit'
           onClick={this.stackDebounce.bind(this)} >
-          <Button.Content visible>Submit</Button.Content>
+          <Button.Content visible>Login</Button.Content>
           <Button.Content hidden>
             <Icon name='right arrow' />
           </Button.Content>
         </Button>
-        <Button.Group vertical>
+        <Button.Group>
           <Button color='facebook'>
-            <Icon name='facebook' /> Connect with Facebook
+            <Icon name='facebook' /> FB
           </Button>
           <Button>
-            <Icon name='github' /> Connect with Github
+            <Icon name='github' /> GitHub
           </Button>
           <Button>
-            <Icon name='code' /> Connect with 42
+            <Icon name='code' /> 42
           </Button>
         </Button.Group>
       </div>
