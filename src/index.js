@@ -8,34 +8,21 @@ import Login from './routes/login'
 import Register from './routes/register'
 import './scss/index.css'
 
-const ReactToastr = require('react-toastr')
-const { ToastContainer } = ReactToastr
-const ToastMessageFactory = React.createFactory(ReactToastr.ToastMessage.animation)
-
 class Index extends React.Component {
   componentWillMount () {
-    this.state = {
-      toast: null
+    if (!global.localStorage.getItem('token') &&
+    this.props.location.pathname !== '/login' &&
+    this.props.location.pathname !== '/register') {
+      this.props.history.push('/login')
     }
-  }
-
-  componentDidMount () {
-    this.setState({toast: this.refs.toast})
   }
 
   render () {
     return (
       <div id='container-toast'>
-        <ToastContainer ref='toast'
-          toastMessageFactory={ToastMessageFactory}
-          preventDuplicates
-          newestOnTop={false}
-          className='toast-top-right' />
         <BrowserRouter>
           <Switch>
-            <Route exact path='/login' render={({ match, location, history }) =>
-              <Login match={match} location={location} history={history} toast={this.state.toast} />
-            } />
+            <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
             <Route path='/' component={App} />
           </Switch>
@@ -47,6 +34,9 @@ class Index extends React.Component {
 
 export default Index
 
-ReactDOM.render(<Index />, document.getElementById('root'))
+ReactDOM.render(
+  <BrowserRouter>
+    <Route component={Index} />
+  </BrowserRouter>, document.getElementById('root'))
 
 registerServiceWorker()

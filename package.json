@@ -10,6 +10,7 @@
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.15.4",
+    "lodash": "^4.17.4",
     "mobx": "^3.3.0",
     "mobx-react": "^4.3.2",
     "mysql": "^2.14.1",
@@ -21,7 +22,7 @@
     "react-dev-utils": "^4.0.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.2.2",
-    "react-toastr": "^2.9.3",
+    "react-transition-group": "^2.2.1",
     "semantic-ui-react": "^0.73.1",
     "torrent-search": "https://github.com/Its-Alex/torrent-search.git",
     "uuid": "^3.1.0",
@@ -81,8 +82,6 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "nodemon": "^1.12.1",
-    "standard": "^10.0.3",
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
@@ -109,17 +108,19 @@
     "jest": "20.0.4",
     "node-sass": "^4.5.3",
     "node-sass-chokidar": "^0.0.3",
+    "nodemon": "^1.12.1",
     "npm-run-all": "^4.1.1",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
     "promise": "8.0.1",
+    "standard": "^10.0.3",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "0.5.9",
     "webpack": "3.5.1",
     "webpack-dev-server": "2.7.1",
     "webpack-manifest-plugin": "1.2.1",
-    "whatwg-fetch": "2.0.3",
+    "whatwg-fetch": "2.0.3"
   }
 }

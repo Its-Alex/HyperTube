@@ -31,7 +31,7 @@ let saveProfilePicture = (url, id, provider) => {
 let getUserFromProfile = (profile) => {
   let user = {}
   user.id = uuidv4()
-  user.mail = profile.emails[0].value
+  user.mail = profile.emails[0].value.toLowerCase()
   if (profile.provider === '42') {
     user.id_42 = profile.id
     user.id_github = null

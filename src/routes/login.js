@@ -1,44 +1,43 @@
 import React, { Component } from 'react'
 import { Button, Input, Icon } from 'semantic-ui-react'
+// import store from '../utils/store.js'
+import _ from 'lodash'
 import axios from 'axios'
 
 class Login extends Component {
   componentWillMount () {
-    // if (global.localStorage.getItem('token')) {
-    //   this.props.history.push('/')
-    // }
-
     this.state = {
       mail: '',
       password: '',
       loadingBtn: false
     }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
   }
 
   handleChange (evt) {
     this.setState({[evt.target.name]: evt.target.value})
   }
 
-  handleSubmit (evt, data) {
-    if (evt.key === 'Enter' || data.name === 'submit') {
+  stackDebounce (e, data) {
+    if (e.key === 'Enter' || (data && data.name === 'submit')) {
       this.setState({loadingBtn: true})
-      axios.post('http://localhost:3005/user/signin')
+    }
+    this.handleSubmit(e.key, data)
+  }
+
+  handleSubmit (key, data) {
+    if (key === 'Enter' || (data && data.name === 'submit')) {
+      axios.post('http://localhost:3005/user/signin', {
+        mail: this.state.mail,
+        password: this.state.password
+      })
       .then(res => {
         this.setState({loadingBtn: false})
       })
       .catch(err => {
         this.setState({loadingBtn: false})
         console.log(err.response)
-        this.props.toast.warning(
-          err.response.data.error,
-          'An error occurred', {
-            showAnimation: 'animated zoomIn',
-            hideAnimation: 'animated zoomOut',
-            closeButton: true,
-            timeOut: 1500,
-            extendedTimeOut: 1000
-          }
-        )
       })
     }
   }
@@ -53,8 +52,8 @@ class Login extends Component {
           label={{content: 'Mail', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.mail}
-          onChange={this.handleChange.bind(this)}
-          onKeyPress={this.handleSubmit.bind(this)}
+          onChange={this.handleChange}
+          onKeyPress={this.stackDebounce.bind(this)}
         />
         <Input
           type='password'
@@ -63,8 +62,8 @@ class Login extends Component {
           label={{content: 'Password', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.password}
-          onChange={this.handleChange.bind(this)}
-          onKeyPress={this.handleSubmit.bind(this)}
+          onChange={this.handleChange}
+          onKeyPress={this.stackDebounce.bind(this)}
         />
         <Button
           animated='fade'
@@ -72,12 +71,23 @@ class Login extends Component {
           className='btn-login'
           color='instagram'
           name='submit'
-          onClick={this.handleSubmit.bind(this)}>
+          onClick={this.stackDebounce.bind(this)} >
           <Button.Content visible>Submit</Button.Content>
           <Button.Content hidden>
             <Icon name='right arrow' />
           </Button.Content>
         </Button>
+        <Button.Group vertical>
+          <Button color='facebook'>
+            <Icon name='facebook' /> Connect with Facebook
+          </Button>
+          <Button>
+            <Icon name='github' /> Connect with Github
+          </Button>
+          <Button>
+            <Icon name='code' /> Connect with 42
+          </Button>
+        </Button.Group>
       </div>
     )
   }
