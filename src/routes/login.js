@@ -4,7 +4,9 @@ import _ from 'lodash'
 import axios from 'axios'
 
 class Login extends Component {
-  componentWillMount () {
+  constructor (props) {
+    super(props)
+
     this.state = {
       mail: '',
       password: '',
