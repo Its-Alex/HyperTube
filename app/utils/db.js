@@ -5,10 +5,10 @@ var db
 
 let connect = (config) => {
   db = mysql.createConnection({
-    host: config.host,
-    database: config.database,
-    user: config.user,
-    password: config.password,
+    host: global.config.db.host,
+    database: global.config.db.database,
+    user: global.config.db.user,
+    password: global.config.db.password,
     debug: false
   })
   db.connect((err) => {
