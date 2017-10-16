@@ -26,6 +26,7 @@
     "react-transition-group": "2.2.1",
     "semantic-ui-react": "0.75.0",
     "torrent-search": "git+https://github.com/Its-Alex/torrent-search.git",
+    "torrent-stream": "^1.0.3",
     "uuid": "3.1.0",
     "validator": "9.0.0",
     "ws": "3.2.0",
