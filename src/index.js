@@ -6,6 +6,7 @@ import registerServiceWorker from './registerServiceWorker'
 import App from './routes/app'
 import Login from './routes/login'
 import Register from './routes/register'
+import Accueil from './routes/accueil'
 import './scss/index.css'
 
 class Index extends React.Component {
@@ -24,6 +25,7 @@ class Index extends React.Component {
           <Switch>
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
+            <Route exact path='/Accueil' component={Accueil} />
             <Route path='/' component={App} />
           </Switch>
         </BrowserRouter>
