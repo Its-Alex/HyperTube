@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
 import '../scss/frontbarre.scss'
 
-import Description from './descirption'
+import Description from './description'
 
 class FrontBarre extends Component {
   constructor (props) {

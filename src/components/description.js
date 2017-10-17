@@ -14,7 +14,7 @@ class Description extends Component {
       <div>
         <Item.Group divided>
           <Item>
-            <Item.Image src='/Users/vacrozet/Desktop/HyperTube/essai.png' />
+            <Item.Image src='https://image.tmdb.org/t/p/w640/29veIwD38rVL2qY74emXQw4y25H.jpg' />
             <Item.Content>
               <Item.Header as='a'>12 Years a Slave</Item.Header>
               <Item.Meta>
