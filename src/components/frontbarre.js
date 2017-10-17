@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
 import '../scss/frontbarre.scss'
 
+import Description from './descirption'
+
 class FrontBarre extends Component {
   constructor (props) {
     super(props)
@@ -27,6 +29,7 @@ class FrontBarre extends Component {
     if (this.state.search !== '' && event.key === 'Enter') {
       console.log('faire la requet axios')
       // REQUET AXIOS
+      this.setState({search: ''})
     }
   }
   render () {
@@ -54,10 +57,13 @@ class FrontBarre extends Component {
             content='A voir'
             onClick={this.handleItemClick}
           />
-          <Menu.Item>
-            <Input icon='search' placeholder='Search...' onChange={this.handleChangeSearch} onKeyPress={this.handleKeySearch} />
-          </Menu.Item>
+          <Menu.Menu position='right'>
+            <Menu.Item>
+              <Input icon='search' placeholder='Search...' value={this.state.search} onChange={this.handleChangeSearch} onKeyPress={this.handleKeySearch} />
+            </Menu.Item>
+          </Menu.Menu>
         </Menu>
+        <Description />
       </div>
     )
   }

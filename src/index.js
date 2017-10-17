@@ -11,11 +11,11 @@ import './scss/index.css'
 
 class Index extends React.Component {
   componentWillMount () {
-    if (!global.localStorage.getItem('token') &&
-    this.props.location.pathname !== '/login' &&
-    this.props.location.pathname !== '/register') {
-      this.props.history.push('/login')
-    }
+    // if (!global.localStorage.getItem('token') &&
+    // this.props.location.pathname !== '/login' &&
+    // this.props.location.pathname !== '/register') {
+    //   this.props.history.push('/login')
+    // }
   }
 
   render () {
