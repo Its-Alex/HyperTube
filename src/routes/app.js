@@ -5,7 +5,7 @@ class App extends Component {
   render () {
     return (
       <div className='App'>
-        <Player src='http://localhost:3005/download/' />
+        <Player src='http://localhost:3005/download/asdaw' />
       </div>
     )
   }
