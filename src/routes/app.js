@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import Player from '../components/player.js'
 
 class App extends Component {
   render () {
     return (
       <div className='App'>
-        salut
+        <Player src='http://localhost:3005/download/' />
       </div>
     )
   }

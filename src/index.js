@@ -25,7 +25,7 @@ class Index extends React.Component {
           <Switch>
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
-            <Route exact path='/Accueil' component={Accueil} />
+            <Route exact path='/accueil' component={Accueil} />
             <Route path='/' component={App} />
           </Switch>
         </BrowserRouter>

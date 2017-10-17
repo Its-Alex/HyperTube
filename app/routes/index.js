@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 router.use('/auth', require('./auth.js'))
 router.use('/user', require('./user.js'))
 router.use('/picture', require('./picture.js'))
+router.use('/download', require('./download.js'))
 router.use('/search', require('../utils/middleware.js')(), require('./search.js'))
-router.use('/download', require('../utils/middleware.js')(), require('./download.js'))
 
 module.exports = router

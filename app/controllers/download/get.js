@@ -1,4 +1,9 @@
 const fs = require('fs')
+const torrentStream = require('torrent-stream')
+const each = require('async/each')
+
+let magnet = `magnet:?xt=urn:btih:9d07a24cca6b8a805ac86856378e6b9a2dd5f932&dn=Fear.The.Walking.Dead.S03E14.FRENCH.720p.HDTV.x264-SH0W.mkv&tr=udp://9.rarbg.com:2710/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://tracker.zer0day.to:1337&tr=udp://tracker.coppersurfer.tk:6969&tr=udp://9.rarbg.me:2780/announce&tr=udp://ipv4.tracker.harry.lu:80/announce&tr=udp://tracker.trackerfix.com:85/announce`
+let extensions = ['.avi', '.mkv', '.mp4']
 
 function error (res, error, status) {
   res.status(status)
@@ -9,47 +14,57 @@ function error (res, error, status) {
 }
 
 module.exports = (req, res) => {
-  let file = './public/toystory.mp4'
+  // if (!req.params.id) return error(res, 'Empty id', 403)
+  let engine = torrentStream(magnet, {
+    connections: 100,
+    uploads: 0,
+    tmp: global.config.pathStorage,
+    path: global.config.pathStorage + 'download'
+  })
 
-  fs.stat(file, (err, stats) => {
-    if (err) {
-      // If file no exist
-      if (err.code === 'ENOENT') {
-        return res.sendStatus(404)
+  // Get range obtain by browser
+  let range = req.headers.range
+
+  // Check if navigator ask for a range
+  if (!range) {
+    console.log(new Error('Wrong range'))
+    return error(res, 'Wrong range', 416)
+  }
+  // Convert range into array
+  let positions = range.replace(/bytes=/, '').split('-')
+
+  engine.on('ready', () => {
+    each(engine.files, (file, callback) => {
+      each(extensions, (ext, cb) => {
+        if (file.name.indexOf(ext) === -1) return cb()
+        let start = parseInt(positions[0], 10)
+        let end = positions[1] ? parseInt(positions[1], 10) : file.length - 1
+        let chunksize = (end - start) + 1
+        let head = {
+          'Content-Range': 'bytes ' + start + '-' + end + '/' + file.length,
+          'Accept-Ranges': 'bytes',
+          'Content-Length': chunksize,
+          'Content-Type': 'video/avi'
+        }
+        res.writeHead(206, head)
+        let stream = file.createReadStream({
+          start,
+          end
+        })
+        stream.pipe(res)
+        stream.on('error', (err) => {
+          console.log(err)
+          return error(res, 'Internal server error', 500)
+        })
+      }, err => {
+        if (err) return callback(err)
+        callback()
+      })
+    }, err => {
+      if (err) {
+        console.log(err)
+        return error(res, 'Internal server error', 500)
       }
-    }
-
-    // Get range obtain by browser
-    let range = req.headers.range
-
-    // Check if navigator ask for a range
-    if (!range) {
-      console.log(new Error('Wrong range'))
-      return error(res, 'Wrong range', 416)
-    }
-    // Convert range into array
-    let positions = range.replace(/bytes=/, '').split('-')
-
-    let start = parseInt(positions[0], 10)
-    let end = positions[1] ? parseInt(positions[1], 10) : stats.size - 1
-    let chunksize = (end - start) + 1
-    let head = {
-      'Content-Range': 'bytes ' + start + '-' + end + '/' + stats.size,
-      'Accept-Ranges': 'bytes',
-      'Content-Length': chunksize,
-      'Content-Type': 'video/mp4'
-    }
-    res.writeHead(206, head)
-    let stream = fs.createReadStream(file, {
-      start: start,
-      end: end
-    })
-    stream.on('open', () => {
-      stream.pipe(res)
-    })
-    stream.on('error', (err) => {
-      console.log(err)
-      return error(res, 'Internal server error', 500)
     })
   })
 }
