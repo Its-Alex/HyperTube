@@ -1,0 +1,22 @@
+.bodytest {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: grey;
+    height: 200px;
+    width: 30%;
+    min-width: 500px;
+    margin: 5px;
+    border: solid 1px red;
+}
+.imgcontent {
+    max-height: 400px;
+    height: 400px;
+}
+img{
+    max-height: 200px;
+}
