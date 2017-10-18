@@ -32,7 +32,7 @@ class Register extends Component {
 
   handleSubmit (key, data) {
     if (key === 'Enter' || (data && data.name === 'submit')) {
-      axios.post('http://localhost:3005/user/signup', {
+      axios.put('http://localhost:3005/user/signup', {
         username: this.state.username,
         mail: this.state.mail,
         lastName: this.state.lastName,
