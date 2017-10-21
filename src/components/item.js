@@ -15,10 +15,11 @@ class Iteme extends Component {
       <div>
         <div className='bodytest'>
           <div className='content'>
-            <div className='inside'>
-              <div className='imgcontent'>
-                <img src='https://www.ecranlarge.com/uploads/image/000/963/full-metal-jacket-affiche-963183.jpg' alt='Girl in a jacket' />
-              </div>
+            <div className='imgcontent'>
+              <img src='https://www.ecranlarge.com/uploads/image/000/963/full-metal-jacket-affiche-963183.jpg' alt='Girl in a jacket' />
+            </div>
+            <div>
+              coucou
             </div>
           </div>
           <div className='content'>

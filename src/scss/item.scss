@@ -1,17 +1,39 @@
 .bodytest {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
+    
+    -webkit-flex-flow: row wrap;
+    justify-content: space-around;
 }
 .content {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: grey;
-    height: 202px;
-    width: 25%;
-    // min-width: 500px;
-    margin: 5px;
-    border: solid 1px red;
+    // display: flex;
+    // flex-wrap: wrap;
+    // background-color: grey;
+    // height: 202px;
+    // width: 25%;
+    // // min-width: 500px;
+    // margin: 5px;
+    // border: solid 1px red;
+    background: tomato;
+    padding: 5px;
+    width: 400px;
+    min-width: 300px;
+    height: 210px;
+    margin-top: 10px;
+    
+    line-height: 150px;
+    color: black;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
 }
 .imgcontent {
     height: 202px;
