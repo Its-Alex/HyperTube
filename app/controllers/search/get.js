@@ -13,9 +13,10 @@ function error (res, error, status) {
 }
 
 module.exports = (req, res) => {
-  if (typeof req.query.imdbId !== 'string' &&
-  typeof req.query.tmdbId !== 'string' &&
+  if (typeof req.query.tmdbId !== 'string' &&
   typeof req.query.title !== 'string' &&
+  (typeof req.query.query !== 'string' ||
+  typeof req.query.imdbId) &&
   typeof req.query.type !== 'string') return error(res, 'Invalid fields', 403)
 
   if ((req.query.type === 'movies' || req.query.type === 'series') &&
