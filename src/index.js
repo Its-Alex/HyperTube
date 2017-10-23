@@ -7,7 +7,7 @@ import App from './routes/app'
 import FrontBarre from './components/frontBarre'
 import Login from './routes/login'
 import Register from './routes/register'
-import Accueil from './routes/accueil'
+import Popular from './routes/popular'
 import Profile from './routes/profile'
 import OtherProfile from './routes/otherProfile'
 import './scss/index.css'
@@ -28,7 +28,7 @@ class Index extends React.Component {
         <Switch>
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
-          <Route exact path='/accueil' component={Accueil} />
+          <Route exact path='/accueil' component={Popular} />
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/profile/:id' component={OtherProfile} />
           <Route path='/' component={App} />
