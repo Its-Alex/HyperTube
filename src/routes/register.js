@@ -4,8 +4,12 @@ import _ from 'lodash'
 import Dropzone from 'react-dropzone'
 import { Button, Input, Icon } from 'semantic-ui-react'
 
+import '../scss/register.css'
+
 class Register extends Component {
-  componentWillMount () {
+  constructor (props) {
+    super(props)
+
     this.state = {
       username: '',
       mail: '',

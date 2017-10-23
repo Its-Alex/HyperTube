@@ -13,6 +13,11 @@ function error (res, error, status) {
 }
 
 module.exports = (req, res) => {
+  if (typeof req.query.imdbId !== 'string' &&
+  typeof req.query.tmdbId !== 'string' &&
+  typeof req.query.title !== 'string' &&
+  typeof req.query.type !== 'string') return error(res, 'Invalid fields', 403)
+
   if ((req.query.type === 'movies' || req.query.type === 'series') &&
   (req.query.imdbId || req.query.query)) {
     t.getTorrents(
@@ -26,8 +31,8 @@ module.exports = (req, res) => {
 
         let elem = {
           id: genUuid(),
-          imdb: req.query.imdb,
-          tmdb: req.query.tmdb,
+          imdb: req.query.imdbId,
+          tmdb: req.query.tmdbId,
           title: req.query.title,
           quality: torrent.quality,
           magnet: torrent.magnet
