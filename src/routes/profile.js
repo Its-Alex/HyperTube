@@ -7,7 +7,6 @@ class Profile extends React.Component {
     return (
       <div>
         <Image src='https://react.semantic-ui.com//assets/images/wireframe/square-image.png' className='profile' shape='circular' />
-         salut
       </div>
     )
   }
