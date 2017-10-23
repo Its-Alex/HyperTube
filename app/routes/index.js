@@ -9,11 +9,13 @@ router.get('/', (req, res) => {
   })
 })
 
-// All paths
+// Path with one method
+router.get('/search', require('../utils/middleware.js')(), require('../controllers/search/get.js'))
+
+// Path with multi methods
 router.use('/auth', require('./auth.js'))
 router.use('/user', require('./user.js'))
 router.use('/picture', require('./picture.js'))
 router.use('/download', require('./download.js'))
-router.use('/search', require('../utils/middleware.js')(), require('./search.js'))
 
 module.exports = router

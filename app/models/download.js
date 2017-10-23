@@ -1,12 +1,15 @@
 const db = require('../utils/db.js')
 
 module.exports = {
-  addToQueue: (movie) => {
+  add: (movie) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
-        db.query('INSERT INTO queue (id, imdbId, magnet, date) VALUES (?, ?, ?, ?)', [
+        db.query('INSERT INTO download (id, imdbId, tmdbId, title, quality, magnet, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [
           movie.id,
           movie.imdb,
+          movie.tmdb,
+          movie.title,
+          movie.quality,
           movie.magnet,
           Date.now()
         ], (err, res) => {
@@ -16,14 +19,23 @@ module.exports = {
       }).catch(err => reject(err))
     })
   },
-  addToDownloaded: (movie) => {
+  getFromMagnet: (magnet) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
-        db.query('INSERT INTO downloaded (imdbId, path, format, date) VALUES (?, ?, ?, ?)', [
-          movie.imdb,
-          movie.path,
-          movie.format,
-          Date.now()
+        db.query('SELECT * FROM download WHERE magnet = ?', [
+          magnet
+        ], (err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
+      }).catch(err => reject(err))
+    })
+  },
+  getFromId: (id) => {
+    return new Promise((resolve, reject) => {
+      db.get().then(db => {
+        db.query('SELECT * FROM download WHERE id = ?', [
+          id
         ], (err, res) => {
           if (err) reject(err)
           resolve(res)
@@ -31,39 +43,4 @@ module.exports = {
       }).catch(err => reject(err))
     })
   }
-  // getMovieQueueFromId: (id) => {
-  //   return new Promise((resolve, reject) => {
-  //     db.get().then(db => {
-  //       db.query('SELECT * FROM queue WHERE id = ?', [
-  //         id
-  //       ], (err, res) => {
-  //         if (err) reject(err)
-  //         resolve(res)
-  //       })
-  //     }).catch(err => reject(err))
-  //   })
-  // },
-  // getMovieQueueFromImdb: (imdb) => {
-  //   return new Promise((resolve, reject) => {
-  //     db.get().then(db => {
-  //       db.query('SELECT * FROM queue WHERE imdbId = ?', [
-  //         imdb
-  //       ], (err, res) => {
-  //         if (err) reject(err)
-  //         resolve(res)
-  //       })
-  //     }).catch(err => reject(err))
-  //   })
-  // },
-  // getMovieDownloaded: (id) => {
-  //   return new Promise((resolve, reject) => {
-  //     db.get().then(db => {
-  //       db.query('', [
-  //       ], (err, res) => {
-  //         if (err) reject(err)
-  //         resolve(res)
-  //       })
-  //     }).catch(err => reject(err))
-  //   })
-  // }
 }

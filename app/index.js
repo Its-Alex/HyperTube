@@ -5,6 +5,8 @@ const passport = require('passport')
 const cors = require('cors')
 const db = require('./utils/db.js')
 
+require('./utils/cron.js')
+
 global.config = JSON.parse(require('fs').readFileSync(require('path').resolve(require('path').dirname(__dirname), '.config.json'), 'UTF-8'))
 const port = global.config.port || 3005
 

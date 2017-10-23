@@ -3,6 +3,8 @@ import { Button, Input, Icon } from 'semantic-ui-react'
 import _ from 'lodash'
 import axios from 'axios'
 
+import '../scss/login.css'
+
 class Login extends Component {
   constructor (props) {
     super(props)
