@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
 import '../scss/frontbarre.scss'
 
-import Iteme from './item.js'
+import Item from './item.js'
 
 class FrontBarre extends Component {
   constructor (props) {
@@ -63,7 +63,6 @@ class FrontBarre extends Component {
             </Menu.Item>
           </Menu.Menu>
         </Menu>
-        <Iteme />
       </div>
     )
   }

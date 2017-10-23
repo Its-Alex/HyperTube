@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import FrontBarre from '../components/frontbarre.js'
+import Item from '../components/item.js'
 
 class Accueil extends Component {
   constructor (props) {
@@ -11,7 +11,7 @@ class Accueil extends Component {
   render () {
     return (
       <div>
-        <FrontBarre />
+        <Item />
       </div>
     )
   }
