@@ -13,7 +13,7 @@
     -webkit-flex-flow: row wrap;
     justify-content: space-around;
 }
-.content {
+.container {
     // display: flex;
     // flex-wrap: wrap;
     // background-color: grey;
@@ -29,15 +29,36 @@
     height: 210px;
     margin-top: 10px;
     
-    line-height: 150px;
+    // line-height: 150px;
     color: black;
     font-weight: bold;
     font-size: 1em;
     text-align: center;
+    border: solid 1px red;
+    display: flex;
+    flex-direction: row;
+    // flex-wrap: wrap;
 }
 .imgcontent {
     height: 202px;
-    border: solid 1px red;
+    // border: solid 1px red;
+}
+.description {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    border: solid 1px black;
+    height: 100%;
+    width: 100%;
+}
+.titre {
+    height: 15%;
+}
+.resumer {
+    height: 70%;
+}
+.note {
+    height: 15%;
 }
 .textcontent {
     width: 300px;
