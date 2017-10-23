@@ -1,5 +1,5 @@
 const TorrentSearch = require('torrent-search')
-const model = require('../../models/queue.js')
+const model = require('../../models/download.js')
 const genUuid = require('uuid')
 const map = require('async/map')
 const t = new TorrentSearch()
@@ -24,20 +24,27 @@ module.exports = (req, res) => {
       map(torrents, (torrent, cb) => {
         if (torrent.quality === '3D') return cb(null, null)
 
-        torrent.uuid = genUuid()
-        model.getFromMagnet(torrent.magnet).then(result => {
-          console.log(result)
+        let elem = {
+          id: genUuid(),
+          imdb: req.query.imdb,
+          tmdb: req.query.tmdb,
+          title: req.query.title,
+          quality: torrent.quality,
+          magnet: torrent.magnet
+        }
+
+        model.getFromMagnet(elem.magnet).then(result => {
           if (result.length === 0) {
-            model.add(torrent).then(() => {
+            model.add(elem).then(() => {
               return cb(null, {
-                uuid: torrent.uuid,
-                quality: torrent.quality
+                uuid: genUuid(),
+                quality: elem.quality
               })
             }).catch(err => cb(err, null))
           } else {
             return cb(null, {
               uuid: result[0].id,
-              quality: torrent.quality
+              quality: elem.quality
             })
           }
         })
