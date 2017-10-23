@@ -1,10 +1,16 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import Dropzone from 'react-dropzone'
-import { Icon } from 'semantic-ui-react'
+import React from 'react'
+import { Image } from 'semantic-ui-react'
+import '../scss/profile.scss'
 
-class Profile extends Component {
-
+class Profile extends React.Component {
+  render () {
+    return (
+      <div>
+        <Image src='https://react.semantic-ui.com//assets/images/wireframe/square-image.png' className='profile' shape='circular' />
+         salut
+      </div>
+    )
+  }
 }
 
 export default Profile
