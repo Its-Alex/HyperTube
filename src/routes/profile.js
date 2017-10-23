@@ -6,7 +6,9 @@ class Profile extends React.Component {
   render () {
     return (
       <div>
-        <Image src='https://react.semantic-ui.com//assets/images/wireframe/square-image.png' className='profile' shape='circular' />
+        <div className='backPic'>
+          <Image src='https://react.semantic-ui.com//assets/images/wireframe/square-image.png' className='profile' shape='circular' />
+        </div>
       </div>
     )
   }

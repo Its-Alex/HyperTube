@@ -1,11 +1,21 @@
-$bg-color: #F8F8F8;
+$bg-color: #ECE7D8;
+$color1: #81ACBC;
+$color2: #90b4bF;
+$color3: #ABC1C5;
 $font: 'Rubik', sans-serif;
+
+:root {
+    --bg-color: $bg-color;
+    --color1: $color1;
+    --color2: $color2;
+    --color3: $color3;
+}
 
 html, body, #root, #container-toast {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    background-color: $bg-color;
+    background-color: var(--bg-color);
     font-family: $font;
 }
