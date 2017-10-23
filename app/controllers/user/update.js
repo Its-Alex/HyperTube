@@ -37,7 +37,7 @@ module.exports = (req, res) => {
     req.user.password = bcrypt.hashSync(req.body.password, 10)
   }
 
-  console.log(req.user)
+  // console.log(req.user)
   model.updateUser(req.user).then(result => {
     console.log(result)
     res.json({success: true})
