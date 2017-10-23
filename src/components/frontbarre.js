@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
-import '../scss/frontbarre.scss'
+import '../scss/frontBarre.scss'
 
 import Item from './item.js'
 
