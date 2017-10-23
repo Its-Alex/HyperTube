@@ -23,14 +23,6 @@ module.exports = (req, res) => {
       map(results, (result, cb) => {
         if (result.quality === '3D') return cb(null, null)
 
-        // Set good quality
-        if (result.quality === '1080') result.quality = '1080p'
-        if (result.quality === '720') result.quality = '720p'
-        if (result.quality === '440') result.quality = '440p'
-        if (result.quality === '360') result.quality = '360p'
-        if (result.quality === '240') result.quality = '240p'
-        if (result.quality === '144') result.quality = '144p'
-        
         result.uuid = genUuid()
         model.addQueue(result).then(() => {
           cb(null, {

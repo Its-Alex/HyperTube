@@ -21,14 +21,12 @@ class Index extends React.Component {
   render () {
     return (
       <div id='container-toast'>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/register' component={Register} />
-            <Route exact path='/accueil' component={Accueil} />
-            <Route path='/' component={App} />
-          </Switch>
-        </BrowserRouter>
+        <Switch>
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/register' component={Register} />
+          <Route exact path='/accueil' component={Accueil} />
+          <Route path='/' component={App} />
+        </Switch>
       </div>
     )
   }

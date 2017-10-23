@@ -29,7 +29,7 @@ class Login extends Component {
 
   handleSubmit (key, data) {
     if (key === 'Enter' || (data && data.name === 'submit')) {
-      axios.post('http://localhost:3005/user/signin', {
+      axios.post('http://localhost:3005/user', {
         mail: this.state.mail,
         password: this.state.password
       })
