@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image } from 'semantic-ui-react'
-import '../scss/profile.scss'
+import '../scss/profile.css'
 
 class Profile extends React.Component {
   render () {
