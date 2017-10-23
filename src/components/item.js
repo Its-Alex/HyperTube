@@ -25,17 +25,17 @@ class Item extends Component {
           </div>
           <div className='description'>
             <div className='titre'>
-              {this.state.results.original_title}
+              {this.props.res.original_title}
             </div>
             <div className='resumer'>
-              {this.state.results.overview}
+              {this.props.res.overview}
             </div>
             <div className='noteEtLangue'>
               <div className='note'>
-                {this.state.results.vote_average}
+                {this.props.res.vote_average}
               </div>
               <div className='langue'>
-                {this.state.results.original_language}
+                {this.props.res.original_language}
               </div>
             </div>
           </div>

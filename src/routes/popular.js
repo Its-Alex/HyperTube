@@ -59,11 +59,17 @@ class Accueil extends Component {
         <div className='bodytest'>
           <InfiniteScroll
             pageStart={1}
-            loadMore={this.handleChangePage()}
-            hasMore={this.state.hasMore}
+            loadMore={this.handleChangePage}
+            hasMore={false}
             loader={<div className='loader'>Loading ...</div>}
-          >
-            {<Item result={this.state.result} />}
+          >{
+              this.state.result ? (this.state.result.map((res) => {
+                return (<Item res={res} />)
+              })
+              ) : (
+                null
+              )
+            }
           </InfiniteScroll>
         </div>
       </div>
