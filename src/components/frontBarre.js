@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
-import '../scss/frontBarre.scss'
+import '../scss/components/frontBarre.css'
 
 class FrontBarre extends Component {
   constructor (props) {

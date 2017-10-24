@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Grid from '../components/grid'
-import '../scss/item.css'
 
 class Accueil extends Component {
   constructor (props) {
