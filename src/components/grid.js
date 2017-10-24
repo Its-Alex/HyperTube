@@ -7,21 +7,18 @@ class Grid extends Component {
     super(props)
     this.state = {}
   }
-  componentWillMount () {
-
-  }
 
   render () {
     return (
       <div>
         <InfiniteScroll
           pageStart={1}
-          loadMore={this.handleChangePage}
-          hasMore={this.state.hasMore}
+          loadMore={this.props.handleChangePage}
+          hasMore={this.props.hasMore}
           loader={<div className='loader'>Loading ...</div>}
         ><div className='grid'>{
-            this.state.result ? (this.state.result.map((res) => {
-              return (<Item res={res} key={Math.random()} />)
+            this.props.result ? (this.props.result.map((res, index) => {
+              return (<Item res={res} key={index} />)
             })
             ) : (
               null

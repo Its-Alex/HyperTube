@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import Item from '../components/item.js'
 import axios from 'axios'
-import InfiniteScroll from 'react-infinite-scroller'
+import Grid from '../components/grid'
 import '../scss/item.css'
 
 class Accueil extends Component {
@@ -37,21 +36,7 @@ class Accueil extends Component {
   render () {
     return (
       <div>
-        <InfiniteScroll
-          pageStart={1}
-          loadMore={this.handleChangePage}
-          hasMore={this.state.hasMore}
-          loader={<div className='loader'>Loading ...</div>}>
-          <div className='grid'>
-            { this.state.result
-              ? this.state.result.map((res, index) => {
-                return (
-                  <Item res={res} key={index} />
-                )
-              }) : null
-            }
-          </div>
-        </InfiniteScroll>
+        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={this.state.result} />
       </div>
     )
   }
