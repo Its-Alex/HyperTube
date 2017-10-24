@@ -9,14 +9,12 @@ class FrontBarre extends Component {
       activeItem: 'accueil',
       search: ''
     }
-    this.handleItemClick = this.handleItemClick.bind(this)
+    this.changeUrl = this.changeUrl.bind(this)
     this.handleChangeSearch = this.handleChangeSearch.bind(this)
     this.handleKeySearch = this.handleKeySearch.bind(this)
   }
-  handleItemClick (e, { name }) {
-    this.setState({
-      activeItem: name
-    })
+  changeUrl (e, { name }) {
+    this.props.history.push('/' + name)
   }
   handleChangeSearch (event) {
     this.setState({
@@ -39,21 +37,13 @@ class FrontBarre extends Component {
             name='accueil'
             active={activeItem === 'accueil'}
             content='Accueil'
-            onClick={this.handleItemClick}
+            onClick={this.changeUrl}
           />
-
           <Menu.Item
-            name='nouveautés'
+            name='news'
             active={activeItem === 'nouveautés'}
             content='Nouveautés'
-            onClick={this.handleItemClick}
-          />
-
-          <Menu.Item
-            name='a_voir'
-            active={activeItem === 'a_voir'}
-            content='A voir'
-            onClick={this.handleItemClick}
+            onClick={this.changeUrl}
           />
           <Menu.Menu position='right'>
             <Menu.Item>
