@@ -3,14 +3,29 @@
     padding: 3%;
 }
 
-.caret.up {
-    color: var(--bg-color);
-    margin: auto;
+.profile {
+    margin-right: auto;
+    margin-left: auto;
     display: block;
-    font-size: 3em;
-    margin-top: -1.5%;
+    bottom: -137px;
 }
 
-.profile {
-    margin-top: 2%;
+.pencil {
+    float: right;
+    margin-top: 1%;
+    color: var(--color1)
+}
+
+.editProfile {
+    float: right;
+    margin-top: 1%;
+}
+
+.userName {
+    font-size: 2em;
+    margin-top: 119px;
+}
+
+.editForm {
+    padding: 5%;
 }
