@@ -10,62 +10,48 @@ class Accueil extends Component {
     this.state = {
       page: 1,
       result: [],
-      hasMore: true
+      hasMore: true,
+      nbPage: ''
     }
     this.handleChangePage = this.handleChangePage.bind(this)
   }
 
-  componentWillMount () {
-    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=4add767f00472cadffc84346bd8572e6&page=${this.state.page}`).then((res) => {
+  handleChangePage () {
+    axios.get(`https://api.themoviedb.org/3/movie/popular`, {
+      params: {
+        api_key: '4add767f00472cadffc84346bd8572e6',
+        page: this.state.page,
+        language: 'fr'
+      }
+    }).then((res) => {
+      if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
       this.setState({
-        page: res.data.page,
-        result: res.data.results
+        page: this.state.page + 1,
+        result: this.state.result.concat(res.data.results)
       })
-      console.log(res.data)
     }).catch((err) => {
       console.log(err)
     })
-  }
-  handleChangePage () {
-    if (this.state.page < 10) {
-      axios.get(`https://api.themoviedb.org/3/movie/popular`, {
-        params: {
-          api_key: '4add767f00472cadffc84346bd8572e6',
-          page: this.state.page
-        }
-      }).then((res) => {
-        this.setState({
-          page: res.data.page,
-          result: res.data.results
-        })
-        console.log(res.data)
-      }).catch((err) => {
-        console.log(err)
-      })
-      let page = this.state.page + 1
-      this.setState({
-        page: page
-      })
-    } else {
-      this.setState({
-        hasMore: false
-      })
-    }
   }
 
   render () {
     return (
       <div>
-        <div className='bodytest'>
-          <InfiniteScroll
-            pageStart={1}
-            loadMore={this.handleChangePage()}
-            hasMore={this.state.hasMore}
-            loader={<div className='loader'>Loading ...</div>}
-          >
-            {<Item result={this.state.result} />}
-          </InfiniteScroll>
-        </div>
+        <InfiniteScroll
+          pageStart={1}
+          loadMore={this.handleChangePage}
+          hasMore={this.state.hasMore}
+          loader={<div className='loader'>Loading ...</div>}>
+          <div className='grid'>
+            { this.state.result
+              ? this.state.result.map((res, index) => {
+                return (
+                  <Item res={res} key={index} />
+                )
+              }) : null
+            }
+          </div>
+        </InfiniteScroll>
       </div>
     )
   }
