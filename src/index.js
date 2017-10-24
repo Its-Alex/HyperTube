@@ -24,7 +24,7 @@ class Index extends React.Component {
   render () {
     return (
       <div id='container-toast'>
-        {!global.localStorage.getItem('token') ? <FrontBarre
+        {global.localStorage.getItem('token') ? <FrontBarre
           history={this.props.history}
           match={this.props.match}
           location={this.props.location} /> : null}
