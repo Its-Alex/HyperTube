@@ -21,11 +21,12 @@
     height: 210px;
     margin-top: 10px;
 
-    font-family: monospace;
-    font-size: 0.9em;
+    // font-family: monospace;
+    font-size: 1em;
     text-align: center;
     display: flex;
     flex-direction: row;
+    overflow: hidden;
 }
 .imgcontent {
     height: 202px;
@@ -40,10 +41,26 @@
 .titre {
     height: 15%;
 }
+
 .resumer {
     height: 70%;
-    overflow: auto;
+    // border: solid 2px var(--color3);
+    // text-overflow: ellipsis;
+    // display: block;
+    // overflow: hidden;
+    // display: block; /* or inline-block */
+    // text-overflow: ellipsis;
+    // text-overflow: "...";
+    // word-wrap: break-word;
+    // overflow: hidden;
+    // max-height: 11em;
+    // line-height: 1.8em;
+    text-rendering: none;
+    overflow-y: hidden;
     text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
 }
 .noteEtLangue {
     height: 15%;
