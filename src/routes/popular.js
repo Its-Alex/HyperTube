@@ -16,7 +16,7 @@ class Accueil extends Component {
     this.handleChangePage = this.handleChangePage.bind(this)
   }
 
-  componentWillMount () {
+  handleChangePage () {
     axios.get(`https://api.themoviedb.org/3/movie/popular`, {
       params: {
         api_key: '4add767f00472cadffc84346bd8572e6',
@@ -24,43 +24,14 @@ class Accueil extends Component {
         language: 'fr'
       }
     }).then((res) => {
+      if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
       this.setState({
-        page: res.data.page,
-        result: res.data.results,
-        nbPage: res.data.total_pages
+        page: this.state.page + 1,
+        result: this.state.result.concat(res.data.results)
       })
-      console.log(res.data.total_pages)
-      console.log(`total pages --> ${res.data.total_pages}`)
     }).catch((err) => {
       console.log(err)
     })
-  }
-  handleChangePage () {
-    if (this.state.page < 10) {
-      axios.get(`https://api.themoviedb.org/3/movie/popular`, {
-        params: {
-          api_key: '4add767f00472cadffc84346bd8572e6',
-          page: this.state.page,
-          language: 'fr'
-        }
-      }).then((res) => {
-        this.setState({
-          page: res.data.page,
-          result: res.data.results
-        })
-        console.log(res.data)
-      }).catch((err) => {
-        console.log(err)
-      })
-      let page = parseInt(this.state.page, 10) + 1
-      this.setState({
-        page: page
-      })
-    } else {
-      this.setState({
-        hasMore: false
-      })
-    }
   }
 
   render () {
@@ -70,16 +41,16 @@ class Accueil extends Component {
           pageStart={1}
           loadMore={this.handleChangePage}
           hasMore={this.state.hasMore}
-          loader={<div className='loader'>Loading ...</div>}
-        ><div className='grid'>{
-            this.state.result ? (this.state.result.map((res) => {
-              return (<Item res={res} key={Math.random()} />)
-            })
-            ) : (
-              null
-            )
-          }</div>
-          }
+          loader={<div className='loader'>Loading ...</div>}>
+          <div className='grid'>
+            { this.state.result
+              ? this.state.result.map((res, index) => {
+                return (
+                  <Item res={res} key={index} />
+                )
+              }) : null
+            }
+          </div>
         </InfiniteScroll>
       </div>
     )
