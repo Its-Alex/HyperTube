@@ -10,18 +10,27 @@ class Accueil extends Component {
     this.state = {
       page: 1,
       result: [],
-      hasMore: true
+      hasMore: true,
+      nbPage: ''
     }
     this.handleChangePage = this.handleChangePage.bind(this)
   }
 
   componentWillMount () {
-    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=4add767f00472cadffc84346bd8572e6&page=${this.state.page}`).then((res) => {
+    axios.get(`https://api.themoviedb.org/3/movie/popular`, {
+      params: {
+        api_key: '4add767f00472cadffc84346bd8572e6',
+        page: this.state.page,
+        language: 'fr'
+      }
+    }).then((res) => {
       this.setState({
         page: res.data.page,
-        result: res.data.results
+        result: res.data.results,
+        nbPage: res.data.total_pages
       })
-      console.log(res.data)
+      console.log(res.data.total_pages)
+      console.log(`total pages --> ${res.data.total_pages}`)
     }).catch((err) => {
       console.log(err)
     })
@@ -31,7 +40,8 @@ class Accueil extends Component {
       axios.get(`https://api.themoviedb.org/3/movie/popular`, {
         params: {
           api_key: '4add767f00472cadffc84346bd8572e6',
-          page: this.state.page
+          page: this.state.page,
+          language: 'fr'
         }
       }).then((res) => {
         this.setState({
@@ -42,7 +52,7 @@ class Accueil extends Component {
       }).catch((err) => {
         console.log(err)
       })
-      let page = this.state.page + 1
+      let page = parseInt(this.state.page, 10) + 1
       this.setState({
         page: page
       })
@@ -56,22 +66,21 @@ class Accueil extends Component {
   render () {
     return (
       <div>
-        <div className='bodytest'>
-          <InfiniteScroll
-            pageStart={1}
-            loadMore={this.handleChangePage}
-            hasMore={false}
-            loader={<div className='loader'>Loading ...</div>}
-          >{
-              this.state.result ? (this.state.result.map((res) => {
-                return (<Item res={res} />)
-              })
-              ) : (
-                null
-              )
-            }
-          </InfiniteScroll>
-        </div>
+        <InfiniteScroll
+          pageStart={1}
+          loadMore={this.handleChangePage}
+          hasMore={this.state.hasMore}
+          loader={<div className='loader'>Loading ...</div>}
+        ><div className='grid'>{
+            this.state.result ? (this.state.result.map((res) => {
+              return (<Item res={res} key={Math.random()} />)
+            })
+            ) : (
+              null
+            )
+          }</div>
+          }
+        </InfiniteScroll>
       </div>
     )
   }

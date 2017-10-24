@@ -6,7 +6,7 @@ class FrontBarre extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeItem: '',
+      activeItem: 'accueil',
       search: ''
     }
     this.handleItemClick = this.handleItemClick.bind(this)

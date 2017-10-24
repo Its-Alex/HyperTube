@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 // import { Item, Label } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import '../scss/item.css'
+
+const style = {
+  margin: 3,
+  height: 29
+}
 
 class Item extends Component {
   constructor (props) {
@@ -18,25 +24,25 @@ class Item extends Component {
 
   render () {
     return (
-      <div>
-        <div className='container'>
-          <div className='imgcontent'>
-            <img src='https://www.ecranlarge.com/uploads/image/000/963/full-metal-jacket-affiche-963183.jpg' alt='Girl in a jacket' />
+      <div className='container'>
+        <div className='imgcontent'>
+          <img id='path_img' src={'https://image.tmdb.org/t/p/w500/' + this.props.res.poster_path} alt={this.props.res.original_title} />
+        </div>
+        <div className='description'>
+          <div className='titre'>
+            {this.props.res.original_title}
           </div>
-          <div className='description'>
-            <div className='titre'>
-              {this.props.res.original_title}
+          <div className='resumer'>
+            {this.props.res.overview}
+          </div>
+          <div className='noteEtLangue'>
+            <div className='note'>
+              {this.props.res.vote_average}
             </div>
-            <div className='resumer'>
-              {this.props.res.overview}
-            </div>
-            <div className='noteEtLangue'>
-              <div className='note'>
-                {this.props.res.vote_average}
-              </div>
-              <div className='langue'>
-                {this.props.res.original_language}
-              </div>
+            <div className='langue'>
+              <Button style={style}>
+                Show
+              </Button>
             </div>
           </div>
         </div>
