@@ -19,17 +19,17 @@
 } 
 
 .item-container > .item-info > .title {
-  height: 10%;
+  height: 15%;
   font-size: 0.7rem;
 }
 
 .item-container > .item-info > .date {
-  height: 10%;
+  height: 15%;
   font-size: 0.7rem;
 }
 
 .item-container > .item-info > .desc {
-  height: 70%;
+  height: 56%;
   font-size: 0.9rem;
   text-rendering: none;
   overflow-y: hidden;
@@ -40,7 +40,7 @@
 }
 
 .item-container > .item-info > .grade {
-  height: 10%;
+  height: 14%;
   font-size: 0.7rem;
 }
 
@@ -48,6 +48,6 @@
     max-height: 100%;
 }
 .item-container > .cover:hover {
-    opacity: 0.1;
+    opacity: 0.8;
     cursor: pointer;
 }
