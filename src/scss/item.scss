@@ -29,12 +29,11 @@
 }
 .imgcontent {
     height: 202px;
-    // border: solid 1px red;
 }
 .description {
     display: flex;
     flex-direction: column;
-    color: black;
+    // color: black;
     height: 100%;
     width: 100%;
 }
@@ -44,6 +43,7 @@
 .resumer {
     height: 70%;
     overflow: auto;
+    text-overflow: ellipsis;
 }
 .noteEtLangue {
     height: 15%;
