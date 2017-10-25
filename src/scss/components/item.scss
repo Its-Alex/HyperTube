@@ -1,9 +1,9 @@
 .item-container {
     background: var(--color3);
     padding: 5px;
-    width: 400px;
+    width: 600px;
     min-width: 300px;
-    height: 210px;
+    height: 290px;
     margin-top: 10px;
 
     text-align: center;
@@ -20,7 +20,8 @@
 
 .item-container > .item-info > .title {
   height: 15%;
-  font-size: 0.7rem;
+  font-size: 1.2rem;
+  font-family: unset;
 }
 
 .item-container > .item-info > .date {
@@ -41,11 +42,12 @@
 
 .item-container > .item-info > .grade {
   height: 14%;
-  font-size: 0.7rem;
+  font-size: 1.2rem;
 }
 
 .item-container > .cover {
     max-height: 100%;
+    max-width: 187px;
 }
 .item-container > .cover:hover {
     opacity: 0.8;

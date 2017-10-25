@@ -29,7 +29,6 @@ class Grid extends Component {
               )
             }) : null}
         </div>
-        }
       </InfiniteScroll>
     )
   }
