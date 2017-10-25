@@ -27,8 +27,7 @@ class FrontBarre extends Component {
   }
   handleKeySearch (event) {
     if (this.state.search !== '' && event.key === 'Enter') {
-      console.log('faire la requet axios')
-      // REQUET AXIOS
+      this.props.history.push(`/search/${this.state.search}`)
       this.setState({search: ''})
     }
   }
@@ -41,7 +40,7 @@ class FrontBarre extends Component {
             name='accueil'
             active={activeItem === 'accueil'}
             content='Accueil'
-            onClick={this.changeUrl}
+            onClick={this.handleItemClick}
           />
           <Menu.Item
 
