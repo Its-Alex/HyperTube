@@ -9,10 +9,11 @@ class FrontBarre extends Component {
       activeItem: this.props.history,
       search: ''
     }
-    this.handleItemClick = this.handleItemClick.bind(this)
+    this.changeUrl = this.changeUrl.bind(this)
     this.handleChangeSearch = this.handleChangeSearch.bind(this)
     this.handleKeySearch = this.handleKeySearch.bind(this)
   }
+
   handleItemClick (e, { name }) {
     this.setState({
       activeItem: name
@@ -40,10 +41,10 @@ class FrontBarre extends Component {
             name='accueil'
             active={activeItem === 'accueil'}
             content='Accueil'
-            onClick={this.handleItemClick}
+            onClick={this.changeUrl}
           />
-
           <Menu.Item
+
             name='top_rated'
             active={activeItem === 'top_rated'}
             content='Top Rated'
@@ -56,6 +57,7 @@ class FrontBarre extends Component {
             content='A voir'
             onClick={this.handleItemClick}
           />
+
           <Menu.Menu position='right'>
             <Menu.Item>
               <Input icon='search' placeholder='Search...' value={this.state.search} onChange={this.handleChangeSearch} onKeyPress={this.handleKeySearch} />
