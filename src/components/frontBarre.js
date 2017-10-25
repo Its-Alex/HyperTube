@@ -9,7 +9,7 @@ class FrontBarre extends Component {
       activeItem: this.props.history,
       search: ''
     }
-    this.changeUrl = this.changeUrl.bind(this)
+    this.handleItemClick = this.handleItemClick.bind(this)
     this.handleChangeSearch = this.handleChangeSearch.bind(this)
     this.handleKeySearch = this.handleKeySearch.bind(this)
   }
