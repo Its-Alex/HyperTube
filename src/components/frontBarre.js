@@ -6,7 +6,7 @@ class FrontBarre extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeItem: 'accueil',
+      activeItem: this.props.history,
       search: ''
     }
     this.handleItemClick = this.handleItemClick.bind(this)
@@ -17,6 +17,7 @@ class FrontBarre extends Component {
     this.setState({
       activeItem: name
     })
+    this.props.history.push(`/${name}`)
   }
   handleChangeSearch (event) {
     this.setState({
@@ -43,9 +44,9 @@ class FrontBarre extends Component {
           />
 
           <Menu.Item
-            name='nouveautés'
-            active={activeItem === 'nouveautés'}
-            content='Nouveautés'
+            name='top_rated'
+            active={activeItem === 'top_rated'}
+            content='Top Rated'
             onClick={this.handleItemClick}
           />
 

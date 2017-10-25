@@ -15,8 +15,7 @@ class Grid extends Component {
       <InfiniteScroll
         pageStart={1}
         loadMore={this.props.handleChangePage}
-        hasMore={this.props.hasMore}
-        loader={<div className='loader'>Loading ...</div>}>
+        hasMore={this.props.hasMore}>
         <div className='grid'>
           { this.props.result
             ? this.props.result.map((res, index) => {
