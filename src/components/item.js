@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import '../scss/components/item.css'
+import { Rating, Icon, Statistic } from 'semantic-ui-react'
 
 class Item extends Component {
   constructor (props) {
@@ -15,10 +16,23 @@ class Item extends Component {
     })
   }
 
+  statRating () {
+    return (
+      <Statistic>
+        <Statistic.Value className='statValue'>
+          <Icon name='star' />
+          {this.props.grade}
+        </Statistic.Value>
+        <Statistic.Label>
+          <Rating maxRating={10} defaultRating={this.props.grade} icon='star' size='huge' />
+        </Statistic.Label>
+      </Statistic>
+    )
+  }
+
   render () {
     return (
-      <div className='item-container'>
-        <img className='cover' src={this.props.poster} alt={this.props.title} />
+      <div className='item-container' style={{backgroundImage: 'url(' + this.props.poster + ')'}}>
         <div className='item-info'>
           <div className='title'>
             {this.props.title}
@@ -26,11 +40,9 @@ class Item extends Component {
           <div className='date'>
             {this.props.date}
           </div>
-          <div className='desc'>
-            {this.props.desc}
-          </div>
           <div className='grade'>
-            {this.props.grade}
+            <hr />
+            {this.statRating()}
           </div>
         </div>
       </div>
