@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Grid from '../components/grid'
 
-class Accueil extends Component {
+class TopRated extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -15,11 +15,12 @@ class Accueil extends Component {
   }
 
   handleChangePage () {
-    axios.get(`https://api.themoviedb.org/3/movie/popular`, {
+    axios.get(`https://api.themoviedb.org/3/movie/top_rated`, {
       params: {
         api_key: '4add767f00472cadffc84346bd8572e6',
         page: this.state.page,
-        language: 'fr'
+        language: 'fr',
+        sort_by: 'popularity.desc'
       }
     }).then((res) => {
       if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
@@ -41,4 +42,4 @@ class Accueil extends Component {
   }
 }
 
-export default Accueil
+export default TopRated

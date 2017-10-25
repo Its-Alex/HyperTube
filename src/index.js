@@ -10,6 +10,8 @@ import Register from './routes/register'
 import Popular from './routes/popular'
 import Profile from './routes/profile'
 import OtherProfile from './routes/otherProfile'
+import TopRated from './routes/topRated'
+import Movie from './routes/movie'
 import './scss/index.css'
 
 class Index extends React.Component {
@@ -32,8 +34,10 @@ class Index extends React.Component {
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
           <Route exact path='/accueil' component={Popular} />
+          <Route exact path='/top_rated' component={TopRated} />
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/profile/:id' component={OtherProfile} />
+          <Route exact path='/movie/:id' component={Movie} />
           <Route path='/' component={App} />
         </Switch>
       </div>

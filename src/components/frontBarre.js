@@ -1,20 +1,24 @@
 import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
-import '../scss/frontBarre.scss'
+import '../scss/components/frontBarre.css'
 
 class FrontBarre extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeItem: 'accueil',
+      activeItem: this.props.history,
       search: ''
     }
     this.changeUrl = this.changeUrl.bind(this)
     this.handleChangeSearch = this.handleChangeSearch.bind(this)
     this.handleKeySearch = this.handleKeySearch.bind(this)
   }
-  changeUrl (e, { name }) {
-    this.props.history.push('/' + name)
+
+  handleItemClick (e, { name }) {
+    this.setState({
+      activeItem: name
+    })
+    this.props.history.push(`/${name}`)
   }
   handleChangeSearch (event) {
     this.setState({
@@ -40,11 +44,20 @@ class FrontBarre extends Component {
             onClick={this.changeUrl}
           />
           <Menu.Item
-            name='news'
-            active={activeItem === 'nouveautés'}
-            content='Nouveautés'
-            onClick={this.changeUrl}
+
+            name='top_rated'
+            active={activeItem === 'top_rated'}
+            content='Top Rated'
+            onClick={this.handleItemClick}
           />
+
+          <Menu.Item
+            name='a_voir'
+            active={activeItem === 'a_voir'}
+            content='A voir'
+            onClick={this.handleItemClick}
+          />
+
           <Menu.Menu position='right'>
             <Menu.Item>
               <Input icon='search' placeholder='Search...' value={this.state.search} onChange={this.handleChangeSearch} onKeyPress={this.handleKeySearch} />

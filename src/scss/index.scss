@@ -9,13 +9,14 @@ $font: 'Rubik', sans-serif;
     --color1: $color1;
     --color2: $color2;
     --color3: $color3;
-}
-
-html, body, #root, #container-toast {
+  }
+  
+  html, body, #root, #container-toast {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     background-color: var(--bg-color);
     font-family: $font;
+    font-size: 1rem;
 }
