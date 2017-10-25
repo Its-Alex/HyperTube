@@ -2,24 +2,27 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Grid from '../components/grid'
 
-class Accueil extends Component {
+class Search extends Component {
   constructor (props) {
     super(props)
     this.state = {
       page: 1,
       result: [],
       hasMore: true,
-      nbPage: ''
+      nbPage: '',
+      query: this.props.match.params.id
     }
     this.handleChangePage = this.handleChangePage.bind(this)
   }
 
   handleChangePage () {
-    axios.get(`https://api.themoviedb.org/3/movie/popular`, {
+    console.log(this.state.query)
+    console.log(this.state.page)
+    axios.get(`https://api.themoviedb.org/3/search/movie`, {
       params: {
         api_key: '4add767f00472cadffc84346bd8572e6',
         page: this.state.page,
-        language: 'fr'
+        query: this.state.query
       }
     }).then((res) => {
       if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
@@ -33,6 +36,11 @@ class Accueil extends Component {
     })
   }
 
+  componentWillMount () {
+    if (this.props.match.params.id === undefined || this.props.match.params.id === '') {
+      this.props.history.push('/accueil')
+    }
+  }
   render () {
     return (
       <div>
@@ -42,4 +50,4 @@ class Accueil extends Component {
   }
 }
 
-export default Accueil
+export default Search
