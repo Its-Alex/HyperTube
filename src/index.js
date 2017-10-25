@@ -34,12 +34,21 @@ class Index extends React.Component {
         <Switch>
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
-          <Route exact path='/accueil' component={Popular} match={this.props.match} />
-          <Route exact path='/top_rated' component={TopRated} match={this.props.match} />
-          <Route exact path='/profile' component={Profile} />
-          <Route exact path='/profile/:id' component={OtherProfile} />
-          <Route exact path='/movie/:id' component={Movie} match={this.props.match} />
-          <Route exact path='/search/:id' component={Search} match={this.props.match} />
+          <Route exact path='/accueil' component={({ match, location, history }) =>
+            <Popular match={match} history={history} location={location} />
+          } />
+          <Route exact path='/top_rated' component={({match, location, history}) =>
+            <TopRated match={match} hsitory={history} location={location} />
+          } />
+          <Route exact path='/profile' component={({match, location, history}) =>
+            <Profile match={match} hsitory={history} location={location} />
+          } />
+          <Route exact path='/profile/:id' component={({match, location, history}) =>
+            <OtherProfile match={match} hsitory={history} location={location} />
+          } />
+          <Route exact path='/movie/:id' component={({match, location, history}) =>
+            <Movie match={match} hsitory={history} location={location} />
+          } />
           <Route path='/' component={App} />
         </Switch>
       </div>
