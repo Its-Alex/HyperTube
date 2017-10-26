@@ -1,20 +1,24 @@
 import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
-import '../scss/frontBarre.scss'
+import '../scss/components/frontBarre.css'
 
 class FrontBarre extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeItem: 'accueil',
+      activeItem: this.props.history,
       search: ''
     }
-    this.changeUrl = this.changeUrl.bind(this)
+    this.handleItemClick = this.handleItemClick.bind(this)
     this.handleChangeSearch = this.handleChangeSearch.bind(this)
     this.handleKeySearch = this.handleKeySearch.bind(this)
   }
-  changeUrl (e, { name }) {
-    this.props.history.push('/' + name)
+
+  handleItemClick (e, { name }) {
+    this.setState({
+      activeItem: name
+    })
+    this.props.history.push(`/${name}`)
   }
   handleChangeSearch (event) {
     this.setState({
@@ -23,8 +27,7 @@ class FrontBarre extends Component {
   }
   handleKeySearch (event) {
     if (this.state.search !== '' && event.key === 'Enter') {
-      console.log('faire la requet axios')
-      // REQUET AXIOS
+      this.props.history.push(`/search/${this.state.search}`)
       this.setState({search: ''})
     }
   }
@@ -32,19 +35,35 @@ class FrontBarre extends Component {
     const { activeItem } = this.state
     return (
       <div>
-        <Menu>
+        <Menu stackable>
           <Menu.Item
-            name='accueil'
-            active={activeItem === 'accueil'}
-            content='Accueil'
-            onClick={this.changeUrl}
+            name='popular'
+            active={activeItem === 'popular'}
+            content='Popular'
+            onClick={this.handleItemClick}
           />
           <Menu.Item
-            name='news'
-            active={activeItem === 'nouveautés'}
-            content='Nouveautés'
-            onClick={this.changeUrl}
+
+            name='top_rated'
+            active={activeItem === 'top_rated'}
+            content='Top Rated'
+            onClick={this.handleItemClick}
           />
+
+          <Menu.Item
+            name='profile'
+            active={activeItem === 'profile'}
+            content='Profile'
+            onClick={this.handleItemClick}
+          />
+
+          {/* <Menu.Item
+            name='test'
+            active={activeItem === 'test'}
+            content='test'
+            onClick={this.handleItemClick}
+          /> */}
+
           <Menu.Menu position='right'>
             <Menu.Item>
               <Input icon='search' placeholder='Search...' value={this.state.search} onChange={this.handleChangeSearch} onKeyPress={this.handleKeySearch} />

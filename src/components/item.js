@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
-// import { Item, Label } from 'semantic-ui-react'
-import { Button } from 'semantic-ui-react'
-import '../scss/item.css'
-
-const style = {
-  margin: 3,
-  height: 29
-}
+import '../scss/components/item.css'
+import { Rating, Icon, Statistic, Segment, Button } from 'semantic-ui-react'
 
 class Item extends Component {
   constructor (props) {
@@ -22,27 +16,37 @@ class Item extends Component {
     })
   }
 
+  statRating () {
+    return (
+      <Statistic>
+        <Statistic.Value className='statValue'>
+          <Icon name='star' />
+          {this.props.grade}
+        </Statistic.Value>
+        <Statistic.Label>
+          <Rating maxRating={10} defaultRating={this.props.grade} icon='star' size='huge' disabled />
+        </Statistic.Label>
+      </Statistic>
+    )
+  }
+
   render () {
     return (
-      <div className='container'>
-        <div className='imgcontent'>
-          <img id='path_img' src={'https://image.tmdb.org/t/p/w500/' + this.props.res.poster_path} alt={this.props.res.original_title} />
-        </div>
-        <div className='description'>
-          <div className='titre'>
-            {this.props.res.original_title}
-          </div>
-          <div className='resumer'>
-            {this.props.res.overview}
-          </div>
-          <div className='noteEtLangue'>
-            <div className='note'>
-              {this.props.res.vote_average}
+      <div className='item-container' style={{backgroundImage: 'url(' + this.props.poster + ')'}}>
+        <div className='opac'>
+          <div className='item-info'>
+            <div className='title'>
+              {this.props.title}
             </div>
-            <div className='langue'>
-              <Button style={style}>
-                Show
-              </Button>
+            <div className='date'>
+              {this.props.date}
+            </div>
+            <Segment inverted>
+              <Button inverted color='green'>See More</Button>
+            </Segment>
+            <div className='grade'>
+              <hr />
+              {this.statRating()}
             </div>
           </div>
         </div>
