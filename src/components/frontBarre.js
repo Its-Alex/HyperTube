@@ -57,12 +57,12 @@ class FrontBarre extends Component {
             onClick={this.handleItemClick}
           />
 
-          {/* <Menu.Item
+          <Menu.Item
             name='test'
             active={activeItem === 'test'}
             content='test'
             onClick={this.handleItemClick}
-          /> */}
+          />
 
           <Menu.Menu position='right'>
             <Menu.Item>

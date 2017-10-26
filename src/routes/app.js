@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <div className='App'>
         <button onClick={() => {
-          axios.get('http://localhost:3005/auth/facebook', {
+          axios.get('http://localhost:3005/auth/link/facebook', {
             headers: {
               'Acces-Control-Allow-Origin': '*',
               'Content-Type': 'application/x-www-form-urlencoded',

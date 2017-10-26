@@ -23,74 +23,96 @@ function genToken () {
   return (token)
 }
 
-function signin (req, res) {
-  let token = genToken()
-  console.log(req.UserId)
-
-  if (!req.user) return error(res, 'User not found', 404)
-  modelToken.addToken(req.user.id, token).then(result => {
-    res.json({
-      success: true,
-      token
-    })
-  }).catch(err => {
-    console.log(err)
-    error(res, 'Internal server error', 500)
-  })
-}
-
-let middleware = () => {
-  return (req, res, next) => {
-    var auth = req.get('Authorization')
-
-    if (auth !== undefined) {
-      auth = auth.split(' ')
-      if (auth[0] === 'Bearer' || auth[1].length === 128 || auth.length === 2) {
-        model.getUserByToken(auth[1]).then(results => {
-          if (results.length <= 0) return next()
-          req.userDb = {
-            token: auth[1],
-            id: results[0].userId,
-            mail: results[0].mail,
-            username: results[0].username,
-            firstName: results[0].firstName,
-            lastName: results[0].lastName,
-            password: results[0].password
-          }
-          return next()
-        }).catch(err => {
-          console.log(err)
-          return error(res, 'Internal server error', 500)
-        })
-      } else {
-        return next()
-      }
-    } else {
-      return next()
+function callbackPassport (req, res, next) {
+  passport.authenticate('42', {
+    failureRedirect: 'http://localhost:3000/register',
+    session: false
+  }, (err, user, info) => {
+    if (err) {
+      console.log(err)
+      if (err.message) return error(res, err.message, 418)
+      return error(res, 'Internal server error', 500)
     }
-  }
+    if (!user) return error(res, 'No user data', 403)
+
+    let token = genToken()
+    if (req.query.state && user.provider && user.providerId) {
+      model.getUserByToken(req.query.state).then(result => {
+        if (result.length === 0) return error(res, 'Bad token', 403)
+        switch (user.provider) {
+          case '42':
+            model.updateFortyTwoId(user.id, user.providerId).then(response => {
+              console.log(response)
+              res.json({
+                success: true
+              })
+            }).catch(err => {
+              console.log(err)
+              return error(res, 'Internal server error', 500)
+            })
+            break
+          case 'github':
+            model.updateGithubId(user.id, user.providerId).then(response => {
+              console.log(response)
+              res.json({
+                success: true
+              })
+            }).catch(err => {
+              console.log(err)
+              return error(res, 'Internal server error', 500)
+            })
+            break
+          case 'facebook':
+            model.updateFacebookId(user.id, user.providerId).then(response => {
+              console.log(response)
+              res.json({
+                success: true
+              })
+            }).catch(err => {
+              console.log(err)
+              return error(res, 'Internal server error', 500)
+            })
+            break
+          default:
+            break
+        }
+      })
+    } else {
+      modelToken.addToken(user.id, token).then(result => {
+        res.json({
+          success: true,
+          token
+        })
+      }).catch(err => {
+        console.log(err)
+        error(res, 'Internal server error', 500)
+      })
+    }
+  })(req, res, next)
 }
 
-router.get('/42', middleware(), passport.authenticate('42', {session: false}))
-router.get('/42/callback',
-passport.authenticate('42', {
-  failureRedirect: 'http://localhost:3000/register',
-  session: false
-}), signin)
+router.get('/42', (req, res, next) => {
+  passport.authenticate('42', {
+    session: false,
+    state: req.query.token
+  })(req, res, next)
+})
+router.get('/42/callback', callbackPassport)
 
-router.get('/github', middleware(), passport.authenticate('github', {session: false}))
-router.get('/github/callback',
-passport.authenticate('github', {
-  failureRedirect: 'http://localhost:3000/register',
-  session: false
-}), signin)
+router.get('/github', (req, res, next) => {
+  passport.authenticate('github', {
+    session: false,
+    state: req.query.token
+  })(req, res, next)
+})
+router.get('/github/callback', callbackPassport)
 
-router.get('/facebook', middleware(), passport.authenticate('facebook', {scope: 'email', session: false}))
-router.get('/facebook/callback',
-passport.authenticate('facebook', {
-  failureRedirect: 'http://localhost:3000/register',
-  session: false,
-  scope: 'email'
-}), signin)
+router.get('/facebook', (req, res, next) => {
+  passport.authenticate('facebook', {
+    session: false,
+    state: req.query.token
+  })(req, res, next)
+})
+router.get('/facebook/callback', callbackPassport)
 
 module.exports = router
