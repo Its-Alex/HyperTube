@@ -2,8 +2,8 @@
     border: 8px solid var(--color3);
     border-radius: 3%;
     padding: 5px;
-    width: 304px;
-    min-width: 304px;
+    width: 312px;
+    min-width: 312px;
     height: 450px;
     margin-top: 15px;
     margin-right: 2px;
@@ -16,19 +16,28 @@
 }
 
 .item-container > .item-info {
-  background-color: (255, 255, 255, 0.6);
   opacity: 0
 } 
 
-.item-container > .item-info > .title {
-  height: 10%;
-  font-size: 1.5rem;
-  font-family: unset;
+.item-container > .opac {
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
 }
 
-.item-container > .item-info > .date {
+.title {
+  font-size: 1.8rem;
+  font-family: unset;
+  text-align: center;
+  color: white;
+  margin-top: 5%;
+}
+
+.date {
   height: 15%;
   font-size: 0.7rem;
+  text-align: center;
+  color: white;
+  margin-top: 2%
 }
 
 .item-container > .item-info > .desc {
@@ -47,6 +56,10 @@
   font-size: 1.2rem;
 }
 
+.grade {
+  margin-top: 60%;
+}
+
 .item-container:hover {
   border: 8px solid var(--color1);
 }
@@ -55,7 +68,21 @@
   opacity: 1;
 }
 
+.item-container:hover > .opac {
+  opacity: 1;
+}
+
 .ui.statistic > .value.statValue {
   margin-top: -5%;
   font-size: 2rem!important;
+  color: white;
+}
+
+.ui.inverted.segment {
+  background: none;
+}
+
+.ui.inverted.segment > button {
+  margin: auto;
+  display: block;
 }
