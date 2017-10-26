@@ -35,10 +35,12 @@ class FrontBarre extends Component {
         params: {
           api_key: '4add767f00472cadffc84346bd8572e6',
           page: 1,
-          query: event.target.value
+          query: event.target.value,
+          search_type: 'ngram'
         }
       }).then((res) => {
         store.setSearch(res.data.results)
+        store.setTotalPages(res.data.total_pages)
       }).catch((err) => {
         console.log(err)
       })

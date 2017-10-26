@@ -7,6 +7,7 @@ class Store {
   @observable searchResult = []
   @observable resultPopular = []
   @observable resultTopRated = []
+  @observable totalPages = ''
   
 	@action
 	addResultSearch (res) {
@@ -33,6 +34,12 @@ class Store {
     } else {
       this.resultTopRated = res
     }    
+  }
+
+  @action
+  setTotalPages (res) {
+    console.log(` RES --->${res}`)
+    this.totalPages = res
   }
 
 	@action
