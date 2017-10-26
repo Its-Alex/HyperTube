@@ -1,50 +1,45 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Grid from '../components/grid'
+import store from '../utils/store.js'
+import { observer } from 'mobx-react'
 
+@observer
 class Search extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      page: 1,
-      result: [],
+      page: 2,
       hasMore: true,
-      nbPage: '',
-      query: this.props.match.params.id
+      nbPage: ''
     }
     this.handleChangePage = this.handleChangePage.bind(this)
   }
 
   handleChangePage () {
-    console.log(this.state.query)
-    console.log(this.state.page)
+
     axios.get(`https://api.themoviedb.org/3/search/movie`, {
       params: {
         api_key: '4add767f00472cadffc84346bd8572e6',
         page: this.state.page,
-        query: this.state.query
+        query: this.props.match.params.id
       }
     }).then((res) => {
-      if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
-      this.setState({
+      console.log(res.data)
+      store.addResult(res.data.results)
+      if (this.state.page >= res.data.total_pages) return this.setState({
         page: this.state.page + 1,
-        result: this.state.result.concat(res.data.results)
+        hasMore: this.state.page !== res.data.total_pages ? true : false
       })
-      console.log(res.data.results)
     }).catch((err) => {
       console.log(err)
     })
   }
 
-  componentWillMount () {
-    if (this.props.match.params.id === undefined || this.props.match.params.id === '') {
-      this.props.history.push('/accueil')
-    }
-  }
   render () {
     return (
       <div>
-        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={this.state.result} />
+        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={store.searchResult} history={this.props.history} />
       </div>
     )
   }

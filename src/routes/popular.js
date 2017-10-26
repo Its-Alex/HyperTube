@@ -1,17 +1,29 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Grid from '../components/grid'
+import store from '../utils/store.js'
+import { observer } from 'mobx-react'
 
-class Accueil extends Component {
+@observer
+
+class Popular extends Component {
   constructor (props) {
     super(props)
     this.state = {
       page: 1,
-      result: [],
       hasMore: true,
       nbPage: ''
     }
+    this._isMounted = false
     this.handleChangePage = this.handleChangePage.bind(this)
+  }
+
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
   }
 
   handleChangePage () {
@@ -22,12 +34,13 @@ class Accueil extends Component {
         language: 'fr'
       }
     }).then((res) => {
-      if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
-      this.setState({
-        page: this.state.page + 1,
-        result: this.state.result.concat(res.data.results)
-      })
-      console.log(res.data.results)
+      if (this.state.page === res.data.total_pages && this._isMounted === true) this.setState({hasMore: false})
+      if (this._isMounted === true) {
+        store.addResultPopular(res.data.results)
+        this.setState({
+          page: this.state.page + 1,
+        })
+      }
     }).catch((err) => {
       console.log(err)
     })
@@ -36,10 +49,10 @@ class Accueil extends Component {
   render () {
     return (
       <div>
-        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={this.state.result} />
+        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={store.resultPopular} history={this.props.history} />
       </div>
     )
   }
 }
 
-export default Accueil
+export default Popular
