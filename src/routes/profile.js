@@ -2,10 +2,10 @@ import React from 'react'
 import { Input, Feed, Image, Grid, Icon, Modal, Button, Form } from 'semantic-ui-react'
 import '../scss/profile.css'
 import _ from 'lodash'
-import axios from 'axios'
+import axiosInst from '../utils/axiosInst'
 
 class Profile extends React.Component {
-    constructor (props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -34,20 +34,27 @@ class Profile extends React.Component {
 
   handleSubmit (key, data) {
     if (key === 'Enter' || (data && data.name === 'submit')) {
-      axios.post('http://localhost:3005/editProfile', {
+      axiosInst().patch('/user/update', {
         firstname: this.state.firstname,
         lastname: this.state.lastname,
-        login: this.state.login,
-        email: this.state.email,
-        oldpswd: this.state.oldpswd,
-        newpswd: this.state.newpswd
+        username: this.state.login,
+        mail: this.state.email,
+        password: this.state.oldpswd,
+        newPassword: this.state.newpswd
       })
       .then(res => {
+        console.log(res)
+        /**
+         * Need to handle and show error
+         */
         this.setState({loadingBtn: false})
       })
       .catch(err => {
-        this.setState({loadingBtn: false})
         console.log(err.response)
+        /**
+         * Need to handle and show error
+         */
+        this.setState({loadingBtn: false})
       })
     }
   }

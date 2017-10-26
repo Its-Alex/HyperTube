@@ -32,12 +32,15 @@ module.exports = (req, res) => {
     req.user.mail = req.body.mail.toLowerCase()
   }
 
-  if (typeof req.body.password === 'string' && req.body.password.length <= 60 &&
-  !isEmpty(req.body.password)) {
-    req.user.password = bcrypt.hashSync(req.body.password, 10)
+  if (typeof req.body.password === 'string' && typeof req.body.newPassword === 'string') {
+    if (req.body.password === req.body.newPassword &&
+      req.body.password.length <= 60 && !isEmpty(req.body.password)) {
+      req.user.password = bcrypt.hashSync(req.body.password, 10)
+    } else {
+      return error(res, 'Invalid password', 403)
+    }
   }
 
-  // console.log(req.user)
   model.updateUser(req.user).then(result => {
     console.log(result)
     res.json({success: true})
