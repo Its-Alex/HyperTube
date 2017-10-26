@@ -2,7 +2,7 @@ import React from 'react'
 import { Input, Feed, Image, Grid, Icon, Modal, Button, Form } from 'semantic-ui-react'
 import '../scss/profile.css'
 import _ from 'lodash'
-import axiosInst from '../utils/axiosInst'
+import axiosInst from '../utils/axiosInst.js'
 
 class Profile extends React.Component {
   constructor (props) {

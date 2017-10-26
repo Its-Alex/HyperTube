@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-module.exports = () => {
+export default () => {
   axios.create({
     baseURL: 'http://localhost:3005/',
     headers: {
