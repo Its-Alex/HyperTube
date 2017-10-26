@@ -90,7 +90,7 @@ class Profile extends React.Component {
           <Form.Field>
             <label>First name</label>
             <Input
-              id='firstname' 
+              id='firstname'
               placeholder='First name'
               name='firstname'
               value={this.state.firstname}
@@ -100,7 +100,7 @@ class Profile extends React.Component {
           </Form.Field>
           <Form.Field>
             <label>Last name</label>
-            <Input 
+            <Input
               id='lastname'
               placeholder='Last name'
               name='lastname'
@@ -188,7 +188,7 @@ class Profile extends React.Component {
                 header='Edit your Profile !'
                 content={this.editUser()}
                 actions={[
-                  'Close',
+                  'Close'
                 ]}
               />
               <div className='userName'>
