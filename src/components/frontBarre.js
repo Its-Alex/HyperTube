@@ -37,9 +37,9 @@ class FrontBarre extends Component {
       <div>
         <Menu stackable>
           <Menu.Item
-            name='accueil'
-            active={activeItem === 'accueil'}
-            content='Accueil'
+            name='popular'
+            active={activeItem === 'popular'}
+            content='Popular'
             onClick={this.handleItemClick}
           />
           <Menu.Item
@@ -51,11 +51,18 @@ class FrontBarre extends Component {
           />
 
           <Menu.Item
-            name='a_voir'
-            active={activeItem === 'a_voir'}
-            content='A voir'
+            name='profile'
+            active={activeItem === 'profile'}
+            content='Profile'
             onClick={this.handleItemClick}
           />
+
+          {/* <Menu.Item
+            name='test'
+            active={activeItem === 'test'}
+            content='test'
+            onClick={this.handleItemClick}
+          /> */}
 
           <Menu.Menu position='right'>
             <Menu.Item>

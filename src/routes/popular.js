@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Grid from '../components/grid'
 
-class Accueil extends Component {
+class Popular extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -11,7 +11,16 @@ class Accueil extends Component {
       hasMore: true,
       nbPage: ''
     }
+    this._isMounted = false
     this.handleChangePage = this.handleChangePage.bind(this)
+  }
+
+  componentDidMount () {
+    this._isMounted = true
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
   }
 
   handleChangePage () {
@@ -22,11 +31,13 @@ class Accueil extends Component {
         language: 'fr'
       }
     }).then((res) => {
-      if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
-      this.setState({
-        page: this.state.page + 1,
-        result: this.state.result.concat(res.data.results)
-      })
+      if (this.state.page === res.data.total_pages && this._isMounted === true) this.setState({hasMore: false})
+      if (this._isMounted === true) {
+        this.setState({
+          page: this.state.page + 1,
+          result: this.state.result.concat(res.data.results)
+        })
+      }
       console.log(res.data.results)
     }).catch((err) => {
       console.log(err)
@@ -42,4 +53,4 @@ class Accueil extends Component {
   }
 }
 
-export default Accueil
+export default Popular
