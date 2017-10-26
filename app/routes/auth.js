@@ -42,7 +42,6 @@ function callbackPassport (req, res, next) {
         switch (user.provider) {
           case '42':
             model.updateFortyTwoId(user.id, user.providerId).then(response => {
-              console.log(response)
               res.json({
                 success: true
               })
@@ -53,7 +52,6 @@ function callbackPassport (req, res, next) {
             break
           case 'github':
             model.updateGithubId(user.id, user.providerId).then(response => {
-              console.log(response)
               res.json({
                 success: true
               })
@@ -64,7 +62,6 @@ function callbackPassport (req, res, next) {
             break
           case 'facebook':
             model.updateFacebookId(user.id, user.providerId).then(response => {
-              console.log(response)
               res.json({
                 success: true
               })
