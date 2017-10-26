@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import '../scss/components/item.css'
+import { observer } from 'mobx-react'
 import { Rating, Icon, Statistic, Segment, Button } from 'semantic-ui-react'
 
+@observer
 class Item extends Component {
   constructor (props) {
     super(props)

@@ -12,7 +12,7 @@ import Profile from './routes/profile'
 import OtherProfile from './routes/otherProfile'
 import TopRated from './routes/topRated'
 import Movie from './routes/movie'
-// import Search from './routes/search'
+import Search from './routes/search'
 import './scss/index.css'
 
 class Index extends React.Component {
@@ -39,6 +39,7 @@ class Index extends React.Component {
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/profile/:id' component={OtherProfile} />
           <Route exact path='/movie/:id' component={Movie} />
+          <Route exact path='/search/:id' component={Search} />
           <Route path='/' component={App} />
         </Switch>
       </div>

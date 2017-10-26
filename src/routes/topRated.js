@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Grid from '../components/grid'
+import store from '../utils/store.js'
+import { observer } from 'mobx-react'
+
+@observer
 
 class TopRated extends Component {
   constructor (props) {
     super(props)
     this.state = {
       page: 1,
-      result: [],
       hasMore: true,
       nbPage: ''
     }
@@ -24,9 +27,9 @@ class TopRated extends Component {
       }
     }).then((res) => {
       if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
+      store.addResultTopRated(res.data.results)
       this.setState({
-        page: this.state.page + 1,
-        result: this.state.result.concat(res.data.results)
+        page: this.state.page + 1
       })
     }).catch((err) => {
       console.log(err)
@@ -36,7 +39,7 @@ class TopRated extends Component {
   render () {
     return (
       <div>
-        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={this.state.result} />
+        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={store.resultTopRated} history={this.props.history} />
       </div>
     )
   }
