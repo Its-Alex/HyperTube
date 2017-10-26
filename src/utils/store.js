@@ -38,12 +38,11 @@ class Store {
 
   @action
   setTotalPages (res) {
-    console.log(` RES --->${res}`)
     this.totalPages = res
   }
 
 	@action
-	setSearch (res) {
+	resetSearch (res) {
 		this.searchResult = res
 	}
 }

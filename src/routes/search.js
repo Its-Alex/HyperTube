@@ -16,12 +16,8 @@ class Search extends Component {
     this.handleChangePage = this.handleChangePage.bind(this)
   }
 
-  
-  componentWillMount () {
-    console.log(store.searchResult)
-  }
-  
   handleChangePage () {
+    if (store.totalPages > 1) {
       axios.get(`https://api.themoviedb.org/3/search/movie`, {
         params: {
           api_key: '4add767f00472cadffc84346bd8572e6',
@@ -38,6 +34,7 @@ class Search extends Component {
       }).catch((err) => {
         console.log(err)
       })
+    }
   }
 
   render () {
