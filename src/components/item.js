@@ -29,6 +29,9 @@ class Item extends Component {
       </Statistic>
     )
   }
+  handleMovie (id) {
+    this.props.history.push(`/movie/${id}`)
+  }
 
   render () {
     return (
@@ -42,7 +45,7 @@ class Item extends Component {
               {this.props.date}
             </div>
             <Segment inverted>
-              <Button inverted color='green'>See More</Button>
+              <Button inverted color='green' onClick={() => this.handleMovie(this.props.id)} >See More</Button>
             </Segment>
             <div className='grade'>
               <hr />

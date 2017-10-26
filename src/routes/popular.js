@@ -38,7 +38,7 @@ class Popular extends Component {
           result: this.state.result.concat(res.data.results)
         })
       }
-      console.log(res.data.results)
+      // console.log(res.data.results)
     }).catch((err) => {
       console.log(err)
     })
@@ -47,7 +47,7 @@ class Popular extends Component {
   render () {
     return (
       <div>
-        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={this.state.result} />
+        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={this.state.result} history={this.props.history} />
       </div>
     )
   }

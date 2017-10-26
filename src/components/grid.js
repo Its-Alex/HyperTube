@@ -25,7 +25,9 @@ class Grid extends Component {
                   title={res.original_title}
                   desc={res.overview}
                   date={res.release_date}
-                  grade={res.vote_average} />
+                  grade={res.vote_average}
+                  id={res.id}
+                  history={this.props.history} />
               )
             }) : null}
         </div>
