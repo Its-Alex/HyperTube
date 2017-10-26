@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Dimmer, Grid, Image, Segment, Button, Icon } from 'semantic-ui-react'
+import { Header, Dimmer, Image, Button, Icon } from 'semantic-ui-react'
 import axios from 'axios'
 import '../scss/movie.css'
 
