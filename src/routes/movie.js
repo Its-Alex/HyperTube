@@ -36,7 +36,7 @@ class Movie extends Component {
   }
 
   componentWillMount () {
-    axios.get(`https://api.themoviedb.org/5/movie/${this.state.movie}`, {
+    axios.get(`https://api.themoviedb.org/3/movie/${this.state.movie}`, {
       params: {
         api_key: '4add767f00472cadffc84346bd8572e6',
         language: 'fr'

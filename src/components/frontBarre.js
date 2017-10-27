@@ -35,7 +35,8 @@ class FrontBarre extends Component {
     const { activeItem } = this.state
     return (
       <div>
-        <Menu stackable>
+        <Menu stackable
+          style={{borderRadius: '0px'}} >
           <Menu.Item
             name='popular'
             active={activeItem === 'popular'}
