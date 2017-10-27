@@ -3,7 +3,7 @@ import { observable, action, useStrict } from 'mobx'
 useStrict(true)
 
 class Store {
-	toast = null
+
   @observable searchResult = []
   @observable resultPopular = []
   @observable resultTopRated = []
@@ -20,7 +20,8 @@ class Store {
 
   @action
   addResultPopular (res) {
-    if (this.resultPopular) {
+    console.log(res)
+    if (this.resultPopular.length !== 0) {
       this.resultPopular = this.resultPopular.concat(res)
     } else {
       this.resultPopular = res
@@ -29,7 +30,7 @@ class Store {
 
   @action
   addResultTopRated (res) {
-    if (this.resultTopRated) {
+    if (this.resultTopRated.length !== 0) {
       this.resultTopRated = this.resultTopRated.concat(res)
     } else {
       this.resultTopRated = res

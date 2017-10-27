@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Input } from 'semantic-ui-react'
+import { Menu, Input, Icon } from 'semantic-ui-react'
 import '../scss/components/frontBarre.css'
 import axios from 'axios'
 import store from '../utils/store.js'
@@ -16,6 +16,11 @@ class FrontBarre extends Component {
     this.handleItemClick = this.handleItemClick.bind(this)
     this.handleChangeSearch = this.handleChangeSearch.bind(this)
     this.handleKeySearch = this.handleKeySearch.bind(this)
+    this.handleDisconnect = this.handleDisconnect.bind(this)
+  }
+  handleDisconnect () {
+    global.localStorage.removeItem('token')
+    this.props.history.push('/')
   }
 
   handleItemClick (e, { name }) {
@@ -84,6 +89,14 @@ class FrontBarre extends Component {
           />
 
           <Menu.Menu position='right'>
+          {global.localStorage.getItem('token') ? (
+            <Menu.Item>
+              <Icon name='power' onClick={() => this.handleDisconnect()}/>
+            </Menu.Item>
+          ) : (
+            null
+          )
+          }
             <Menu.Item>
               <Input icon='search' placeholder='Search...' value={this.state.search} onChange={this.handleChangeSearch} onKeyPress={this.handleKeySearch} />
             </Menu.Item>

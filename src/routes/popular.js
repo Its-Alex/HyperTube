@@ -35,13 +35,18 @@ class Popular extends Component {
         language: 'fr'
       }
     }).then((res) => {
-      if (this.state.page === res.data.total_pages && this._isMounted === true) this.setState({hasMore: false})
-      if (this._isMounted === true) {
-        store.addResultPopular(res.data.results)
+      if (this.state.page === res.data.total_pages && this._isMounted === true) {
+        this.setState({hasMore: false})
+        this._isMounted = false
+      } else {
         this.setState({
-          page: this.state.page + 1,
+          page: this.state.page + 1
         })
       }
+      if (this._isMounted === true) {
+        store.addResultPopular(res.data.results)
+      }
+      console.log(this.state.hasMore)
     }).catch((err) => {
       console.log(err)
     })

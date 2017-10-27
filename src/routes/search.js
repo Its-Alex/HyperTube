@@ -17,7 +17,7 @@ class Search extends Component {
   }
 
   handleChangePage () {
-    if (store.totalPages > 1) {
+    if (store.totalPages > 1 && store.totalPages < 1000) {
       axios.get(`https://api.themoviedb.org/3/search/movie`, {
         params: {
           api_key: '4add767f00472cadffc84346bd8572e6',
