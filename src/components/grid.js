@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import Item from './item.js'
+import { observer } from 'mobx-react'
 
 import '../scss/components/grid.css'
 
+@observer
 class Grid extends Component {
   constructor (props) {
     super(props)
@@ -25,7 +27,9 @@ class Grid extends Component {
                   title={res.original_title}
                   desc={res.overview}
                   date={res.release_date}
-                  grade={res.vote_average} />
+                  grade={res.vote_average}
+                  id={res.id}
+                  history={this.props.history} />
               )
             }) : null}
         </div>
