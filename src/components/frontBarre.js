@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
 import '../scss/components/frontBarre.css'
+import axios from 'axios'
+import store from '../utils/store.js'
+import { observer } from 'mobx-react'
 
+@observer
 class FrontBarre extends Component {
   constructor (props) {
     super(props)
@@ -26,9 +30,24 @@ class FrontBarre extends Component {
     })
   }
   handleKeySearch (event) {
-    if (this.state.search !== '' && event.key === 'Enter') {
-      this.props.history.push(`/search/${this.state.search}`)
-      this.setState({search: ''})
+    if (typeof event.target.value === 'string' && event.target.value !== '' && event.key === 'Enter') {
+      axios.get(`https://api.themoviedb.org/3/search/movie`, {
+        params: {
+          api_key: '4add767f00472cadffc84346bd8572e6',
+          page: 1,
+          query: event.target.value
+          // search_type: 'ngram'
+        }
+      }).then((res) => {
+        store.setTotalPages(res.data.total_pages)
+        store.resetSearch(res.data.results)
+      }).catch((err) => {
+        console.log(err)
+      })
+      // setTimeout(() => {
+        this.props.history.push(`/search/${event.target.value}`)
+        event.target.value = ''
+      // }, 500)
     }
   }
   render () {
