@@ -18,6 +18,20 @@ class Login extends Component {
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
   }
 
+  componentDidMount () {
+    if (this.props.location.search !== '') {
+      let str = this.props.location.search.substr(1).split('&').map((elmt) => {
+        return elmt.split('=')
+      })
+      if (str[0][0] === 'success' && str[0][1] === 'true') {
+        if (str[1][0] === 'token') {
+          global.localStorage.setItem('token', str[1][1])
+          this.props.history.push('/popular')
+        }
+      }
+    }
+  }
+
   handleChange (evt) {
     this.setState({[evt.target.name]: evt.target.value})
   }
@@ -37,10 +51,20 @@ class Login extends Component {
       })
       .then(res => {
         this.setState({loadingBtn: false})
+        if (res.data.success === true) {
+          global.localStorage.setItem('token', res.data.token)
+          this.props.history.push('/popular')
+        }
+        /**
+         * Handle erro
+         */
       })
       .catch(err => {
         this.setState({loadingBtn: false})
         console.log(err.response)
+        /**
+         * Handle error
+         */
       })
     }
   }
