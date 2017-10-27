@@ -7,5 +7,6 @@ router.post('/', require('../controllers/user/signin.js'))
 router.use(require('../utils/middleware.js')())
 
 router.patch('/', require('../controllers/user/update.js'))
+router.get('/me', require('../controllers/user/get.js'))
 
 module.exports = router

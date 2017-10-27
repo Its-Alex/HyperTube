@@ -34,7 +34,7 @@ class Profile extends React.Component {
 
   handleSubmit (key, data) {
     if (key === 'Enter' || (data && data.name === 'submit')) {
-      axiosInst().patch('/user/update', {
+      axiosInst().patch('/user/me', {
         firstname: this.state.firstname,
         lastname: this.state.lastname,
         username: this.state.login,
@@ -44,6 +44,7 @@ class Profile extends React.Component {
       })
       .then(res => {
         console.log(res)
+        // Get error res.data.error
         /**
          * Need to handle and show error
          */
@@ -51,6 +52,7 @@ class Profile extends React.Component {
       })
       .catch(err => {
         console.log(err.response)
+        // Get error err.response.data.error
         /**
          * Need to handle and show error
          */
