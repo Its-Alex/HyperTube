@@ -46,7 +46,6 @@ class Popular extends Component {
       if (this._isMounted === true) {
         store.addResultPopular(res.data.results)
       }
-      console.log(this.state.hasMore)
     }).catch((err) => {
       console.log(err)
     })

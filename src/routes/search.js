@@ -25,7 +25,6 @@ class Search extends Component {
           query: this.props.match.params.id
         }
       }).then((res) => {
-        console.log(res.data.results)
         store.addResultSearch(res.data.results)
         if (this.state.page <= res.data.total_pages) return this.setState({
           page: this.state.page + 1,

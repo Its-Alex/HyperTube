@@ -20,7 +20,7 @@ class FrontBarre extends Component {
   }
   handleDisconnect () {
     global.localStorage.removeItem('token')
-    this.props.history.push('/')
+    this.props.history.push('/login')
   }
 
   handleItemClick (e, { name }) {
