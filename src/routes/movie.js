@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Image, Segment, Button, Icon } from 'semantic-ui-react'
+import { Header, Dimmer, Image, Button, Icon } from 'semantic-ui-react'
 import axios from 'axios'
+import '../scss/movie.css'
 
 class Movie extends Component {
   constructor (props) {
@@ -17,6 +18,10 @@ class Movie extends Component {
     }
     this.handlePlayMovie = this.handlePlayMovie.bind(this)
   }
+
+  handleShow = () => this.setState({ active: true })
+  handleHide = () => this.setState({ active: false })
+
   //  TEST --->  http://localhost:3000/movie/346364
   handlePlayMovie (received) {
     this.setState({
@@ -54,14 +59,16 @@ class Movie extends Component {
   }
 
   render () {
-    return (
-      <div>
-        <Image src={this.state.path_img} size='large' />
-        <Segment>
-          titre: {this.state.title} <br />
-          date: {this.state.date}
-          Description: {this.state.description}
-        </Segment>
+    const { active } = this.state
+    const content = (
+      <div className='movieBlock'>
+        <Header as='h2' inverted>
+          {this.state.title}
+        </Header>
+        <Header as='h4' inverted>
+          {this.state.description}
+        </Header>
+
         {this.state.langue.map((res, index) => {
           return (
             <Button animated
@@ -76,6 +83,19 @@ class Movie extends Component {
           )
         })
         }
+      </div>
+    )
+    return (
+      <div className='backMovie'>
+        <Dimmer.Dimmable
+          as={Image}
+          dimmed={active}
+          dimmer={{ active, content }}
+          onMouseEnter={this.handleShow}
+          onMouseLeave={this.handleHide}
+          size='large'
+          src={this.state.path_img}
+        />
       </div>
     )
   }

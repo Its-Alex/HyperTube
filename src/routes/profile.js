@@ -1,8 +1,66 @@
 import React from 'react'
 import { Input, Feed, Image, Grid, Icon, Modal, Button, Form } from 'semantic-ui-react'
 import '../scss/profile.css'
+import _ from 'lodash'
+import axiosInst from '../utils/axiosInst.js'
 
 class Profile extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      firstname: '',
+      lastname: '',
+      login: '',
+      email: '',
+      oldpswd: '',
+      newpswd: '',
+      loadingBtn: false
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
+  }
+
+  handleChange (evt) {
+    this.setState({[evt.target.name]: evt.target.value})
+  }
+
+  stackDebounce (e, data) {
+    if (e.key === 'Enter' || (data && data.name === 'submit')) {
+      this.setState({loadingBtn: true})
+    }
+    this.handleSubmit(e.key, data)
+  }
+
+  handleSubmit (key, data) {
+    if (key === 'Enter' || (data && data.name === 'submit')) {
+      axiosInst().patch('/user/me', {
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+        username: this.state.login,
+        mail: this.state.email,
+        password: this.state.oldpswd,
+        newPassword: this.state.newpswd
+      })
+      .then(res => {
+        console.log(res)
+        // Get error res.data.error
+        /**
+         * Need to handle and show error
+         */
+        this.setState({loadingBtn: false})
+      })
+      .catch(err => {
+        console.log(err.response)
+        // Get error err.response.data.error
+        /**
+         * Need to handle and show error
+         */
+        this.setState({loadingBtn: false})
+      })
+    }
+  }
+
   editProfile () {
     return (
       <Button
@@ -33,31 +91,88 @@ class Profile extends React.Component {
         <Form.Group widths='equal'>
           <Form.Field>
             <label>First name</label>
-            <Input id='firstname' placeholder='First name' />
+            <Input
+              id='firstname'
+              placeholder='First name'
+              name='firstname'
+              value={this.state.firstname}
+              onChange={this.handleChange}
+              onKeyPress={this.stackDebounce.bind(this)}
+            />
           </Form.Field>
           <Form.Field>
             <label>Last name</label>
-            <Input id='lastname' placeholder='Last name' />
+            <Input
+              id='lastname'
+              placeholder='Last name'
+              name='lastname'
+              value={this.state.lastname}
+              onChange={this.handleChange}
+              onKeyPress={this.stackDebounce.bind(this)}
+            />
           </Form.Field>
           <Form.Field>
             <label>Login</label>
-            <Input id='login' placeholder='Login' />
+            <Input
+              id='login'
+              placeholder='Login'
+              name='login'
+              value={this.state.login}
+              onChange={this.handleChange}
+              onKeyPress={this.stackDebounce.bind(this)}
+            />
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>
           <Form.Field>
             <label>Email</label>
-            <Input id='email' type='email' placeholder='Email' />
+            <Input
+              id='email'
+              type='email'
+              name='email'
+              placeholder='Email'
+              value={this.state.email}
+              onChange={this.handleChange}
+              onKeyPress={this.stackDebounce.bind(this)}
+            />
           </Form.Field>
           <Form.Field>
             <label>Old password</label>
-            <Input id='oldpswd' type='password' placeholder='Old password' />
+            <Input
+              id='oldpswd'
+              type='password'
+              placeholder='Old password'
+              name='oldpswd'
+              value={this.state.oldpswd}
+              onChange={this.handleChange}
+              onKeyPress={this.stackDebounce.bind(this)}
+            />
           </Form.Field>
           <Form.Field>
             <label>New password</label>
-            <Input id='newpswd' type='password' placeholder='Last name' />
+            <Input
+              id='newpswd'
+              type='password'
+              placeholder='Last name'
+              name='newpswd'
+              value={this.state.newpswd}
+              onChange={this.handleChange}
+              onKeyPress={this.stackDebounce.bind(this)}
+            />
           </Form.Field>
         </Form.Group>
+        <Button
+          animated='fade'
+          loading={this.state.loadingBtn}
+          className='fluid btn-login'
+          color='instagram'
+          name='submit'
+          onClick={this.stackDebounce.bind(this)} >
+          <Button.Content visible>Edit</Button.Content>
+          <Button.Content hidden>
+            <Icon name='right arrow' />
+          </Button.Content>
+        </Button>
       </Form>
     )
   }
@@ -75,8 +190,7 @@ class Profile extends React.Component {
                 header='Edit your Profile !'
                 content={this.editUser()}
                 actions={[
-                  'Snooze',
-                  { key: 'done', content: 'Done', positive: true }
+                  'Close'
                 ]}
               />
               <div className='userName'>

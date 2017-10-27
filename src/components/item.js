@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import '../scss/components/item.css'
 import { Rating, Icon, Statistic, Segment, Button } from 'semantic-ui-react'
-
+  
 class Item extends Component {
   constructor (props) {
     super(props)
     this.state = {
       result: []
-    }
-  }
-
+    } 
+}
   componentWillMount () {
     this.setState({
       result: this.props.result

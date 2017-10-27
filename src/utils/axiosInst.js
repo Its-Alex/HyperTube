@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-module.exports = () => {
-  axios.create({
+export default () => {
+  return axios.create({
     baseURL: 'http://localhost:3005/',
     headers: {
       'Authorization': 'Bearer ' + global.localStorage.getItem('token')
