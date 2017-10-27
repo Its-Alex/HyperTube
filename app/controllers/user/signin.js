@@ -38,6 +38,7 @@ module.exports = (req, res) => {
 
   model.getUserByMail(req.body.mail).then(results => {
     if (results.length === 0) return error(res, 'User not found', 403)
+    if (typeof results[0].password !== 'string') return error(res, 'Password not set reconnect with 42/fb/Gh!', 403)
     if (bcrypt.compareSync(req.body.password, results[0].password)) {
       let token = genToken()
       modelToken.addToken(results[0].id, token).then(results => {

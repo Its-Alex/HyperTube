@@ -76,6 +76,13 @@ class FrontBarre extends Component {
             onClick={this.handleItemClick}
           />
 
+          <Menu.Item
+            name='test'
+            active={activeItem === 'test'}
+            content='test'
+            onClick={this.handleItemClick}
+          />
+
           <Menu.Menu position='right'>
             <Menu.Item>
               <Input icon='search' placeholder='Search...' value={this.state.search} onChange={this.handleChangeSearch} onKeyPress={this.handleKeySearch} />

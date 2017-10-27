@@ -45,11 +45,20 @@ class Register extends Component {
         newPassword: this.state.confirmPassword
       })
       .then(res => {
+        if (res.data.success === 'true') {
+          this.props.history.push('/login')
+        }
+        /**
+         * Handle error
+         */
         this.setState({loadingBtn: false})
       })
       .catch(err => {
         this.setState({loadingBtn: false})
         console.log(err.response)
+        /**
+         * Handle error
+         */
       })
     }
   }

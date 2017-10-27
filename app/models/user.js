@@ -88,5 +88,44 @@ module.exports = {
         })
       }).catch(err => reject(err))
     })
+  },
+  updateFortyTwoId: (userId, id) => {
+    return new Promise((resolve, reject) => {
+      db.get().then(db => {
+        db.query('UPDATE users SET id_42 = ? WHERE id = ?', [
+          id,
+          userId
+        ], (err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
+      }).catch(err => reject(err))
+    })
+  },
+  updateGithubId: (userId, id) => {
+    return new Promise((resolve, reject) => {
+      db.get().then(db => {
+        db.query('UPDATE users SET id_github = ? WHERE id = ?', [
+          id,
+          userId
+        ], (err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
+      }).catch(err => reject(err))
+    })
+  },
+  updateFacebookId: (userId, id) => {
+    return new Promise((resolve, reject) => {
+      db.get().then(db => {
+        db.query('UPDATE users SET id_facebook = ? WHERE id = ?', [
+          id,
+          userId
+        ], (err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
+      }).catch(err => reject(err))
+    })
   }
 }

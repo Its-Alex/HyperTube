@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 class Popular extends Component {
   constructor (props) {
     super(props)
+
     this.state = {
       page: 1,
       hasMore: true,

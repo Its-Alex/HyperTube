@@ -17,17 +17,22 @@ import './scss/index.css'
 
 class Index extends React.Component {
   componentWillMount () {
-    // if (!global.localStorage.getItem('token') &&
-    // this.props.location.pathname !== '/login' &&
-    // this.props.location.pathname !== '/register') {
-    //   this.props.history.push('/login')
-    // }
+    if (global.localStorage.getItem('token') &&
+    (this.props.location.pathname === '/login' ||
+    this.props.location.pathname === '/register')) {
+      this.props.history.push('/popular')
+    }
+    if (!global.localStorage.getItem('token') &&
+    this.props.location.pathname !== '/login' &&
+    this.props.location.pathname !== '/register') {
+      this.props.history.push('/login')
+    }
   }
 
   render () {
     return (
       <div id='container-toast'>
-        {!global.localStorage.getItem('token') ? <FrontBarre
+        {global.localStorage.getItem('token') ? <FrontBarre
           history={this.props.history}
           match={this.props.match}
           location={this.props.location} /> : null}

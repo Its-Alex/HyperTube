@@ -51,6 +51,7 @@ let getUserFromProfile = (profile) => {
 }
 
 module.exports = (accessToken, refreshToken, profile, cb) => {
+  console.log(profile.provider)
   if (profile.provider === '42') {
     model.getUserByFortyTwo(profile.id).then(res => {
       if (res.length === 0) {
@@ -61,10 +62,14 @@ module.exports = (accessToken, refreshToken, profile, cb) => {
               cb(null, user)
             }).catch(err => cb(err))
           } else {
+            res[0].provider = profile.provider
+            res[0].providerId = profile.id
             cb(null, res[0])
           }
         })
       } else {
+        res[0].provider = profile.provider
+        res[0].providerId = profile.id
         cb(null, res[0])
       }
     }).catch(err => cb(err))
@@ -78,10 +83,14 @@ module.exports = (accessToken, refreshToken, profile, cb) => {
               cb(null, user)
             }).catch(err => cb(err))
           } else {
+            res[0].provider = profile.provider
+            res[0].providerId = profile.id
             cb(null, res[0])
           }
         })
       } else {
+        res[0].provider = profile.provider
+        res[0].providerId = profile.id
         cb(null, res[0])
       }
     }).catch(err => cb(err))
@@ -95,10 +104,14 @@ module.exports = (accessToken, refreshToken, profile, cb) => {
               cb(null, user)
             }).catch(err => cb(err))
           } else {
+            res[0].provider = profile.provider
+            res[0].providerId = profile.id
             cb(null, res[0])
           }
         })
       } else {
+        res[0].provider = profile.provider
+        res[0].providerId = profile.id
         cb(null, res[0])
       }
     }).catch(err => cb(err))
