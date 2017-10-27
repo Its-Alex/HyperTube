@@ -21,20 +21,10 @@ module.exports = {
       }).catch(err => reject(err))
     })
   },
-  getUserByFortyTwo: (id) => {
+  getUserByOauth: (id) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
-        db.query('SELECT * FROM users WHERE id_42 = ?', [id], (err, res) => {
-          if (err) reject(err)
-          resolve(res)
-        })
-      }).catch(err => reject(err))
-    })
-  },
-  getUserByGithub: (id) => {
-    return new Promise((resolve, reject) => {
-      db.get().then(db => {
-        db.query('SELECT * FROM users WHERE id_github = ?', [id], (err, res) => {
+        db.query('SELECT * FROM users WHERE id_github = ? OR id_42 = ? OR id_facebook = ?', [id, id, id], (err, res) => {
           if (err) reject(err)
           resolve(res)
         })
