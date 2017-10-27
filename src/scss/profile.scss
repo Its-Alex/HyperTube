@@ -1,13 +1,22 @@
 .backPic {
-    background: var(--color1);
-    padding: 3%;
+    background-size: cover;
+    width: 30vw;
+    min-width: 150px;
+    max-width: 300px;
+    height: 30vw;
+    min-height: 150px;
+    max-height: 300px;
+    background-position: center;
+    border-radius: 100%;
+    margin: auto;
+    margin-top: 6%;
 }
 
 .profile {
     margin-right: auto;
     margin-left: auto;
     display: block;
-    bottom: -137px;
+    bottom: -10px;
 }
 
 .pencil {
@@ -23,7 +32,11 @@
 
 .userName {
     font-size: 2em;
-    margin-top: 119px;
+    margin-top: 60px;
+}
+
+.userLogin {
+    margin-top: 1%;
 }
 
 .editForm {
