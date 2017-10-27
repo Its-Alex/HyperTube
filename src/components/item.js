@@ -9,9 +9,8 @@ class Item extends Component {
     super(props)
     this.state = {
       result: []
-    }
-  }
-
+    } 
+}
   componentWillMount () {
     this.setState({
       result: this.props.result
