@@ -9,6 +9,10 @@ class Profile extends React.Component {
     super(props)
 
     this.state = {
+      profileFirtName: '',
+      profileLastName: '',
+      profileUserName: '',
+      profileId: '',
       firstname: '',
       lastname: '',
       login: '',
@@ -48,7 +52,9 @@ class Profile extends React.Component {
         /**
          * Need to handle and show error
          */
-        this.setState({loadingBtn: false})
+        this.setState({
+          loadingBtn: false
+        })
       })
       .catch(err => {
         console.log(err.response)
@@ -84,6 +90,20 @@ class Profile extends React.Component {
         </Feed.Content>
       </Feed.Event>
     )
+  }
+  componentWillMount () {
+    axiosInst().get('/user/me').then((res) => {
+      console.log(res)
+      this.setState({
+        profileFirstName: res.data.user.firstName,
+        profileLastName: res.data.user.lastName,
+        profileUserName: res.data.user.username,
+        profileMail: res.data.user.mail,
+        profileId: res.data.user.id
+      })
+    }).catch((err) => {
+      console.log(err)
+    })
   }
   editUser () {
     return (
@@ -179,9 +199,10 @@ class Profile extends React.Component {
   render () {
     return (
       <div>
-        <div className='backPic'>
-          <Image src='https://react.semantic-ui.com//assets/images/wireframe/square-image.png' className='profile' shape='circular' />
-        </div>
+        <div
+          className='backPic'
+          style={{backgroundImage: 'url(http://localhost:3005/picture/' + this.state.profileId + ')'}}
+        />
         <Grid celled='internally'>
           <Grid.Row>
             <Grid.Column width={12} textAlign='center'>
@@ -194,10 +215,10 @@ class Profile extends React.Component {
                 ]}
               />
               <div className='userName'>
-                Thomas Giraud
+                {this.state.profileFirstName} {this.state.profileLastName}
               </div>
               <div className='userLogin'>
-                wickedpool
+                {this.state.profileUserName}
               </div>
               <hr />
               <div>
