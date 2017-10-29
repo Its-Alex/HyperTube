@@ -4,7 +4,8 @@
 }
 
 .ui.menu a.item:hover {
-    background-color: var(--color1)
+    background-color: var(--color1);
+    border-radius: 0%;
 }
 
 .ui.menu .active.item {
@@ -13,4 +14,8 @@
 
 .ui.menu:not(.vertical) .item {
     color: white;
+}
+
+div.ui.stackable.menu {
+	border-radius: 0%;
 }
