@@ -2,21 +2,30 @@
   width: 100%;
   height: 0;
   position: fixed;
-  font-size: 3rem;
+  font-size: 1.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   overflow: hidden;
-  opacity: 0.6;
+  opacity: 0.8;
+  pointer-events: none;
   z-index: 100000;
 }
 
 #notification.success {
-  height: 3.5rem;
-  background-color: green;
+  height: 3.4rem;
+  background-color: #67C23A;
 }
 #notification.error {
-  height: 3.5rem;
-  background-color: red;
+  height: 3.4rem;
+  background-color: #FA5555;
 }
 #notification.warning {
-  height: 3.5rem;
-  background-color: orange;
+  height: 3.4rem;
+  background-color: #EB9E05;
+}
+#notification.info {
+  height: 3.4rem;
+  background-color: #878D99;
 }
