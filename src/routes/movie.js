@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Header, Dimmer, Image, Button, Icon, Label } from 'semantic-ui-react'
-import axios from 'axios'
+import { Header, Dimmer, Image, Button, Icon } from 'semantic-ui-react'
 import '../scss/movie.css'
+import { tmdb } from '../utils/api.js'
 
 class Movie extends Component {
   constructor (props) {
@@ -14,9 +14,12 @@ class Movie extends Component {
       langue: [],
       path_img: '',
       note: '',
-      date: ''
+      date: '',
+      imdbId: ''
     }
     this.handlePlayMovie = this.handlePlayMovie.bind(this)
+    this.handleShow = this.handleShow.bind(this)
+    this.handleHide = this.handleHide.bind(this)
   }
 
   handleShow () { this.setState({ active: true }) }
@@ -31,17 +34,18 @@ class Movie extends Component {
       console.log(`id film ---> ${this.state.movie}`)
       console.log(`titre_original --> ${this.state.titleOriginal}`)
       console.log(`langue selectionner --> ${this.state.language}`)
+      console.log(`imdbId --- > ${this.state.imdbId}`)
       console.log('start')
     })
   }
 
   componentWillMount () {
-    axios.get(`https://api.themoviedb.org/3/movie/${this.state.movie}`, {
+    tmdb().get(`movie/${this.state.movie}`, {
       params: {
-        api_key: '4add767f00472cadffc84346bd8572e6',
         language: 'fr'
       }
     }).then((res) => {
+      console.log(res.data)
       this.setState({
         title: res.data.title,
         titleOriginal: res.data.original_title,
@@ -51,7 +55,8 @@ class Movie extends Component {
         nbLangue: res.data.spoken_languages.length,
         path_img: `https://image.tmdb.org/t/p/w500/${res.data.poster_path}`,
         note: res.data.vote_average,
-        date: res.data.release_date
+        date: res.data.release_date,
+        imdbId: res.data.imdb_id
       })
     }).catch((err) => {
       console.log(err)

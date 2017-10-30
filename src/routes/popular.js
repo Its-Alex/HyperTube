@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Grid from '../components/grid'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
+import { tmdb } from '../utils/api.js'
 
 @observer
 
@@ -28,9 +28,8 @@ class Popular extends Component {
   }
 
   handleChangePage () {
-    axios.get(`https://api.themoviedb.org/3/movie/popular`, {
+    tmdb().get(`movie/popular`, {
       params: {
-        api_key: '4add767f00472cadffc84346bd8572e6',
         page: this.state.page,
         language: 'fr'
       }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import { tmdb } from '../utils/api.js'
 import Grid from '../components/grid'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
@@ -18,19 +18,18 @@ class TopRated extends Component {
   }
 
   handleChangePage () {
-    axios.get(`https://api.themoviedb.org/3/movie/top_rated`, {
+    tmdb().get('discover/movie', {
       params: {
-        api_key: '4add767f00472cadffc84346bd8572e6',
         page: this.state.page,
-        language: 'fr',
-        sort_by: 'popularity.desc'
+        sort_by: 'vote_count.desc',
+        language: 'fr'
       }
     }).then((res) => {
       if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
-      store.addResultTopRated(res.data.results)
       this.setState({
         page: this.state.page + 1
       })
+      store.addResultTopRated(res.data.results)
     }).catch((err) => {
       console.log(err)
     })

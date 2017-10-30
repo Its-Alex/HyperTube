@@ -48,17 +48,11 @@ class Register extends Component {
         if (res.data.success === 'true') {
           this.props.history.push('/login')
         }
-        /**
-         * Handle error
-         */
         this.setState({loadingBtn: false})
       })
       .catch(err => {
         this.setState({loadingBtn: false})
         console.log(err.response)
-        /**
-         * Handle error
-         */
       })
     }
   }

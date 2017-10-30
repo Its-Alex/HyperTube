@@ -2,7 +2,7 @@ import React from 'react'
 import { Input, Feed, Grid, Icon, Modal, Button, Form } from 'semantic-ui-react'
 import '../scss/profile.css'
 import _ from 'lodash'
-import axiosInst from '../utils/axiosInst.js'
+import { local } from '../utils/api.js'
 
 class Profile extends React.Component {
   constructor (props) {
@@ -38,9 +38,9 @@ class Profile extends React.Component {
 
   handleSubmit (key, data) {
     if (key === 'Enter' || (data && data.name === 'submit')) {
-      axiosInst().patch('/user/me', {
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
+      local().patch('/user', {
+        firstName: this.state.firstname,
+        lastName: this.state.lastname,
         username: this.state.login,
         mail: this.state.email,
         password: this.state.oldpswd,
@@ -48,16 +48,17 @@ class Profile extends React.Component {
       })
       .then(res => {
         console.log(res)
-        // Get error res.data.error
-        /**
-         * Need to handle and show error
-         */
         this.setState({
+          profileFirstName: res.data.user.firstName,
+          profileLastName: res.data.user.lastName,
+          profileMail: res.data.user.mail,
+          username: res.data.username,
           loadingBtn: false
         })
       })
       .catch(err => {
         console.log(err.response)
+        console.log('je passe la')
         // Get error err.response.data.error
         /**
          * Need to handle and show error
@@ -79,20 +80,36 @@ class Profile extends React.Component {
       </Button>
     )
   }
-  feedEmail () {
+  feedInfo () {
     return (
       <Feed.Event>
         <Feed.Label icon='mail' />
         <Feed.Content>
           <Feed.Extra text>
-            thgiraud@student.42.fr
+            {this.state.profileMail}
+          </Feed.Extra>
+        </Feed.Content>
+        <Feed.Label icon='user' />
+        <Feed.Content>
+          <Feed.Extra text>
+            {this.state.profileFirtName}
+          </Feed.Extra>
+        </Feed.Content>
+        <Feed.Content>
+          <Feed.Extra text>
+            {this.state.profileLastName}
+          </Feed.Extra>
+        </Feed.Content>
+        <Feed.Content>
+          <Feed.Extra text>
+            {this.state.profileUserName}
           </Feed.Extra>
         </Feed.Content>
       </Feed.Event>
     )
   }
   componentWillMount () {
-    axiosInst().get('/user/me').then((res) => {
+    local().get('/user/me').then((res) => {
       console.log(res)
       this.setState({
         profileFirstName: res.data.user.firstName,
@@ -222,7 +239,7 @@ class Profile extends React.Component {
               </div>
               <hr />
               <div>
-                {this.feedEmail()}
+                {this.feedInfo()}
               </div>
             </Grid.Column>
           </Grid.Row>
