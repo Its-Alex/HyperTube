@@ -20,7 +20,7 @@ require('./utils/passport.js')
 
 app.use(cors())
 app.use(bodyParser.urlencoded({extended: true, limit: '512kb'}))
-app.use(bodyParser.json({limit: '5mb'}))
+app.use(bodyParser.json({limit: '15mb'}))
 app.use(passport.initialize())
 
 // Global api route
