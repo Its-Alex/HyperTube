@@ -14,7 +14,7 @@ import TopRated from './routes/topRated'
 import Movie from './routes/movie'
 import Search from './routes/search'
 import Notification from './components/notification'
-import store from './utils/store'
+
 import './scss/index.css'
 
 class Index extends React.Component {
