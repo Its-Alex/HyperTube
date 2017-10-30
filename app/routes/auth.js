@@ -1,77 +1,6 @@
-// const express = require('express')
-// const passport = require('passport')
-// const model = require('../models/user.js')
-// const router = express.Router()
-
-// const modelToken = require('../models/token.js')
-
-// function error (res, data, err) {
-//   res.status(err)
-//   res.json({
-//     success: false,
-//     err: data
-//   })
-// }
-
-// function genToken () {
-//   var str = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`
-//   var token = ''
-
-//   for (var count = 0; count < 128; count++) {
-//     token += str[Math.floor((Math.random() * str.length))]
-//   }
-//   return (token)
-// }
-
-// function callbackPassport (req, res, next) {
-//   passport.authenticate('42', {
-//     failureRedirect: 'http://localhost:3000/register',
-//     session: false
-//   }, (err, user, info) => {
-//     if (err) {
-//       console.log(err)
-//       return error(res, 'Oauth error', 500)
-//     }
-//     console.log(user)
-//     res.json({success: true})
-//   })(req, res, next)
-// }
-
-// router.get('/42', (req, res, next) => {
-//   passport.authenticate('42', {
-//     session: false,
-//     state: req.query.token
-//   })(req, res, next)
-// })
-// router.get('/42/callback', passport.authenticate('42', {
-//   session: false
-// }), callbackPassport)
-
-// router.get('/github', (req, res, next) => {
-//   passport.authenticate('github', {
-//     session: false,
-//     state: req.query.token
-//   })(req, res, next)
-// })
-// router.get('/github/callback', passport.authenticate('42', {
-//   session: false
-// }), callbackPassport)
-
-// router.get('/facebook', (req, res, next) => {
-//   passport.authenticate('facebook', {
-//     session: false,
-//     state: req.query.token
-//   })(req, res, next)
-// })
-// router.get('/facebook/callback', passport.authenticate('42', {
-//   session: false
-// }), callbackPassport)
-
-// module.exports = router
-
 const express = require('express')
 const passport = require('passport')
-const model = require('../models/user.js')
+const modelUser = require('../models/user.js')
 const router = express.Router()
 
 const modelToken = require('../models/token.js')
@@ -94,48 +23,130 @@ function genToken () {
   return (token)
 }
 
-function callbackPassport (req, res, next) {
-  passport.authenticate('42', {
-    failureRedirect: 'http://localhost:3000/register',
-    session: false
-  }, (err, user, info) => {
-    if (err) {
-      console.log(err)
-      return error(res, 'Oauth error', 500)
+function updateOauth (id, provider, oauthId) {
+  return new Promise((resolve, reject) => {
+    if (provider === '42') {
+      modelUser.updateFortyTwoId(id, oauthId.fortyTwo)
+      .then(res => {
+        resolve()
+      })
+      .catch(err => {
+        console.log(err)
+        reject(err)
+      })
+    } else if (provider === 'github') {
+      modelUser.updateGithubId(id, oauthId.github)
+      .then(res => {
+        resolve()
+      })
+      .catch(err => {
+        console.log(err)
+        reject(err)
+      })
+    } else if (provider === 'facebook') {
+      modelUser.updateFacebookId(id, oauthId.facebook)
+      .then(res => {
+        resolve()
+      })
+      .catch(err => {
+        console.log(err)
+        reject(err)
+      })
+    } else {
+      reject(new Error('No provider found'))
     }
-    console.log(user)
-    res.json({success: true})
-  })(req, res, next)
+  })
+}
+
+function passportCb (req, res) {
+  let token = genToken()
+
+  if (req.user.reason === 'created') {
+    if (typeof req.query.state === 'string' && req.query.state !== '') {
+      modelUser.getUserByToken(req.query.state).then(result => {
+        if (result.length === 0) return error(res, 'No user found', 403)
+        updateOauth(result[0].userId, req.user.provider, {
+          fortyTwo: req.user.id_42,
+          github: req.user.id_github,
+          facebook: req.user.id_facebook
+        }).then(result => {
+          res.redirect(`http://localhost:3000/popular`)
+        }).catch(err => {
+          console.log(err)
+          return error(res, 'Internal server error', 500)
+        })
+      })
+    } else {
+      modelUser.addUser(req.user).then(result => {
+        modelToken.addToken(result[0].userId, token).then(result => {
+          res.redirect(`http://localhost:3000/login?success=true&token=${token}`)
+        }).catch(err => {
+          console.log(err)
+          return error(res, 'Internal server error', 500)
+        })
+      }).catch(err => {
+        console.log(err)
+        return error(res, 'Internal server error', 500)
+      })
+    }
+  } else {
+    if (typeof req.query.state === 'string' && req.query.state !== '') {
+      modelUser.getUserByToken(req.query.state).then(result => {
+        if (result.length === 0) return error(res, 'No user found', 403)
+        result[0].provider = req.user.provider
+        updateOauth(result[0].userId, req.user.provider, {
+          fortyTwo: req.user.id_42,
+          github: req.user.id_github,
+          facebook: req.user.id_facebook
+        }).then(result => {
+          res.redirect(`http://localhost:3000/popular`)
+        }).catch(err => {
+          console.log(err)
+          return error(res, 'Internal server error', 500)
+        })
+      })
+    } else {
+      modelToken.addToken(req.user.id, token).then(result => {
+        res.redirect(`http://localhost:3000/login?success=true&token=${token}`)
+      })
+    }
+  }
 }
 
 router.get('/42', (req, res, next) => {
   passport.authenticate('42', {
     session: false,
-    state: req.query.token
+    state: req.query.token ? `${req.query.token}` : ''
   })(req, res, next)
 })
-router.get('/42/callback', passport.authenticate('42', {
+router.get('/42/callback',
+passport.authenticate('42', {
   session: false
-}), callbackPassport)
+}), passportCb)
 
 router.get('/github', (req, res, next) => {
   passport.authenticate('github', {
     session: false,
-    state: req.query.token
+    state: req.query.token ? `${req.query.token}` : ''
   })(req, res, next)
 })
-router.get('/github/callback', passport.authenticate('42', {
+router.get('/github/callback',
+passport.authenticate('github', {
   session: false
-}), callbackPassport)
+}), passportCb)
 
 router.get('/facebook', (req, res, next) => {
   passport.authenticate('facebook', {
+    scope: 'email',
     session: false,
-    state: req.query.token
+    state: req.query.token ? `${req.query.token}` : ''
   })(req, res, next)
 })
-router.get('/facebook/callback', passport.authenticate('42', {
-  session: false
-}), callbackPassport)
+router.get('/facebook/callback',
+passport.authenticate('facebook', {
+  failureRedirect: 'http://localhost:3000/auth/signup',
+  session: false,
+  scope: 'email'
+}), passportCb)
 
 module.exports = router

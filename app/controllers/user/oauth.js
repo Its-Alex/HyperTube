@@ -51,25 +51,23 @@ let getUserFromProfile = (profile) => {
 }
 
 module.exports = (accessToken, refreshToken, profile, cb) => {
+  console.log(profile.provider)
   model.getUserByOauth(profile.id).then(res => {
     if (res.length === 0) {
       model.getUserByMail(profile.emails[0].value).then(res => {
         if (res.length === 0) {
           let user = getUserFromProfile(profile)
-          model.addUser(user).then(res => {
-            user.reason = 'created'
-            cb(null, user)
-          }).catch(err => cb(err))
+          user.provider = profile.provider
+          user.reason = 'created'
+          cb(null, user)
         } else {
           res[0].provider = profile.provider
-          res[0].providerId = profile.id
           res[0].reason = 'mail'
           cb(null, res[0])
         }
       })
     } else {
       res[0].provider = profile.provider
-      res[0].providerId = profile.id
       res[0].reason = 'oauth'
       cb(null, res[0])
     }
