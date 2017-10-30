@@ -20,7 +20,7 @@ class FrontBarre extends Component {
   }
   handleDisconnect () {
     global.localStorage.removeItem('token')
-    this.props.history.push('/')
+    this.props.history.push('/login')
   }
 
   handleItemClick (e, { name }) {
@@ -41,7 +41,6 @@ class FrontBarre extends Component {
           api_key: '4add767f00472cadffc84346bd8572e6',
           page: 1,
           query: event.target.value
-          // search_type: 'ngram'
         }
       }).then((res) => {
         store.setTotalPages(res.data.total_pages)
@@ -49,10 +48,8 @@ class FrontBarre extends Component {
       }).catch((err) => {
         console.log(err)
       })
-      // setTimeout(() => {
-        this.props.history.push(`/search/${event.target.value}`)
-        event.target.value = ''
-      // }, 500)
+      this.props.history.push(`/search/${event.target.value}`)
+      event.target.value = ''
     }
   }
   render () {
@@ -91,8 +88,11 @@ class FrontBarre extends Component {
 
           <Menu.Menu position='right'>
           {global.localStorage.getItem('token') ? (
-            <Menu.Item>
-              <Icon name='power' onClick={() => this.handleDisconnect()}/>
+            <Menu.Item
+              id='disconnect'
+              onClick={() => this.handleDisconnect()}
+            >
+              <Icon  name='shutdown'/>
             </Menu.Item>
           ) : (
             null

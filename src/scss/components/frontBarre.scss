@@ -16,6 +16,12 @@
     color: white;
 }
 
+#disconnect:hover {
+    cursor: pointer;
+    background-color: var(--color1);
+
+}
+
 div.ui.stackable.menu {
 	border-radius: 0%;
 }

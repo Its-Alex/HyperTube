@@ -21,7 +21,6 @@ class Store {
 
   @action
   addResultPopular (res) {
-    console.log(res)
     if (this.resultPopular.length !== 0) {
       this.resultPopular = this.resultPopular.concat(res)
     } else {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import { tmdb } from '../utils/api.js'
 import Grid from '../components/grid'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
@@ -18,14 +18,12 @@ class Search extends Component {
 
   handleChangePage () {
     if (store.totalPages > 1 && store.totalPages < 1000) {
-      axios.get(`https://api.themoviedb.org/3/search/movie`, {
+      tmdb().get(`search/movie`, {
         params: {
-          api_key: '4add767f00472cadffc84346bd8572e6',
           page: this.state.page,
           query: this.props.match.params.id
         }
       }).then((res) => {
-        console.log(res.data.results)
         store.addResultSearch(res.data.results)
         if (this.state.page <= res.data.total_pages) return this.setState({
           page: this.state.page + 1,
