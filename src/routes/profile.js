@@ -12,6 +12,7 @@ class Profile extends React.Component {
       profileFirtName: '',
       profileLastName: '',
       profileUserName: '',
+      profileMail: '',
       profileId: '',
       firstname: '',
       lastname: '',
@@ -23,6 +24,21 @@ class Profile extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
+  }
+
+  componentWillMount () {
+    axiosInst().get('/user/me').then((res) => {
+      // console.log(res)
+      this.setState({
+        profileFirstName: res.data.user.firstName,
+        profileLastName: res.data.user.lastName,
+        profileUserName: res.data.user.username,
+        profileMail: res.data.user.mail,
+        profileId: res.data.user.id
+      })
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
   handleChange (evt) {
@@ -80,6 +96,7 @@ class Profile extends React.Component {
       </Button>
     )
   }
+
   feedInfo () {
     return (
       <Feed.Event>
@@ -108,6 +125,7 @@ class Profile extends React.Component {
       </Feed.Event>
     )
   }
+
   componentWillMount () {
     local().get('/user/me').then((res) => {
       console.log(res)
@@ -122,6 +140,7 @@ class Profile extends React.Component {
       console.log(err)
     })
   }
+
   editUser () {
     return (
       <Form className='editForm'>
@@ -216,10 +235,10 @@ class Profile extends React.Component {
   render () {
     return (
       <div>
-        <div
+        {this.state.profileId !== '' ? <div
           className='backPic'
           style={{backgroundImage: 'url(http://localhost:3005/picture/' + this.state.profileId + ')'}}
-        />
+        /> : null}
         <Grid celled='internally'>
           <Grid.Row>
             <Grid.Column width={12} textAlign='center'>
