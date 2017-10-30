@@ -43,8 +43,11 @@ module.exports = (req, res) => {
   }
 
   model.updateUser(req.user).then(result => {
-    console.log(result)
-    res.json({success: true})
+    delete req.user.password
+    res.json({
+      success: true,
+      result: req.user
+    })
   }).catch(err => {
     console.log(err)
     return error(res, 'Internal server error', 500)
