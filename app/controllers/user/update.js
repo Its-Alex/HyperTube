@@ -13,6 +13,24 @@ function error (res, error, status) {
 }
 
 module.exports = (req, res) => {
+  if (Object.keys(req.body).length === 0) return error(res, 'Nothing to update', 403)
+  else if ((typeof req.body.username !== 'string' &&
+  typeof req.body.firstName !== 'string' &&
+  typeof req.body.lastName !== 'string' &&
+  typeof req.body.firstName !== 'string' &&
+  typeof req.body.mail !== 'string' &&
+  typeof req.body.password !== 'string' &&
+  typeof req.body.newPassword !== 'string') ||
+  (req.body.username === '' &&
+  req.body.firstName === '' &&
+  req.body.lastName === '' &&
+  req.body.firstName === '' &&
+  req.body.mail === '' &&
+  req.body.password === '' &&
+  req.body.newPassword === '')) {
+    return error(res, 'Invalid fields', 403)
+  }
+
   if (typeof req.body.username === 'string' && req.body.username.length <= 30 &&
   !isEmpty(req.body.username)) {
     req.user.username = req.body.username
@@ -46,7 +64,7 @@ module.exports = (req, res) => {
     delete req.user.password
     res.json({
       success: true,
-      result: req.user
+      user: req.user
     })
   }).catch(err => {
     console.log(err)

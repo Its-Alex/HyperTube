@@ -1,8 +1,10 @@
 import React from 'react'
 import { Input, Feed, Grid, Icon, Modal, Button, Form } from 'semantic-ui-react'
-import '../scss/profile.css'
-import _ from 'lodash'
+import store from '../utils/store'
 import { local } from '../utils/api.js'
+import _ from 'lodash'
+
+import '../scss/profile.css'
 
 class Profile extends React.Component {
   constructor (props) {
@@ -28,7 +30,6 @@ class Profile extends React.Component {
 
   componentWillMount () {
     local().get('/user/me').then((res) => {
-      // console.log(res)
       this.setState({
         profileFirstName: res.data.user.firstName,
         profileLastName: res.data.user.lastName,
@@ -37,7 +38,10 @@ class Profile extends React.Component {
         profileId: res.data.user.id
       })
     }).catch((err) => {
-      console.log(err)
+      if (err.response) {
+        console.log(err.response)
+        store.addNotif(err.response.data.error, 'error')
+      }
     })
   }
 
@@ -63,23 +67,31 @@ class Profile extends React.Component {
         newPassword: this.state.newpswd
       })
       .then(res => {
-        console.log(res)
-        this.setState({
-          profileFirstName: res.data.user.firstName,
-          profileLastName: res.data.user.lastName,
-          profileMail: res.data.user.mail,
-          username: res.data.username,
-          loadingBtn: false
-        })
+        if (res.data.success === true) {
+          store.addNotif('Profile changed', 'success')
+          this.setState({
+            profileFirstName: res.data.user.firstName,
+            profileLastName: res.data.user.lastName,
+            profileMail: res.data.user.mail,
+            profileUserName: res.data.user.username,
+            firstname: '',
+            lastname: '',
+            login: '',
+            email: '',
+            oldpswd: '',
+            newpswd: '',
+            loadingBtn: false
+          })
+        } else {
+          store.addNotif(res.data.error, 'error')
+        }
       })
       .catch(err => {
-        console.log(err.response)
-        console.log('je passe la')
-        // Get error err.response.data.error
-        /**
-         * Need to handle and show error
-         */
         this.setState({loadingBtn: false})
+        if (err.response) {
+          console.log(err.response)
+          store.addNotif(err.response.data.error, 'error')
+        }
       })
     }
   }

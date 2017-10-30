@@ -1,6 +1,8 @@
 .ui.stackable.menu {
     background-color: var(--bg-color);
     color: white;
+    border: 0;
+    border-radius: 0;
 }
 
 .ui.menu a.item:hover {
@@ -9,7 +11,8 @@
 }
 
 .ui.menu .active.item {
-    background-color: var(--color3)
+    background-color: var(--color3);
+    border-radius: 0;
 }
 
 .ui.menu:not(.vertical) .item {

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Input, Icon } from 'semantic-ui-react'
+import store from '../utils/store'
+import { local } from '../utils/api'
 import _ from 'lodash'
-import axios from 'axios'
 
 import '../scss/login.css'
 
@@ -45,7 +46,7 @@ class Login extends Component {
 
   handleSubmit (key, data) {
     if (key === 'Enter' || (data && data.name === 'submit')) {
-      axios.post('http://localhost:3005/user', {
+      local().post('/user', {
         mail: this.state.mail,
         password: this.state.password
       })
@@ -54,17 +55,16 @@ class Login extends Component {
         if (res.data.success === true) {
           global.localStorage.setItem('token', res.data.token)
           this.props.history.push('/popular')
+        } else {
+          store.addNotif(res.data.error, 'error')
         }
-        /**
-         * Handle erro
-         */
       })
       .catch(err => {
         this.setState({loadingBtn: false})
         console.log(err.response)
-        /**
-         * Handle error
-         */
+        if (err.response) {
+          store.addNotif(err.response.data.error)
+        }
       })
     }
   }
