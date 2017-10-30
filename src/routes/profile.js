@@ -27,7 +27,7 @@ class Profile extends React.Component {
   }
 
   componentWillMount () {
-    axiosInst().get('/user/me').then((res) => {
+    local().get('/user/me').then((res) => {
       // console.log(res)
       this.setState({
         profileFirstName: res.data.user.firstName,
@@ -124,21 +124,6 @@ class Profile extends React.Component {
         </Feed.Content>
       </Feed.Event>
     )
-  }
-
-  componentWillMount () {
-    local().get('/user/me').then((res) => {
-      console.log(res)
-      this.setState({
-        profileFirstName: res.data.user.firstName,
-        profileLastName: res.data.user.lastName,
-        profileUserName: res.data.user.username,
-        profileMail: res.data.user.mail,
-        profileId: res.data.user.id
-      })
-    }).catch((err) => {
-      console.log(err)
-    })
   }
 
   editUser () {
