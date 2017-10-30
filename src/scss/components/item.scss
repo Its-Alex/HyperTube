@@ -1,6 +1,6 @@
 .item-container {
-    border: 8px solid var(--color3);
-    border-radius: 3%;
+    border: 2px solid var(--color3);
+    border-radius: 2%;
     width: 312px;
     min-width: 312px;
     height: 450px;
@@ -61,7 +61,7 @@
 }
 
 .item-container:hover {
-  border: 8px solid var(--color1);
+  border: 2px solid var(--color1);
 }
 
 .item-container:hover > .item-info {
@@ -85,4 +85,17 @@
 .ui.inverted.segment > button {
   margin: auto;
   display: block;
+}
+
+.ui.green.inverted.button {
+  color: var(--color3);
+  box-shadow: 0 0 0 2px var(--color3) inset!important;
+}
+
+.ui.green.inverted.button:hover {
+  background-color: var(--color3)
+}
+
+.ui.green.inverted.button:focus {
+  background-color: var(--color3)
 }

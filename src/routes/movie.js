@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Dimmer, Image, Button, Icon } from 'semantic-ui-react'
+import { Header, Dimmer, Image, Button, Icon, Label } from 'semantic-ui-react'
 import axios from 'axios'
 import '../scss/movie.css'
 
@@ -19,8 +19,10 @@ class Movie extends Component {
     this.handlePlayMovie = this.handlePlayMovie.bind(this)
   }
 
-  handleShow () { this.setState({ active: true }) }
-  handleHide () { this.setState({ active: false }) }
+  //handleShow () { this.setState({ active: true }) }
+  //handleHide () { this.setState({ active: false }) }
+  handleShow = () => this.setState({ active: true })
+  handleHide = () => this.setState({ active: false })
 
   //  TEST --->  http://localhost:3000/movie/346364
   handlePlayMovie (received) {
