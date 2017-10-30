@@ -13,6 +13,8 @@ import OtherProfile from './routes/otherProfile'
 import TopRated from './routes/topRated'
 import Movie from './routes/movie'
 import Search from './routes/search'
+import Notification from './components/notification'
+import store from './utils/store'
 import './scss/index.css'
 
 class Index extends React.Component {
@@ -31,8 +33,9 @@ class Index extends React.Component {
 
   render () {
     return (
-      <div id='container-toast'>
-        {!global.localStorage.getItem('token') ? <FrontBarre
+      <div id='container-root'>
+        <Notification />
+        {global.localStorage.getItem('token') ? <FrontBarre
           history={this.props.history}
           match={this.props.match}
           location={this.props.location} /> : null}

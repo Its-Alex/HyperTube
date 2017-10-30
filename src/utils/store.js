@@ -8,6 +8,7 @@ class Store {
   @observable resultPopular = []
   @observable resultTopRated = []
   @observable totalPages = ''
+  @observable notif = ''
   
 	@action
 	addResultSearch (res) {
@@ -45,7 +46,17 @@ class Store {
 	@action
 	resetSearch (res) {
 		this.searchResult = res
-	}
+  }
+  
+  @action
+  addNotif (msg, type) {
+    let notif = document.getElementById('notification')
+    this.notif = msg
+    notif.classList.add(type)
+    setTimeout(() => {
+      notif.className = ''
+    }, 4000);
+  }
 }
 
 let store = new Store()
