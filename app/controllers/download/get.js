@@ -16,7 +16,7 @@ function error (res, error, status) {
 }
 
 module.exports = (req, res) => {
-  if (!req.query.id && !req.query.imdb) return error(res, 'Empty id', 403)
+  if (!req.query.id) return error(res, 'Empty id', 403)
 
   /*
   ** Check if torrent has been downloaded
