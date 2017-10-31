@@ -26,7 +26,7 @@ module.exports = (req, res) => {
 
   let timeout = false
 
-  setTimeout(() => {
+  let funcTimeout = setTimeout(() => {
     timeout = true
     error(res, 'Server timedout', 408)
   }, 5000)
@@ -54,22 +54,28 @@ module.exports = (req, res) => {
           model.add(elem).then(() => {
             return cb(null, {
               uuid: genUuid(),
-              quality: elem.quality
+              quality: elem.quality,
+              state: 'search'
             })
           }).catch(err => cb(err, null))
         } else {
           return cb(null, {
             uuid: result[0].id,
-            quality: elem.quality
+            quality: elem.quality,
+            state: result[0].state
           })
         }
       })
     }, (err, magnet) => {
       if (err) {
         console.log(err)
-        if (timeout === false) return error(res, 'Internal server error', 500)
+        if (timeout === false) {
+          clearTimeout(funcTimeout)
+          return error(res, 'Internal server error', 500)
+        }
       }
       if (timeout === false) {
+        clearTimeout(funcTimeout)
         res.json({
           success: true,
           result: magnet
@@ -78,6 +84,9 @@ module.exports = (req, res) => {
     })
   }).catch(err => {
     console.log(err)
-    if (timeout === false) return error(res, 'Internal server error', 500)
+    if (timeout === false) {
+      clearTimeout(funcTimeout)
+      return error(res, 'Internal server error', 500)
+    }
   })
 }
