@@ -4,7 +4,7 @@ module.exports = {
   add: (movie) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
-        db.query('INSERT INTO download (id, imdbId, tmdbId, title, quality, magnet, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [
+        db.query('INSERT INTO download (id, imdbId, tmdbId, title, quality, magnet, date) VALUES (?, ?, ?, ?, ?, ?, ?)', [
           movie.id,
           movie.imdb,
           movie.tmdb,
