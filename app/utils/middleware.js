@@ -22,6 +22,7 @@ module.exports = () => {
 
     model.getUserByToken(auth).then(results => {
       if (results.length <= 0) return error(res, 'Wrong token', 401)
+      console.log(results)
       req.user = {
         token: auth,
         id: results[0].userId,
@@ -29,7 +30,10 @@ module.exports = () => {
         username: results[0].username,
         firstName: results[0].firstName,
         lastName: results[0].lastName,
-        password: results[0].password
+        password: results[0].password,
+        isConnectFortyTwo: results[0].id_42 !== null,
+        isConnectGithub: results[0].id_github !== null,
+        isConnectFacebook: results[0].id_facebook !== null
       }
       next()
     }).catch(err => {

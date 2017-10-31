@@ -42,5 +42,17 @@ module.exports = {
         })
       }).catch(err => reject(err))
     })
+  },
+  cronDelete: () => {
+    return new Promise((resolve, reject) => {
+      db.get().then(db => {
+        db.query(`DELETE FROM download WHERE state = 'search' AND date <= ?`, [
+          Date.now() - 5000
+        ], (err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
+      }).catch(err => reject(err))
+    })
   }
 }
