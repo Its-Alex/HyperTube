@@ -105,13 +105,22 @@ class Login extends Component {
           </Button.Content>
         </Button>
         <Button.Group>
-          <Button color='facebook'>
+          <Button color='facebook'
+            onClick={() => {
+              window.location.href = 'http://localhost:3005/auth/facebook'
+            }}>
             <Icon name='facebook' /> FB
           </Button>
-          <Button>
+          <Button
+            onClick={() => {
+              window.location.href = 'http://localhost:3005/auth/github'
+            }}>
             <Icon name='github' /> GitHub
           </Button>
-          <Button>
+          <Button
+            onClick={() => {
+              window.location.href = 'http://localhost:3005/auth/42'
+            }}>
             <Icon name='code' /> 42
           </Button>
         </Button.Group>
