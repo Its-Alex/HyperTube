@@ -6,6 +6,7 @@ import store from '../utils/store.js'
 import { observer } from 'mobx-react'
 
 @observer
+
 class FrontBarre extends Component {
   constructor (props) {
     super(props)
@@ -42,7 +43,7 @@ class FrontBarre extends Component {
       tmdb().get(`https://api.themoviedb.org/3/search/movie`, {
         params: {
           api_key: '4add767f00472cadffc84346bd8572e6',
-          page: 1,
+          page: store.pageSearchResult,
           query: event.target.value
         }
       }).then((res) => {

@@ -4,18 +4,14 @@ import { observer } from 'mobx-react'
 import { Rating, Icon, Statistic, Segment, Button } from 'semantic-ui-react'
 
 @observer
+
 class Item extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      result: []
+      poster: ''
     } 
 }
-  componentWillMount () {
-    this.setState({
-      result: this.props.result
-    })
-  }
 
   statRating () {
     return (
@@ -36,7 +32,11 @@ class Item extends Component {
 
   render () {
     return (
-      <div className='item-container' style={{backgroundImage: 'url(' + this.props.poster + ')'}}>
+      <div className='item-container' style={
+        {
+          // backgroundImage: 'url(`https://react.semantic-ui.com/assets/images/wireframe/image.png`)',          
+          backgroundImage: 'url(' + this.props.poster + ')'
+        }}>
         <div className='opac'>
           <div className='item-info'>
             <div className='title'>

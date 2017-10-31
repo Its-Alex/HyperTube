@@ -22,7 +22,10 @@ class Profile extends React.Component {
       email: '',
       oldpswd: '',
       newpswd: '',
-      loadingBtn: false
+      loadingBtn: false,
+      connectFacebook: false,
+      connectGitHub: false,
+      connectFortyTwo: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
@@ -30,6 +33,7 @@ class Profile extends React.Component {
 
   componentWillMount () {
     local().get('/user/me').then((res) => {
+      console.log(res)
       this.setState({
         profileFirstName: res.data.user.firstName,
         profileLastName: res.data.user.lastName,
@@ -259,6 +263,27 @@ class Profile extends React.Component {
               </div>
             </Grid.Column>
           </Grid.Row>
+          <Button.Group>
+            <Button disabled
+              color='facebook'
+              onClick={() => {
+                window.location.href = `http://localhost:3005/auth/facebook?token=${global.localStorage.getItem('token')}`
+              }}>
+              <Icon name='facebook' /> FB
+            </Button>
+            <Button
+              onClick={() => {
+                window.location.href = `http://localhost:3005/auth/github?token=${global.localStorage.getItem('token')}`
+              }}>
+              <Icon name='github' /> GitHub
+            </Button>
+            <Button
+              onClick={() => {
+                window.location.href = `http://localhost:3005/auth/42?token=${global.localStorage.getItem('token')}`
+              }}>
+              <Icon name='code' /> 42
+            </Button>
+          </Button.Group>
         </Grid>
       </div>
     )

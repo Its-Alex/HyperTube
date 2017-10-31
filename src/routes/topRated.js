@@ -20,15 +20,12 @@ class TopRated extends Component {
   handleChangePage () {
     tmdb().get('discover/movie', {
       params: {
-        page: this.state.page,
+        page: store.pageResultTopRated,
         sort_by: 'vote_count.desc',
         language: 'fr'
       }
     }).then((res) => {
       if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
-      this.setState({
-        page: this.state.page + 1
-      })
       store.addResultTopRated(res.data.results)
     }).catch((err) => {
       console.log(err)
