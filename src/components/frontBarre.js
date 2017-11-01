@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
 import '../scss/components/frontBarre.css'
-import { tmdb } from '../utils/api'
+import { tmdb, local } from '../utils/api'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
 
@@ -21,8 +21,19 @@ class FrontBarre extends Component {
   }
 
   handleDisconnect () {
-    global.localStorage.removeItem('token')
-    this.props.history.push('/login')
+    local().delete('/user/logout').then(res => {
+      if (res.data.success === true) {
+        global.localStorage.removeItem('token')
+        this.props.history.push('/login')
+      } else {
+        store.addNotif('There is an error!', 'error')
+      }
+    }).catch(err => {
+      if (err.response) {
+        console.log(err.response)
+        store.addNotif(err.response.data.error, 'error')
+      }
+    })
   }
 
   handleItemClick (e, { name }) {
