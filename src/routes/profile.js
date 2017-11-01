@@ -22,7 +22,10 @@ class Profile extends React.Component {
       email: '',
       oldpswd: '',
       newpswd: '',
-      loadingBtn: false
+      loadingBtn: false,
+      connectFacebook: false,
+      connectGitHub: false,
+      connectFortyTwo: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
@@ -30,12 +33,16 @@ class Profile extends React.Component {
 
   componentWillMount () {
     local().get('/user/me').then((res) => {
+      console.log(res)
       this.setState({
         profileFirstName: res.data.user.firstName,
         profileLastName: res.data.user.lastName,
         profileUserName: res.data.user.username,
         profileMail: res.data.user.mail,
-        profileId: res.data.user.id
+        profileId: res.data.user.id,
+        connectFacebook: res.data.user.isConnectFacebook,
+        connectFortyTwo: res.data.user.isConnectFortyTwo,
+        connectGitHub: res.data.user.isConnectGithub
       })
     }).catch((err) => {
       if (err.response) {
@@ -259,6 +266,58 @@ class Profile extends React.Component {
               </div>
             </Grid.Column>
           </Grid.Row>
+          <Button.Group>
+            { this.state.connectFacebook ? (
+              <Button disabled
+                color='facebook'
+                onClick={() => {
+                  window.location.href = `http://localhost:3005/auth/facebook?token=${global.localStorage.getItem('token')}`
+                }}>
+                <Icon name='facebook' /> FB
+              </Button>
+            ) : (
+              <Button
+                color='facebook'
+                onClick={() => {
+                  window.location.href = `http://localhost:3005/auth/facebook?token=${global.localStorage.getItem('token')}`
+                }}>
+                <Icon name='facebook' /> FB
+              </Button>
+            )
+            }
+            { this.state.connectGitHub ? (
+              <Button disabled
+                onClick={() => {
+                  window.location.href = `http://localhost:3005/auth/github?token=${global.localStorage.getItem('token')}`
+                }}>
+                <Icon name='github' /> GitHub
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  window.location.href = `http://localhost:3005/auth/github?token=${global.localStorage.getItem('token')}`
+                }}>
+                <Icon name='github' /> GitHub
+              </Button>
+            )
+            }
+            { this.state.connectFortyTwo ? (
+              <Button disabled
+                onClick={() => {
+                  window.location.href = `http://localhost:3005/auth/42?token=${global.localStorage.getItem('token')}`
+                }}>
+                <Icon name='code' /> 42
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  window.location.href = `http://localhost:3005/auth/42?token=${global.localStorage.getItem('token')}`
+                }}>
+                <Icon name='code' /> 42
+              </Button>
+            )
+            }
+          </Button.Group>
         </Grid>
       </div>
     )

@@ -43,6 +43,20 @@ module.exports = {
       }).catch(err => reject(err))
     })
   },
+  update: (elem) => {
+    return new Promise((resolve, reject) => {
+      db.get().then(db => {
+        db.query('UPDATE users SET path = ?, state = ? WHERE id = ?', [
+          elem.path,
+          elem.state,
+          elem.id
+        ], (err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
+      }).catch(err => reject(err))
+    })
+  },
   cronDelete: () => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {

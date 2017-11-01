@@ -22,7 +22,6 @@ module.exports = () => {
 
     model.getUserByToken(auth).then(results => {
       if (results.length <= 0) return error(res, 'Wrong token', 401)
-      console.log(results)
       req.user = {
         token: auth,
         id: results[0].userId,

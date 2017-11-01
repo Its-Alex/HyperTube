@@ -10,7 +10,7 @@ class Search extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      page: 2,
+      page: store.pageSearchResult,
       hasMore: true,
     }
     this.handleChangePage = this.handleChangePage.bind(this)
@@ -20,13 +20,12 @@ class Search extends Component {
     if (store.totalPages > 1 && store.totalPages < 1000) {
       tmdb().get(`search/movie`, {
         params: {
-          page: this.state.page,
+          page: store.pageSearchResult,
           query: this.props.match.params.id
         }
       }).then((res) => {
         store.addResultSearch(res.data.results)
         if (this.state.page <= res.data.total_pages) return this.setState({
-          page: this.state.page + 1,
           hasMore: this.state.page !== res.data.total_pages ? true : false
         })
       }).catch((err) => {

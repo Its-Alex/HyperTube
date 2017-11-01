@@ -1,4 +1,3 @@
-const db = require('./db.js')
 const modelDownlaod = require('../models/download.js')
 
 /**
@@ -12,4 +11,4 @@ setInterval(() => {
     console.log(err)
     console.log('Cron delete film error')
   })
-}, 86400)
+}, 864000)
