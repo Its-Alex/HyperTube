@@ -53,7 +53,7 @@ module.exports = (req, res) => {
         if (result.length === 0) {
           model.add(elem).then(() => {
             return cb(null, {
-              uuid: genUuid(),
+              uuid: elem.id,
               quality: elem.quality,
               state: 'search'
             })
