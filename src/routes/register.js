@@ -67,6 +67,9 @@ class Register extends Component {
   render () {
     return (
       <div id='login' >
+
+
+
         <Dropzone>
           <img src={this.state.img} alt='profile' />
         </Dropzone>
@@ -74,17 +77,18 @@ class Register extends Component {
           type='text'
           placeholder='Username'
           name='username'
-          label={{content: 'Username', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'child', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.username}
           onChange={this.handleChange}
           onKeyPress={this.stackDebounce.bind(this)}
         />
+
         <Input
           type='mail'
           placeholder='Mail'
           name='mail'
-          label={{content: 'Mail', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'mail outline', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.mail}
           onChange={this.handleChange}
@@ -94,7 +98,7 @@ class Register extends Component {
           type='text'
           placeholder='Lastname'
           name='lastName'
-          label={{content: 'Lastname', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'user circle', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.lastName}
           onChange={this.handleChange}
@@ -104,7 +108,7 @@ class Register extends Component {
           type='text'
           placeholder='Firstname'
           name='firstName'
-          label={{content: 'Firstname', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'user', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.firstName}
           onChange={this.handleChange}
@@ -114,7 +118,7 @@ class Register extends Component {
           type='password'
           placeholder='Password'
           name='password'
-          label={{content: 'Password', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'lock', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.password}
           onChange={this.handleChange}
@@ -122,9 +126,9 @@ class Register extends Component {
         />
         <Input
           type='password'
-          placeholder='Password'
+          placeholder='Password again'
           name='confirmPassword'
-          label={{content: 'Confirm', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'lock', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.confirmPassword}
           onChange={this.handleChange}
@@ -133,7 +137,7 @@ class Register extends Component {
         <Button
           animated='fade'
           loading={this.state.loadingBtn}
-          className='btn-login'
+          className='btn-login primary center'
           color='instagram'
           name='submit'
           onClick={this.stackDebounce.bind(this)} >

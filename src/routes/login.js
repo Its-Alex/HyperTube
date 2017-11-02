@@ -76,7 +76,7 @@ class Login extends Component {
           type='text'
           placeholder='Mail'
           name='mail'
-          label={{content: 'Mail', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'mail', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.mail}
           onChange={this.handleChange}
@@ -86,7 +86,7 @@ class Login extends Component {
           type='password'
           placeholder='Password'
           name='password'
-          label={{content: 'Password', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'lock', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.password}
           onChange={this.handleChange}
@@ -124,6 +124,10 @@ class Login extends Component {
             <Icon name='code' /> 42
           </Button>
         </Button.Group>
+
+
+
+
       </div>
     )
   }
