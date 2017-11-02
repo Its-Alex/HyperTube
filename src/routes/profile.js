@@ -64,6 +64,7 @@ class Profile extends React.Component {
     if (langue !==  global.localStorage.getItem('langue')) {
       global.localStorage.setItem('langue', langue)
       store.modifyLangue()
+      store.addNotif('Language Changed', 'success')
     }
   }
 
@@ -247,7 +248,6 @@ class Profile extends React.Component {
       </Form>
     )
   }
-  // /////////// Faire un selecter de langue, langue par default 'en' --->> Fr ou En
   render () {
     return (
       <div>
