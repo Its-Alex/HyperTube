@@ -21,3 +21,27 @@
     margin: 10px 0px!important;
     width: 280px;
 }
+
+#login {
+  justify-content: center;
+  z-index: 0;
+  position: absolute;
+}
+
+.Mylogin {
+  justify-content: center;
+  z-index: 1;
+  position: absolute!important;
+  top: 50%;
+  left: 50%;
+}
+
+video {
+  width: 100%!important;
+  height: auto;
+}
+
+.myButtonCenter {
+  display: block;
+  margin : auto;
+}
