@@ -29,7 +29,6 @@ class Profile extends React.Component {
       connectFacebook: false,
       connectGitHub: false,
       connectFortyTwo: false,
-      langue: 'en'
     }
     this.handleChangeLangue = this.handleChangeLangue.bind(this)
     this.handleChange = this.handleChange.bind(this)
