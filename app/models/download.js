@@ -43,14 +43,10 @@ module.exports = {
       }).catch(err => reject(err))
     })
   },
-  update: (elem) => {
+  update: (name, value) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
-        db.query('UPDATE users SET path = ?, state = ? WHERE id = ?', [
-          elem.path,
-          elem.state,
-          elem.id
-        ], (err, res) => {
+        db.query('UPDATE download SET ' + name, value, (err, res) => {
           if (err) reject(err)
           resolve(res)
         })

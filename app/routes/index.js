@@ -17,5 +17,6 @@ router.use('/auth', require('./auth.js'))
 router.use('/user', require('./user.js'))
 router.use('/picture', require('./picture.js'))
 router.use('/download', require('./download.js'))
+router.use('/comment', require('./comment.js'))
 
 module.exports = router
