@@ -1,6 +1,9 @@
 const ts = require('torrent-stream')
 const fs = require('fs')
 const path = require('path')
+const { spawn } = require('child_process')
+const pump = require('pump')
+const genUuid = require('uuid')
 
 const model = require('../../models/download.js')
 
@@ -56,25 +59,53 @@ module.exports = (req, res) => {
           })
         } else if (extensions.indexOf(path.extname(movie.name)) !== -1) {
           res.json({success: false, info: 'Need transcode'})
-          // model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
-          //   global.config.pathStorage + `${file.id}.mp4`,
-          //   '.mp4',
-          //   movie.length,
-          //   'transcoding',
-          //   file.id
-          // ]).then(() => {
-          //   res.json({
-          //     success: true,
-          //     info: 'File downloading'
-          //   })
-          //   let stream = movie.createReadStream()
-            
-          //
+          model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
+            global.config.pathStorage + `${file.id}.mp4`,
+            '.mp4',
+            movie.length,
+            'transcoding',
+            file.id
+          ]).then(() => {
+            res.json({
+              success: true,
+              info: 'File downloading'
+            })
+            let uuid = genUuid()
+            let path = global.config.pathStorage + uuid + '.mp4'
+            let stream = movie.createReadStream()
 
-          // }).catch(err => {
-          //   console.log(err)
-          //   error(res, 'Internal server error', 500)
-          // })
+            let ffmpeg = spawn('ffmpeg', [
+              '-i', 'pipe:0',
+              '-f', 'mp4',
+              '-vcodec', 'libx264',
+              '-preset', 'fast',
+              '-profile:v', 'main',
+              '-acodec', 'aac',
+              path
+            ])
+
+            model.update('path = ? WHERE id = ?', [path, file.id]).then(result => {
+              pump(stream, ffmpeg.stdin)
+              ffmpeg.stdout.on('data', r => {
+                console.log(r.toString())
+              })
+              ffmpeg.stderr.on('data', r => {
+                console.log(r.toString())
+              })
+              ffmpeg.on('close', () => {
+                model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
+                }).catch(err => {
+                  console.log(err)
+                })
+              })
+            }).catch(err => {
+              console.log(err)
+              error(res, 'Internal server error', 500)
+            })
+          }).catch(err => {
+            console.log(err)
+            error(res, 'Internal server error', 500)
+          })
         } else {
           error(res, 'Cannot use this movie', 200)
         }
@@ -86,6 +117,7 @@ module.exports = (req, res) => {
             if (result.path && result.length && result.length === fs.statSync(result.path).size) {
               model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
               }).catch(err => {
+                console.log(err)
               })
             }
           })
