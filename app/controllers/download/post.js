@@ -1,4 +1,5 @@
 const ts = require('torrent-stream')
+const fs = require('fs')
 const path = require('path')
 
 const model = require('../../models/download.js')
@@ -54,36 +55,40 @@ module.exports = (req, res) => {
             error(res, 'Internal server error', 500)
           })
         } else if (extensions.indexOf(path.extname(movie.name)) !== -1) {
-          error(res, 'This torrent need to be transcoded!', 500)
-          model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
-            global.config.pathStorage + `${file.id}.mp4`,
-            '.mp4',
-            movie.length,
-            'transcoding',
-            file.id
-          ]).then(() => {
-            res.json({
-              success: true,
-              info: 'File downloading'
-            })
-            // movie.createReadStream()
-            /**
-             * Need add transcode here
-             */
-          }).catch(err => {
-            console.log(err)
-            error(res, 'Internal server error', 500)
-          })
+          res.json({success: false, info: 'Need transcode'})
+          // model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
+          //   global.config.pathStorage + `${file.id}.mp4`,
+          //   '.mp4',
+          //   movie.length,
+          //   'transcoding',
+          //   file.id
+          // ]).then(() => {
+          //   res.json({
+          //     success: true,
+          //     info: 'File downloading'
+          //   })
+          //   let stream = movie.createReadStream()
+            
+          //
+
+          // }).catch(err => {
+          //   console.log(err)
+          //   error(res, 'Internal server error', 500)
+          // })
         } else {
           error(res, 'Cannot use this movie', 200)
         }
-      })
 
-      engine.on('idle', () => {
-        model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
-        }).catch(err => {
-          console.log(err)
-          error(res, 'Internal server error', 500)
+        engine.on('idle', () => {
+          model.getFromId(file.id).then(result => {
+            if (result.length === 0) return
+            result = result[0]
+            if (result.path && result.length && result.length === fs.statSync(result.path).size) {
+              model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
+              }).catch(err => {
+              })
+            }
+          })
         })
       })
     } else {

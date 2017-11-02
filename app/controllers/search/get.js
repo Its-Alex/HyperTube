@@ -78,7 +78,7 @@ module.exports = (req, res) => {
         clearTimeout(funcTimeout)
         res.json({
           success: true,
-          result: magnet
+          result: magnet.filter(p => p)
         })
       }
     })
