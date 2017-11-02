@@ -36,7 +36,12 @@ module.exports = (req, res) => {
     null,
     req.query.type)
   .then(torrents => {
-    if (torrents.length === 0) return error(res, 'No torrents', 404)
+    if (torrents.length === 0) {
+      if (timeout === false) {
+        clearTimeout(funcTimeout)
+        return error(res, 'No torrents', 404)
+      }
+    }
     map(torrents, (torrent, cb) => {
       if (torrent.quality === '3D') return cb(null, null)
 
