@@ -35,7 +35,7 @@ module.exports = (req, res) => {
       }
 
       res.writeHead(206, head)
-      pump(fs.createReadStream(global.config.pathStorage + file.path, {
+      pump(fs.createReadStream(file.path, {
         start,
         end
       }), res)

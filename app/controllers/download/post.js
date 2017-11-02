@@ -6,7 +6,7 @@ const model = require('../../models/download.js')
 
 let extensions = ['.avi', '.mkv', '.mp4', '.webm']
 
-function error(res, error, status) {
+function error (res, error, status) {
   res.status(status)
   res.json({
     success: false,
@@ -23,10 +23,7 @@ module.exports = (req, res) => {
 
     if (file.state === 'search') {
       let movie
-      let engine = ts(file.magnet, {
-        tmp: global.config.pathStorage,
-        path: global.config.pathStorage
-      })
+      let engine = ts(file.magnet, { tmp: global.config.pathStorage, path: global.config.pathStorage })
 
       engine.on('idle', () => {
         model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
@@ -44,26 +41,47 @@ module.exports = (req, res) => {
           }
         })
 
-        model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
-          global.config.pathStorage,
-          path.extname(movie.name),
-          movie.length,
-          'downloading',
-          file.id
-        ]).then(() => {
-          res.json({
-            success: true,
-            info: 'File downloading'
+        if (path.extname(movie.name) === '.mp4' || path.extname(movie.name) === '.webm') {
+          model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
+            global.config.pathStorage + movie.path,
+            path.extname(movie.name),
+            movie.length,
+            'downloading',
+            file.id
+          ]).then(() => {
+            res.json({
+              success: true,
+              info: 'File downloading'
+            })
+            movie.select()
+          }).catch(err => {
+            console.log(err)
+            error(res, 'Internal server error', 500)
           })
-          movie.select()
-          // ffmpeg.ffprobe(global.config.pathStorage + movie.path, (err, metadata) => {
-          //   if (err) console.log(err)
-          //   console.log(metadata)
+        } else if (extensions.indexOf(path.extname(movie.name)) !== -1) {
+          error(res, 'This torrent need to be transcoded!', 500)
+          // model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
+          //   global.config.pathStorage + `${file.id}.mp4`,
+          //   '.mp4',
+          //   movie.length,
+          //   'downloading',
+          //   file.id
+          // ]).then(() => {
+          //   res.json({
+          //     success: true,
+          //     info: 'File downloading'
+          //   })
+          //   // movie.select()
+          //   /**
+          //    * Need add transcode here
+          //    */
+          // }).catch(err => {
+          //   console.log(err)
+          //   error(res, 'Internal server error', 500)
           // })
-        }).catch(err => {
-          console.log(err)
-          error(res, 'Internal server error', 500)
-        })
+        } else {
+          error(res, 'Cannot use this movie', 200)
+        }
       })
     } else {
       res.json({
