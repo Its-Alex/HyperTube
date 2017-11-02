@@ -1,14 +1,56 @@
 import React, { Component } from 'react'
-import { Feed, Image, Grid } from 'semantic-ui-react'
+import { Feed, Grid } from 'semantic-ui-react'
+import { local } from '../utils/api.js'
 
 class OtherProfile extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      profileFirstName: '',
+      profileLastName: '',
+      profileMail: '',
+      profileUserName: ''
+    }
+  }
+
+  componentWillMount () {
+    local().get(`user/${this.props.match.params.id}`
+    ).then((res) => {
+      console.log(res)
+      this.setState({
+        profileFirstName: res.data.user.firstName,
+        profileLastName: res.data.user.lastName,
+        profileMail: res.data.user.mail,
+        profileUserName: res.data.user.username
+      })
+    }).catch((err) => {
+      console.log(err.response)
+    })
+  }
+
   feedEmail () {
     return (
       <Feed.Event>
         <Feed.Label icon='mail' />
         <Feed.Content>
           <Feed.Extra text>
-            thgiraud@student.42.fr
+            {this.state.profileMail}
+          </Feed.Extra>
+        </Feed.Content>
+        <Feed.Label icon='user' />
+        <Feed.Content>
+          <Feed.Extra text>
+            {this.state.profileFirtName}
+          </Feed.Extra>
+        </Feed.Content>
+        <Feed.Content>
+          <Feed.Extra text>
+            {this.state.profileLastName}
+          </Feed.Extra>
+        </Feed.Content>
+        <Feed.Content>
+          <Feed.Extra text>
+            {this.state.profileUserName}
           </Feed.Extra>
         </Feed.Content>
       </Feed.Event>
@@ -17,17 +59,18 @@ class OtherProfile extends Component {
   render () {
     return (
       <div>
-        <div className='backPic'>
-          <Image src='https://react.semantic-ui.com//assets/images/wireframe/square-image.png' className='profile' shape='circular' />
-        </div>
+        {this.state.profileId !== '' ? <div
+          className='backPic'
+          style={{backgroundImage: 'url(http://localhost:3005/picture/' + this.props.match.params.id + ')'}}
+        /> : null}
         <Grid celled='internally'>
           <Grid.Row>
             <Grid.Column width={12} textAlign='center'>
               <div className='userName'>
-                Thomas Giraud
+                {this.state.profileFirstName}
               </div>
               <div className='userLogin'>
-                wickedpool
+                {this.state.profileUserName}
               </div>
               <hr />
               <div>
