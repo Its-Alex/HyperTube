@@ -41,7 +41,7 @@ class Popular extends Component {
         store.addResultPopular(res.data.results)
       }
     }).catch((err) => {
-      console.log(err)
+      console.log(err.response)
     })
   }
 
