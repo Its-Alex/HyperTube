@@ -48,7 +48,7 @@ class Index extends React.Component {
           <Route exact path='/profile/:id' component={OtherProfile} />
           <Route exact path='/movie/:id' component={Movie} />
           <Route exact path='/search/:id' component={Search} />
-          <Route path='/' component={App} />
+          <Route path='/:id' component={App} />
         </Switch>
       </div>
     )

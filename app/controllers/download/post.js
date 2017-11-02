@@ -1,5 +1,4 @@
 const ts = require('torrent-stream')
-const fs = require('fs')
 const path = require('path')
 
 const model = require('../../models/download.js')
@@ -25,16 +24,9 @@ module.exports = (req, res) => {
       let movie
       let engine = ts(file.magnet, { tmp: global.config.pathStorage, path: global.config.pathStorage })
 
-      engine.on('idle', () => {
-        model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
-        }).catch(err => {
-          console.log(err)
-          error(res, 'Internal server error', 500)
-        })
-      })
-
       engine.on('ready', () => {
         engine.files.forEach((fileToSelect, index) => {
+          fileToSelect.deselect()
           if (index === 0) movie = fileToSelect
           if (fileToSelect.length > movie.length && extensions.indexOf(path.extname(fileToSelect.name)) !== -1) {
             movie = fileToSelect
@@ -53,35 +45,46 @@ module.exports = (req, res) => {
               success: true,
               info: 'File downloading'
             })
-            movie.select()
+            movie.createReadStream({
+              start: 0,
+              end: file.length
+            })
           }).catch(err => {
             console.log(err)
             error(res, 'Internal server error', 500)
           })
         } else if (extensions.indexOf(path.extname(movie.name)) !== -1) {
           error(res, 'This torrent need to be transcoded!', 500)
-          // model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
-          //   global.config.pathStorage + `${file.id}.mp4`,
-          //   '.mp4',
-          //   movie.length,
-          //   'downloading',
-          //   file.id
-          // ]).then(() => {
-          //   res.json({
-          //     success: true,
-          //     info: 'File downloading'
-          //   })
-          //   // movie.select()
-          //   /**
-          //    * Need add transcode here
-          //    */
-          // }).catch(err => {
-          //   console.log(err)
-          //   error(res, 'Internal server error', 500)
-          // })
+          model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
+            global.config.pathStorage + `${file.id}.mp4`,
+            '.mp4',
+            movie.length,
+            'transcoding',
+            file.id
+          ]).then(() => {
+            res.json({
+              success: true,
+              info: 'File downloading'
+            })
+            // movie.createReadStream()
+            /**
+             * Need add transcode here
+             */
+          }).catch(err => {
+            console.log(err)
+            error(res, 'Internal server error', 500)
+          })
         } else {
           error(res, 'Cannot use this movie', 200)
         }
+      })
+
+      engine.on('idle', () => {
+        model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
+        }).catch(err => {
+          console.log(err)
+          error(res, 'Internal server error', 500)
+        })
       })
     } else {
       res.json({

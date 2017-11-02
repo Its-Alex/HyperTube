@@ -9,7 +9,7 @@ class App extends Component {
         <button onClick={() => {
           store.addNotif('Error when adding', 'success')
         }}>Push notification</button>
-        <Player src={`http://localhost:3005/download/f5afa34d-a028-4b72-a842-ad87ddaf630e?Authorization=${global.localStorage.token}`} />
+        <Player src={`http://localhost:3005/download/${this.props.location.pathname.substr(1)}?Authorization=${global.localStorage.token}`} />
       </div>
     )
   }

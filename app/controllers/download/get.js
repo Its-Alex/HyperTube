@@ -16,12 +16,18 @@ module.exports = (req, res) => {
 
   // Get range obtain by browser
   let range = req.headers.range
-  if (!range) return error(res, 'Invalid range', 416)
-  else range = range.replace(/bytes=/, '').split('-')
+  if (!range) {
+    console.log('Error range')
+    return error(res, 'Invalid range', 416)
+  } else range = range.replace(/bytes=/, '').split('-')
 
   model.getFromId(req.params.id).then(file => {
     if (file.length === 0) return error(res, 'No torrents with this id', 403)
     else file = file[0]
+
+    if (!fs.existsSync(file.path)) {
+      return error(res, 'Movie not found in our server', 404)
+    }
 
     if (file.state !== 'search') {
       let start = parseInt(range[0], 10)
