@@ -50,11 +50,8 @@ class Movie extends Component {
   }
 
   componentWillMount () {
-    tmdb().get(`movie/${this.state.movie}`, {
-      params: {
-        language: 'fr'
-      }
-    }).then((res) => {
+    tmdb().get(`movie/${this.state.movie}`
+    ).then((res) => {
       this.setState({
         title: res.data.title,
         titleOriginal: res.data.original_title,
@@ -79,11 +76,11 @@ class Movie extends Component {
           })
         }
       }).catch((err1) => {
-        console.log(err1)
+        console.log(err1.response)
       })
       console.log(res.data)
     }).catch((err) => {
-      console.log(err)
+      console.log(err.response)
     })
   }
 
@@ -139,6 +136,8 @@ class Movie extends Component {
                 </Button>
               )
             }
+          } else {
+            return (<div> null </div>)
           }
         })
         }

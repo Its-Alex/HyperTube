@@ -6,7 +6,8 @@ export let tmdb = () => {
     params: {
       include_adult: false,
       include_video: false,
-      api_key: '4add767f00472cadffc84346bd8572e6'
+      api_key: '4add767f00472cadffc84346bd8572e6',
+      language: global.localStorage.getItem('langue')
     }
   })
 }

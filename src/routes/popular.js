@@ -30,8 +30,7 @@ class Popular extends Component {
   handleChangePage () {
     tmdb().get(`movie/popular`, {
       params: {
-        page: store.pageResultPopular,
-        language: 'fr'
+        page: store.pageResultPopular
       }
     }).then((res) => {
       if (this.state.page === res.data.total_pages && this._isMounted === true) {

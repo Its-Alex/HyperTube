@@ -12,6 +12,7 @@ class Store {
   @observable pageResultTopRated = 1
   @observable totalPages = ''
   @observable notif = ''
+  @observable choicelangue = ''
   
 	@action
 	addResultSearch (res) {
@@ -61,6 +62,14 @@ class Store {
     setTimeout(() => {
       notif.className = ''
     }, 4000);
+  }
+
+  @action
+  modifyLangue (langue) {
+      this.resultPopular = []
+      this.resultTopRated = []
+      this.pageResultPopular = 1
+      this.pageResultTopRated = 1
   }
 }
 

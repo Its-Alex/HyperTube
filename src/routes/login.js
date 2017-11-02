@@ -54,6 +54,7 @@ class Login extends Component {
         this.setState({loadingBtn: false})
         if (res.data.success === true) {
           global.localStorage.setItem('token', res.data.token)
+          global.localStorage.setItem('langue', 'en')
           this.props.history.push('/popular')
         } else {
           store.addNotif(res.data.error, 'error')
