@@ -2,9 +2,12 @@ import React from 'react'
 import { Input, Feed, Grid, Icon, Modal, Button, Form } from 'semantic-ui-react'
 import store from '../utils/store'
 import { local } from '../utils/api.js'
+import { observer } from 'mobx-react'
 import _ from 'lodash'
 
 import '../scss/profile.css'
+
+@observer
 
 class Profile extends React.Component {
   constructor (props) {
@@ -25,8 +28,9 @@ class Profile extends React.Component {
       loadingBtn: false,
       connectFacebook: false,
       connectGitHub: false,
-      connectFortyTwo: false
+      connectFortyTwo: false,
     }
+    this.handleChangeLangue = this.handleChangeLangue.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
   }
@@ -54,6 +58,13 @@ class Profile extends React.Component {
 
   handleChange (evt) {
     this.setState({[evt.target.name]: evt.target.value})
+  }
+
+  handleChangeLangue (langue) {
+    if (langue !==  global.localStorage.getItem('langue')) {
+      global.localStorage.setItem('langue', langue)
+      store.modifyLangue()
+    }
   }
 
   stackDebounce (e, data) {
@@ -236,6 +247,7 @@ class Profile extends React.Component {
       </Form>
     )
   }
+  // /////////// Faire un selecter de langue, langue par default 'en' --->> Fr ou En
   render () {
     return (
       <div>
@@ -317,6 +329,11 @@ class Profile extends React.Component {
               </Button>
             )
             }
+          </Button.Group>
+          <Button.Group size='large'>
+            <Button onClick={() => { this.handleChangeLangue('en') }}>English</Button>
+            <Button.Or />
+            <Button onClick={() => { this.handleChangeLangue('fr') }}>French</Button>
           </Button.Group>
         </Grid>
       </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Header, Dimmer, Image, Button, Icon } from 'semantic-ui-react'
 import '../scss/movie.css'
-import { tmdb } from '../utils/api.js'
+import { tmdb, local } from '../utils/api.js'
 
 class Movie extends Component {
   constructor (props) {
@@ -11,7 +11,7 @@ class Movie extends Component {
       language: '',
       title: '',
       description: '',
-      langue: [],
+      source: [],
       path_img: '',
       note: '',
       date: '',
@@ -27,39 +27,60 @@ class Movie extends Component {
 
   //  TEST --->  http://localhost:3000/movie/346364
   handlePlayMovie (received) {
-    this.setState({
-      language: received
-    }, () => {
-      console.log(`film ---> ${this.state.title}`)
-      console.log(`id film ---> ${this.state.movie}`)
-      console.log(`titre_original --> ${this.state.titleOriginal}`)
-      console.log(`langue selectionner --> ${this.state.language}`)
-      console.log(`imdbId --- > ${this.state.imdbId}`)
-      console.log('start')
+    local().post(`/download/${received}`).then((res) => {
+      console.log(res)
+      if (res.data.success === true) {
+        console.log('success')
+      } else {
+        console.log('erreur')
+      }
+    }).catch((err2) => {
+      console.log(err2)
     })
+    // this.setState({
+    //   language: received
+    // }, () => {
+    //   console.log(`film ---> ${this.state.title}`)
+    //   console.log(`id film ---> ${this.state.movie}`)
+    //   console.log(`titre_original --> ${this.state.titleOriginal}`)
+    //   console.log(`langue selectionner --> ${this.state.language}`)
+    //   console.log(`imdbId --- > ${this.state.imdbId}`)
+    //   console.log('start')
+    // })
   }
 
   componentWillMount () {
-    tmdb().get(`movie/${this.state.movie}`, {
-      params: {
-        language: 'fr'
-      }
-    }).then((res) => {
-      console.log(res.data)
+    tmdb().get(`movie/${this.state.movie}`
+    ).then((res) => {
       this.setState({
         title: res.data.title,
         titleOriginal: res.data.original_title,
         description: res.data.overview,
-        langue: res.data.spoken_languages,
-        language: res.data.original_language,
-        nbLangue: res.data.spoken_languages.length,
         path_img: `https://image.tmdb.org/t/p/w500/${res.data.poster_path}`,
         note: res.data.vote_average,
         date: res.data.release_date,
         imdbId: res.data.imdb_id
       })
+      local().get('/search', {
+        params: {
+          imdbId: res.data.imdb_id,
+          tmdbId: res.data.id,
+          type: 'movies',
+          title: encodeURI(res.data.original_title)
+        }
+      }).then((res1) => {
+        console.log(res1)
+        if (res1.data.success === true) {
+          this.setState({
+            source: res1.data.result
+          })
+        }
+      }).catch((err1) => {
+        console.log(err1.response)
+      })
+      console.log(res.data)
     }).catch((err) => {
-      console.log(err)
+      console.log(err.response)
     })
   }
 
@@ -74,18 +95,50 @@ class Movie extends Component {
           {this.state.description}
         </Header>
 
-        {this.state.langue.map((res, index) => {
-          return (
-            <Button animated
-              key={index}
-              onClick={() => { this.handlePlayMovie(res.iso_639_1) }}
-              >
-              <Button.Content visible>{res.name}</Button.Content>
-              <Button.Content hidden>
-                <Icon name='play' />
-              </Button.Content>
-            </Button>
-          )
+        {this.state.source.map((res, index) => {
+          if (res !== null) {
+            if (res.state === 'ready') {
+              return (
+                <Button animated
+                  key={index}
+                  onClick={() => { this.handlePlayMovie(res.uuid) }}
+                  color={'green'}
+                  >
+                  <Button.Content visible>{res.quality}</Button.Content>
+                  <Button.Content hidden>
+                    <Icon name='play' />
+                  </Button.Content>
+                </Button>
+              )
+            } else if (res.state === 'downloading') {
+              return (
+                <Button animated
+                  key={index}
+                  onClick={() => { this.handlePlayMovie(res.uuid) }}
+                  color={'orange'}
+                  >
+                  <Button.Content visible>{res.quality}</Button.Content>
+                  <Button.Content hidden>
+                    <Icon name='play' />
+                  </Button.Content>
+                </Button>
+              )
+            } else {
+              return (
+                <Button animated
+                  key={index}
+                  onClick={() => { this.handlePlayMovie(res.uuid) }}
+                  >
+                  <Button.Content visible>{res.quality}</Button.Content>
+                  <Button.Content hidden>
+                    <Icon name='play' />
+                  </Button.Content>
+                </Button>
+              )
+            }
+          } else {
+            return (<div> null </div>)
+          }
         })
         }
       </div>

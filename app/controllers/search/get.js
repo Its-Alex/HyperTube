@@ -15,9 +15,9 @@ function error (res, error, status) {
 }
 
 module.exports = (req, res) => {
-  if (typeof req.query.tmdbId !== 'string' &&
-  typeof req.query.title !== 'string' &&
-  typeof req.query.imdbId !== 'string' &&
+  if (typeof req.query.tmdbId !== 'string' ||
+  typeof req.query.title !== 'string' ||
+  typeof req.query.imdbId !== 'string' ||
   typeof req.query.type !== 'string') return error(res, 'Invalid fields', 403)
 
   if (req.query.type !== 'movies' && req.query.type !== 'series') {
@@ -29,14 +29,19 @@ module.exports = (req, res) => {
   let funcTimeout = setTimeout(() => {
     timeout = true
     error(res, 'Server timedout', 408)
-  }, 5000)
+  }, 10000)
 
   t.getTorrents(
     req.query.imdbId,
     null,
     req.query.type)
   .then(torrents => {
-    if (torrents.length === 0) return error(res, 'No torrents', 404)
+    if (torrents.length === 0) {
+      if (timeout === false) {
+        clearTimeout(funcTimeout)
+        return error(res, 'No torrents', 404)
+      }
+    }
     map(torrents, (torrent, cb) => {
       if (torrent.quality === '3D') return cb(null, null)
 
@@ -78,7 +83,7 @@ module.exports = (req, res) => {
         clearTimeout(funcTimeout)
         res.json({
           success: true,
-          result: magnet
+          result: magnet.filter(p => p)
         })
       }
     })
