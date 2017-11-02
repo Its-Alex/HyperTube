@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Header, Dimmer, Image, Button, Icon } from 'semantic-ui-react'
 import '../scss/movie.css'
-import { tmdb } from '../utils/api.js'
+import { tmdb, local } from '../utils/api.js'
 
 class Movie extends Component {
   constructor (props) {
@@ -45,7 +45,6 @@ class Movie extends Component {
         language: 'fr'
       }
     }).then((res) => {
-      console.log(res.data)
       this.setState({
         title: res.data.title,
         titleOriginal: res.data.original_title,
@@ -58,6 +57,29 @@ class Movie extends Component {
         date: res.data.release_date,
         imdbId: res.data.imdb_id
       })
+      local().get('/search', {
+        params: {
+          imdbId: res.data.imdb_id,
+          tmdbId: res.data.id,
+          type: 'movie',
+          title: res.data.original_title
+        }
+      }).then((res1) => {
+        if (res1.data.success === true) {
+          local().post(`/download/${res.data.id}`).then((res2) => {
+            if (res.data.success === true) {
+              console.log('success')
+            } else {
+              console.log('erreur')
+            }
+          }).catch((err2) => {
+            console.log(err2)
+          })
+        }
+      }).catch((err1) => {
+        console.log(err1)
+      })
+      console.log(res.data)
     }).catch((err) => {
       console.log(err)
     })

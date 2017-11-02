@@ -25,7 +25,8 @@ class Profile extends React.Component {
       loadingBtn: false,
       connectFacebook: false,
       connectGitHub: false,
-      connectFortyTwo: false
+      connectFortyTwo: false,
+      langue: 'en'
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
@@ -236,6 +237,7 @@ class Profile extends React.Component {
       </Form>
     )
   }
+  // /////////// Faire un selecter de langue dans l'editUser, langue par default 'en'
   render () {
     return (
       <div>
