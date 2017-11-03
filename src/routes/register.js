@@ -67,12 +67,13 @@ class Register extends Component {
   render () {
     return (
       <div id='login' >
-      <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
+      <h1 className='title centerMiddle'>Hypertube</h1>
         <video loop autoPlay muted id="background-video">
             <source src="../olivier/MP4/Screens.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
         </video>
 
       <div className='flexCenter'>
+        <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
         <Dropzone>
           <img src={this.state.img} alt='profile' />
         </Dropzone>
@@ -91,7 +92,7 @@ class Register extends Component {
           type='mail'
           placeholder='Mail'
           name='mail'
-          label={{icon: 'mail outline', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'inbox', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.mail}
           onChange={this.handleChange}
@@ -101,7 +102,7 @@ class Register extends Component {
           type='text'
           placeholder='Lastname'
           name='lastName'
-          label={{icon: 'user circle', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'user', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.lastName}
           onChange={this.handleChange}

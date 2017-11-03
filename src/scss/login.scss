@@ -5,21 +5,35 @@
     justify-content: center;
     align-items: center;
     background-image: linear-gradient(110deg, #8673D7, #45A2C9 );
+    width: 100%
+}
+
+.login {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(110deg, #8673D7, #45A2C9 );
+    width: 100%
 }
 
 .input-login {
     margin: 5px 0px;
-    width: 280px;
+    // width: 280px;
+    width: auto;
 }
 
 .label-login-btn {
     text-align: center;
-    width: 90px;
+    // width: 90px;
+    width: auto;
 }
 
 .btn-login {
     margin: 10px 0px!important;
-    width: 280px;
+    // width: 280px;
+    width: auto;
 }
 
 #login {
@@ -29,26 +43,28 @@
 }
 
 .Mylogin {
-  justify-content: center;
   z-index: 1;
+  justify-content: center;
   position: absolute!important;
   top: 50%;
   left: 50%;
 }
 
 video {
-  width: 100%;
-  height: inherit;
-  // width: 100%!important;
-  // height: auto;
-  position: relative;
-  bottom: 0%;
-  left: 0%;
+  // width: 100%;
+  // height: inherit;
+  width: auto;
   height: 100%;
-  width: 100%;
-  overflow: hidden;
-  z-index: 0;
-  bottom: 0;
+  // width: auto;
+  // height: -webkit-fill-available;
+  // position: relative;
+  // bottom: 0%;
+  // left: 0%;
+  // height: 100%;
+  // width: 100%;
+  // overflow: hidden;
+  // z-index: 0;
+  // bottom: 0;
 
 }
 

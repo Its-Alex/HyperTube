@@ -72,21 +72,20 @@ class Login extends Component {
   render () {
     return (
       <div id='login'>
-      <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
-      <h1 className='title centerMiddle'>Hypertube</h1>
 
-      <video loop autoPlay muted id="background-video">
+      <video loop autoPlay muted id="background-video" className='login'>
           <source src="../olivier/MP4/Screens.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
       </video>
 
 
 
-      <div className='flexCenter'>
+        <div className='flexCenter'>
+          <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
           <Input
             type='text'
             placeholder='Mail'
             name='mail'
-            label={{icon: 'mail', className: 'label-login-btn', color: 'grey'}}
+            label={{icon: 'mail square', className: 'label-login-btn', color: 'grey'}}
             className='input-login'
             value={this.state.mail}
             onChange={this.handleChange}
@@ -135,6 +134,7 @@ class Login extends Component {
             </Button>
           </Button.Group>
         </div>
+        <h1 className='title centerMiddle'>Hypertube</h1>
 
 
 
