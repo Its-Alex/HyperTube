@@ -98,6 +98,7 @@ class Movie extends Component {
     )
     return (
       <div className='backMovie'>
+        <h1>{this.state.title}</h1>
         <Dimmer.Dimmable
           as={Image}
           dimmed={active}
@@ -107,6 +108,10 @@ class Movie extends Component {
           size='large'
           src={this.state.background}
         />
+        <Divider horizontal>overview</Divider>
+        <div className='overview'>
+          {this.state.description}
+        </div>
         <Divider horizontal>Select quality to play</Divider>
         <div className='quality'>
           {this.state.source.map((res, index) => {
