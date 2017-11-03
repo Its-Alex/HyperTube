@@ -63,3 +63,6 @@ typings/
 # not send private config to github
 .config.json
 
+.DS_Store
+
+pictures

@@ -74,21 +74,19 @@ class Register extends Component {
         </video>
 
       <div className='flexCenter'>
-      <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
-        <Dropzone>
+      <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>        <Dropzone>
           <img src={this.state.img} alt='profile' className='avatarRegister'/>
         </Dropzone>
         <Input
           type='text'
           placeholder='Username'
           name='username'
-          label={{icon: 'child', className: 'label-login-btn', color: 'grey'}}
+          label={{content: 'Username', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.username}
           onChange={this.handleChange}
           onKeyPress={this.stackDebounce.bind(this)}
         />
-
         <Input
           type='mail'
           placeholder='Mail'
@@ -113,7 +111,7 @@ class Register extends Component {
           type='text'
           placeholder='Firstname'
           name='firstName'
-          label={{icon: 'user', className: 'label-login-btn', color: 'grey'}}
+          label={{content: 'Firstname', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.firstName}
           onChange={this.handleChange}
@@ -123,7 +121,7 @@ class Register extends Component {
           type='password'
           placeholder='Password'
           name='password'
-          label={{icon: 'lock', className: 'label-login-btn', color: 'grey'}}
+          label={{content: 'Password', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.password}
           onChange={this.handleChange}
@@ -131,9 +129,9 @@ class Register extends Component {
         />
         <Input
           type='password'
-          placeholder='Password again'
+          placeholder='Password'
           name='confirmPassword'
-          label={{icon: 'lock', className: 'label-login-btn', color: 'grey'}}
+          label={{content: 'Confirm', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.confirmPassword}
           onChange={this.handleChange}
@@ -142,7 +140,7 @@ class Register extends Component {
         <Button
           animated='fade'
           loading={this.state.loadingBtn}
-          className='btn-login primary center'
+          className='btn-login'
           color='instagram'
           name='submit'
           onClick={this.stackDebounce.bind(this)} >

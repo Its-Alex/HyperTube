@@ -134,7 +134,7 @@ class Login extends Component {
             </Button>
           </Button.Group>
           <div>
-            
+
           </div>
             <a href="http://localhost:3000/register">Register</a>
         </div>
