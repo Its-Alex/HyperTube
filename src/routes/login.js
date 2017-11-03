@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Input, Icon } from 'semantic-ui-react'
+import { Button, Input, Icon, Image } from 'semantic-ui-react'
 import store from '../utils/store'
 import { local } from '../utils/api'
 import _ from 'lodash'
@@ -13,7 +13,7 @@ class Login extends Component {
     this.state = {
       mail: '',
       password: '',
-      loadingBtn: false
+      loadingBtn: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
@@ -73,58 +73,79 @@ class Login extends Component {
   render () {
     return (
       <div id='login'>
-        <Input
-          type='text'
-          placeholder='Mail'
-          name='mail'
-          label={{content: 'Mail', className: 'label-login-btn', color: 'grey'}}
-          className='input-login'
-          value={this.state.mail}
-          onChange={this.handleChange}
-          onKeyPress={this.stackDebounce.bind(this)}
-        />
-        <Input
-          type='password'
-          placeholder='Password'
-          name='password'
-          label={{content: 'Password', className: 'label-login-btn', color: 'grey'}}
-          className='input-login'
-          value={this.state.password}
-          onChange={this.handleChange}
-          onKeyPress={this.stackDebounce.bind(this)}
-        />
-        <Button
-          animated='fade'
-          loading={this.state.loadingBtn}
-          className='btn-login'
-          color='instagram'
-          name='submit'
-          onClick={this.stackDebounce.bind(this)} >
-          <Button.Content visible>Login</Button.Content>
-          <Button.Content hidden>
-            <Icon name='right arrow' />
-          </Button.Content>
-        </Button>
-        <Button.Group>
-          <Button color='facebook'
-            onClick={() => {
-              window.location.href = 'http://localhost:3005/auth/facebook'
-            }}>
-            <Icon name='facebook' /> FB
-          </Button>
+
+      <video loop autoPlay muted id="background-video" className='login'>
+          <source src="../olivier/MP4/Screens.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
+      </video>
+
+
+
+        <div className='flexCenter'>
+          <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
+          <Input
+            type='text'
+            placeholder='Mail'
+            name='mail'
+            label={{icon: 'mail square', className: 'label-login-btn', color: 'grey'}}
+            className='input-login'
+            value={this.state.mail}
+            onChange={this.handleChange}
+            onKeyPress={this.stackDebounce.bind(this)}
+          />
+          <Input
+            type='password'
+            placeholder='Password'
+            name='password'
+            label={{icon: 'lock', className: 'label-login-btn', color: 'grey'}}
+            className='input-login'
+            value={this.state.password}
+            onChange={this.handleChange}
+            onKeyPress={this.stackDebounce.bind(this)}
+          />
           <Button
-            onClick={() => {
-              window.location.href = 'http://localhost:3005/auth/github'
-            }}>
-            <Icon name='github' /> GitHub
+            animated='fade'
+            loading={this.state.loadingBtn}
+            className='btn-login myButtonCenter '
+            color='instagram'
+            name='submit'
+            onClick={this.stackDebounce.bind(this)} >
+            <Button.Content visible>Login</Button.Content>
+            <Button.Content hidden>
+              <Icon name='right arrow' />
+            </Button.Content>
           </Button>
-          <Button
-            onClick={() => {
-              window.location.href = 'http://localhost:3005/auth/42'
-            }}>
-            <Icon name='code' /> 42
-          </Button>
-        </Button.Group>
+          <Button.Group>
+            <Button color='facebook'
+              onClick={() => {
+                window.location.href = 'http://localhost:3005/auth/facebook'
+              }}>
+              <Icon name='facebook' /> FB
+            </Button>
+            <Button
+              onClick={() => {
+                window.location.href = 'http://localhost:3005/auth/github'
+              }}>
+              <Icon name='github' /> GitHub
+            </Button>
+            <Button
+              onClick={() => {
+                window.location.href = 'http://localhost:3005/auth/42'
+              }}>
+              <Icon name='code' /> 42
+            </Button>
+          </Button.Group>
+          <div>
+
+          </div>
+            <a href="http://localhost:3000/register">Register</a>
+        </div>
+        <h1 className='title centerMiddle'>Hypertube</h1>
+
+
+
+
+
+
       </div>
     )
   }

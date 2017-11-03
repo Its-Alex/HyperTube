@@ -3,7 +3,7 @@ import store from '../utils/store'
 import { local } from '../utils/api'
 import _ from 'lodash'
 import Dropzone from 'react-dropzone'
-import { Button, Input, Icon } from 'semantic-ui-react'
+import { Button, Input, Icon, Image } from 'semantic-ui-react'
 
 import '../scss/register.css'
 
@@ -18,7 +18,8 @@ class Register extends Component {
       lastName: '',
       password: '',
       confirmPassword: '',
-      loadingBtn: false
+      loadingBtn: false,
+      image: '../olivier/MP4/Screens.jpg'
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
@@ -67,8 +68,14 @@ class Register extends Component {
   render () {
     return (
       <div id='login' >
-        <Dropzone>
-          <img src={this.state.img} alt='profile' />
+      <h1 className='title centerMiddle'>Hypertube</h1>
+        <video loop autoPlay muted id="background-video">
+            <source src="../olivier/MP4/Screens.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
+        </video>
+
+      <div className='flexCenter'>
+      <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>        <Dropzone>
+          <img src={this.state.img} alt='profile' className='avatarRegister'/>
         </Dropzone>
         <Input
           type='text'
@@ -84,7 +91,7 @@ class Register extends Component {
           type='mail'
           placeholder='Mail'
           name='mail'
-          label={{content: 'Mail', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'inbox', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.mail}
           onChange={this.handleChange}
@@ -94,7 +101,7 @@ class Register extends Component {
           type='text'
           placeholder='Lastname'
           name='lastName'
-          label={{content: 'Lastname', className: 'label-login-btn', color: 'grey'}}
+          label={{icon: 'user', className: 'label-login-btn', color: 'grey'}}
           className='input-login'
           value={this.state.lastName}
           onChange={this.handleChange}
@@ -142,6 +149,8 @@ class Register extends Component {
             <Icon name='right arrow' />
           </Button.Content>
         </Button>
+        <a href="http://localhost:3000/login">Login</a>
+      </div>
       </div>
     )
   }
