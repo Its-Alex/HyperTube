@@ -37,11 +37,40 @@
 }
 
 video {
-  width: 100%!important;
-  height: auto;
+  width: 100%;
+  height: inherit;
+  // width: 100%!important;
+  // height: auto;
+  position: relative;
+  bottom: 0%;
+  left: 0%;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  z-index: 0;
+  bottom: 0;
+
 }
 
 .myButtonCenter {
   display: block;
   margin : auto;
+}
+
+
+.centerMiddle {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  margin: auto;
+}
+
+.flexCenter {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 1;
+  top: auto;
+  left: auto;
+  margin: auto;
 }

@@ -68,18 +68,11 @@ class Register extends Component {
     return (
       <div id='login' >
 
-      <div id="myVideo">
-          <div className="homepage-hero-module">
-              <div className="video-container">
-                  <div className="filter"></div>
-                  <video loop autoPlay muted id="background-video">
-                      <source src="../olivier/MP4/Screens.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
-                  </video>
-              </div>
-          </div>
-      </div>
+        <video loop autoPlay muted id="background-video">
+            <source src="../olivier/MP4/Screens.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
+        </video>
 
-
+      <div className='flexCenter'>
         <Dropzone>
           <img src={this.state.img} alt='profile' />
         </Dropzone>
@@ -156,6 +149,7 @@ class Register extends Component {
             <Icon name='right arrow' />
           </Button.Content>
         </Button>
+      </div>
       </div>
     )
   }

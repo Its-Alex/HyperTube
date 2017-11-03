@@ -13,7 +13,7 @@ class Login extends Component {
     this.state = {
       mail: '',
       password: '',
-      loadingBtn: false
+      loadingBtn: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
@@ -73,20 +73,15 @@ class Login extends Component {
     return (
       <div id='login'>
 
-        <div id="myVideo">
-            <div className="homepage-hero-module">
-                <div className="video-container">
-                    <div className="filter"></div>
-                    <video loop autoPlay muted id="background-video">
-                        <source src="../olivier/MP4/Screens.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
-                    </video>
-                </div>
-            </div>
-        </div>
+      <h1 className='title centerMiddle'>Hypertube</h1>
+
+      <video loop autoPlay muted id="background-video">
+          <source src="../olivier/MP4/Screens.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
+      </video>
 
 
 
-
+      <div className='flexCenter'>
           <Input
             type='text'
             placeholder='Mail'
@@ -139,6 +134,7 @@ class Login extends Component {
               <Icon name='code' /> 42
             </Button>
           </Button.Group>
+        </div>
 
 
 
