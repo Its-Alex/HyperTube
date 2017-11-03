@@ -53,6 +53,7 @@ let getUserFromProfile = (profile) => {
 module.exports = (accessToken, refreshToken, profile, cb) => {
   model.getUserByOauth(profile.id).then(res => {
     if (res.length === 0) {
+      if (profile.emails.length === 0) return cb(null, null)
       model.getUserByMail(profile.emails[0].value).then(res => {
         if (res.length === 0) {
           let user = getUserFromProfile(profile)
