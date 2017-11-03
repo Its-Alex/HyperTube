@@ -16,10 +16,9 @@ module.exports = (req, res) => {
 
   // Get range obtain by browser
   let range = req.headers.range
-  if (!range) {
-    console.log('Error range')
-    return error(res, 'Invalid range', 416)
-  } else range = range.replace(/bytes=/, '').split('-')
+  if (range) {
+    range = range.replace(/bytes=/, '').split('-')
+  }
 
   model.getFromId(req.params.id).then(file => {
     if (file.length === 0) return error(res, 'No torrents with this id', 403)
@@ -30,21 +29,36 @@ module.exports = (req, res) => {
     }
 
     if (file.state !== 'search') {
-      let start = parseInt(range[0], 10)
-      let end = range[1] ? parseInt(range[1], 10) : file.length - 1
-      let chunksize = (end - start) + 1
+      if (file.state === 'transcoding') {
+        file.length = fs.statSync(file.path).size
+      }
+      let start
+      let end
+      let chunksize
+      if (range) {
+        start = parseInt(range[0], 10)
+        end = range[1] ? parseInt(range[1], 10) : file.length - 1
+        chunksize = (end - start) + 1
+      } else {
+        start = 0
+        end = file.length - 1
+        chunksize = (end - start) + 1
+      }
       let head = {
         'Content-Range': 'bytes ' + start + '-' + end + '/' + file.length,
         'Accept-Ranges': 'bytes',
         'Content-Length': chunksize,
-        'Content-Type': 'video/' + file.ext
+        'Content-Type': 'video/' + file.ext.substr(1)
       }
+      console.log(head)
 
       res.writeHead(206, head)
-      pump(fs.createReadStream(file.path, {
+      let stream = fs.createReadStream(file.path, {
         start,
         end
-      }), res)
+      })
+      console.log(stream)
+      pump(stream, res)
     } else {
       error(res, 'File not downloaded', 500)
     }

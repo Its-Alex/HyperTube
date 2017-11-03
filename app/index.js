@@ -16,6 +16,10 @@ const port = global.config.port || 3005
 
 db.connect(global.config.db)
 
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Possibly Unhandled Rejection at: Promise ', p, ' reason: ', reason)
+})
+
 require('./utils/passport.js')
 
 app.use(cors())

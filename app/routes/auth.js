@@ -61,6 +61,10 @@ function updateOauth (id, provider, oauthId) {
 function passportCb (req, res) {
   let token = genToken()
 
+  if (!req.user) {
+    res.redirect('http://localhost:3000/login?success=false&error=Not%20enough%20data')
+  }
+
   if (req.user.reason === 'created') {
     if (typeof req.query.state === 'string' && req.query.state !== '') {
       modelUser.getUserByToken(req.query.state).then(result => {
