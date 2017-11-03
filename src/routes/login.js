@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Input, Icon } from 'semantic-ui-react'
+import { Button, Input, Icon, Image } from 'semantic-ui-react'
 import store from '../utils/store'
 import { local } from '../utils/api'
 import _ from 'lodash'
@@ -72,7 +72,7 @@ class Login extends Component {
   render () {
     return (
       <div id='login'>
-
+      <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
       <h1 className='title centerMiddle'>Hypertube</h1>
 
       <video loop autoPlay muted id="background-video">

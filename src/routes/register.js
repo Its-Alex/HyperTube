@@ -3,7 +3,7 @@ import store from '../utils/store'
 import { local } from '../utils/api'
 import _ from 'lodash'
 import Dropzone from 'react-dropzone'
-import { Button, Input, Icon } from 'semantic-ui-react'
+import { Button, Input, Icon, Image } from 'semantic-ui-react'
 
 import '../scss/register.css'
 
@@ -67,7 +67,7 @@ class Register extends Component {
   render () {
     return (
       <div id='login' >
-
+      <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
         <video loop autoPlay muted id="background-video">
             <source src="../olivier/MP4/Screens.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
         </video>
