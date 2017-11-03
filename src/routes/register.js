@@ -73,7 +73,7 @@ class Register extends Component {
         </video>
 
       <div className='flexCenter'>
-        <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
+      <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
         <Dropzone>
           <img src={this.state.img} alt='profile' />
         </Dropzone>
@@ -150,6 +150,7 @@ class Register extends Component {
             <Icon name='right arrow' />
           </Button.Content>
         </Button>
+        <a href="http://localhost:3000/login">Login</a>
       </div>
       </div>
     )

@@ -133,6 +133,10 @@ class Login extends Component {
               <Icon name='code' /> 42
             </Button>
           </Button.Group>
+          <div>
+            
+          </div>
+            <a href="http://localhost:3000/register">Register</a>
         </div>
         <h1 className='title centerMiddle'>Hypertube</h1>
 
