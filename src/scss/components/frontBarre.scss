@@ -15,6 +15,10 @@
     border-radius: 0;
 }
 
+.ui.menu .active.item:hover {
+    background-color: var(--color1);
+}
+
 .ui.menu:not(.vertical) .item {
     color: white;
 }
