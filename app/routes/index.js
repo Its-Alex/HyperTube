@@ -18,5 +18,6 @@ router.use('/user', require('./user.js'))
 router.use('/picture', require('./picture.js'))
 router.use('/download', require('./download.js'))
 router.use('/comment', require('./comment.js'))
+router.use('/subtitle', require('./subtitle.js'))
 
 module.exports = router
