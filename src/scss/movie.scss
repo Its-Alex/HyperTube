@@ -5,11 +5,21 @@
     margin-top: 2%;
 }
 
-img {
-    margin: auto;
-}
-
 .ui.large.image.dimmable {
     display: block;
     margin: auto;
+}
+
+.quality {
+    margin-top: 2%;
+    margin: auto;
+    display: table;
+}
+
+.ui.horizontal.divider {
+    color: white;
+}
+
+.ui.animated.button {
+    margin-top: 2%;
 }

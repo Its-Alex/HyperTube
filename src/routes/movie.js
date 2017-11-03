@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Dimmer, Image, Button, Icon } from 'semantic-ui-react'
+import { Header, Dimmer, Image, Button, Icon, Divider } from 'semantic-ui-react'
 import '../scss/movie.css'
 import { tmdb, local } from '../utils/api.js'
 
@@ -15,7 +15,8 @@ class Movie extends Component {
       path_img: '',
       note: '',
       date: '',
-      imdbId: ''
+      imdbId: '',
+      background: ''
     }
     this.handlePlayMovie = this.handlePlayMovie.bind(this)
     this.handleShow = this.handleShow.bind(this)
@@ -52,12 +53,14 @@ class Movie extends Component {
   componentWillMount () {
     tmdb().get(`movie/${this.state.movie}`
     ).then((res) => {
+      console.log(res)
       this.setState({
         title: res.data.title,
         titleOriginal: res.data.original_title,
         description: res.data.overview,
         path_img: `https://image.tmdb.org/t/p/w500/${res.data.poster_path}`,
         note: res.data.vote_average,
+        background: `https://image.tmdb.org/t/p/w1000/${res.data.backdrop_path}`,
         date: res.data.release_date,
         imdbId: res.data.imdb_id
       })
@@ -91,56 +94,6 @@ class Movie extends Component {
         <Header as='h2' inverted>
           {this.state.title}
         </Header>
-        <Header as='h4' inverted>
-          {this.state.description}
-        </Header>
-
-        {this.state.source.map((res, index) => {
-          if (res !== null) {
-            if (res.state === 'ready') {
-              return (
-                <Button animated
-                  key={index}
-                  onClick={() => { this.handlePlayMovie(res.uuid) }}
-                  color={'green'}
-                  >
-                  <Button.Content visible>{res.quality}</Button.Content>
-                  <Button.Content hidden>
-                    <Icon name='play' />
-                  </Button.Content>
-                </Button>
-              )
-            } else if (res.state === 'downloading') {
-              return (
-                <Button animated
-                  key={index}
-                  onClick={() => { this.handlePlayMovie(res.uuid) }}
-                  color={'orange'}
-                  >
-                  <Button.Content visible>{res.quality}</Button.Content>
-                  <Button.Content hidden>
-                    <Icon name='play' />
-                  </Button.Content>
-                </Button>
-              )
-            } else {
-              return (
-                <Button animated
-                  key={index}
-                  onClick={() => { this.handlePlayMovie(res.uuid) }}
-                  >
-                  <Button.Content visible>{res.quality}</Button.Content>
-                  <Button.Content hidden>
-                    <Icon name='play' />
-                  </Button.Content>
-                </Button>
-              )
-            }
-          } else {
-            return (<div> null </div>)
-          }
-        })
-        }
       </div>
     )
     return (
@@ -152,8 +105,57 @@ class Movie extends Component {
           onMouseEnter={this.handleShow}
           onMouseLeave={this.handleHide}
           size='large'
-          src={this.state.path_img}
+          src={this.state.background}
         />
+        <Divider horizontal>Select quality to play</Divider>
+        <div className='quality'>
+          {this.state.source.map((res, index) => {
+            if (res !== null) {
+              if (res.state === 'ready') {
+                return (
+                  <Button animated
+                    key={index}
+                    onClick={() => { this.handlePlayMovie(res.uuid) }}
+                    color={'green'}
+                    >
+                    <Button.Content visible>{res.quality}</Button.Content>
+                    <Button.Content hidden>
+                      <Icon name='play' />
+                    </Button.Content>
+                  </Button>
+                )
+              } else if (res.state === 'downloading') {
+                return (
+                  <Button animated
+                    key={index}
+                    onClick={() => { this.handlePlayMovie(res.uuid) }}
+                    color={'orange'}
+                    >
+                    <Button.Content visible>{res.quality}</Button.Content>
+                    <Button.Content hidden>
+                      <Icon name='play' />
+                    </Button.Content>
+                  </Button>
+                )
+              } else {
+                return (
+                  <Button animated
+                    key={index}
+                    onClick={() => { this.handlePlayMovie(res.uuid) }}
+                    >
+                    <Button.Content visible>{res.quality}</Button.Content>
+                    <Button.Content hidden>
+                      <Icon name='play' />
+                    </Button.Content>
+                  </Button>
+                )
+              }
+            } else {
+              return (<div> null </div>)
+            }
+          })
+          }
+        </div>
       </div>
     )
   }
