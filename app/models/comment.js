@@ -31,12 +31,25 @@ module.exports = {
   get: (id) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
-        db.query('SELECT comments.id, comments.userId, comments.movieId, comments.comment, comments.date FROM comments INNER JOIN download ON download.id = comments.movieId WHERE comments.movieId = ?', [
-          id
-        ], (err, res) => {
-          if (err) reject(err)
-          resolve(res)
-        })
+        db.query(`SELECT
+comments.id,
+comments.userId,
+comments.movieId,
+comments.comment,
+comments.date,
+users.username
+FROM comments
+INNER JOIN download 
+ON download.id = comments.movieId
+INNER JOIN users
+ON comments.userId = users.id
+WHERE comments.movieId = ?`,
+          [
+            id
+          ], (err, res) => {
+            if (err) reject(err)
+            resolve(res)
+          })
       }).catch(err => reject(err))
     })
   }

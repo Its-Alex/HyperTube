@@ -22,8 +22,7 @@ module.exports = (req, res) => {
     text: req.body.comment
   }).then(result => {
     res.json({
-      success: true,
-      result
+      success: true
     })
   }).catch(err => {
     console.log(err)
