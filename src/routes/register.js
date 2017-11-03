@@ -18,7 +18,8 @@ class Register extends Component {
       lastName: '',
       password: '',
       confirmPassword: '',
-      loadingBtn: false
+      loadingBtn: false,
+      image: '../olivier/MP4/Screens.jpg'
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
@@ -75,7 +76,7 @@ class Register extends Component {
       <div className='flexCenter'>
       <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
         <Dropzone>
-          <img src={this.state.img} alt='profile' />
+          <img src={this.state.img} alt='profile' className='avatarRegister'/>
         </Dropzone>
         <Input
           type='text'

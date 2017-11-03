@@ -55,17 +55,6 @@ video {
   // height: inherit;
   width: auto;
   height: 100%;
-  // width: auto;
-  // height: -webkit-fill-available;
-  // position: relative;
-  // bottom: 0%;
-  // left: 0%;
-  // height: 100%;
-  // width: 100%;
-  // overflow: hidden;
-  // z-index: 0;
-  // bottom: 0;
-
 }
 
 .myButtonCenter {
@@ -89,4 +78,8 @@ video {
   top: auto;
   left: auto;
   margin: auto;
+}
+
+.avatarRegister {
+  width: auto!important;
 }
