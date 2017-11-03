@@ -15,7 +15,7 @@ class Comment extends Component {
   componentWillMount () {
     local().get(`/comment/${this.props.id}`).then((res) => {
       this.setState({
-        idMovie: ''
+        idMovie: this.props.id
       })
       console.log(res)
     }).catch((err) => {
