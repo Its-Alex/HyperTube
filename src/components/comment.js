@@ -6,34 +6,48 @@ class Comment extends Component {
     super(props)
     this.state = {
       comments: [],
-      writeCommnent: '',
-      idMovie: ''
+      message: '',
+      uuid: this.props.uuid
     }
+    this.handleChange = this.handleChange.bind(this)
     this.handleSendMess = this.handleSendMess.bind(this)
   }
 
   componentWillMount () {
-    local().get(`/comment/${this.props.id}`).then((res) => {
+    local().get(`/comment/${this.props.uuid}`).then((res) => {
       this.setState({
-        idMovie: this.props.id
+        comments: res.data.result
       })
-      console.log(res)
+      setTimeout(() => {
+        console.log(this.state.comments)
+      }, 1000)
     }).catch((err) => {
       console.log(err.response)
     })
   }
 
-  handleSendMess (e, message) {
-    if (e.key === 'Enter') {
-      local().post('/comment', {
-        id: '',
-        message: message
+  handleChange (evt) {
+    this.setState({
+      message: evt.target.value
+    })
+  }
+
+  handleSendMess (evt, message) {
+    if ((evt.key === 'Enter' || evt === 'submit') && this.state.message !== '') {
+      local().post(`/comment/${this.state.uuid}`, {
+        id: this.state.uuid,
+        comment: this.state.message
       }).then((res) => {
-        local().get(`/comment/${this.props.id}`).then((res) => {
-          console.log(res)
-        }).catch((err) => {
-          console.log(err.response)
-        })
+        if (res.data.success === true) {
+          local().get(`/comment/${this.props.uuid}`).then((res) => {
+            this.setState({
+              comments: res.data.result,
+              message: ''
+            })
+          }).catch((err) => {
+            console.log(err.response)
+          })
+        }
       }).catch((err) => {
         console.log(err.response)
       })
@@ -44,7 +58,18 @@ class Comment extends Component {
   render () {
     return (
       <div>
-
+        {this.state.comments.map((result, index) => {
+          return (
+            <div key={index}>
+              <div>{result.userId}</div>
+              <div>{result.id}</div>
+              <div>{result.date}</div>
+              <div>{result.comment}</div>
+            </div>
+          )
+        })}
+        <input value={this.state.message} name='message' onChange={this.handleChange} onKeyPress={(evt) => { this.handleSendMess(evt, this.state.message) }} />
+        <button name='submit' onClick={(evt) => { this.handleSendMess('submit', this.state.message) }} />
       </div>
     )
   }

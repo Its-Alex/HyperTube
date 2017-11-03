@@ -14,6 +14,7 @@ import TopRated from './routes/topRated'
 import Movie from './routes/movie'
 import Search from './routes/search'
 import Notification from './components/notification'
+import Lecture from './routes/lecture'
 
 import './scss/index.css'
 
@@ -48,6 +49,7 @@ class Index extends React.Component {
           <Route exact path='/profile/:id' component={OtherProfile} />
           <Route exact path='/movie/:id' component={Movie} />
           <Route exact path='/search/:id' component={Search} />
+          <Route exact path='/lecture/:id' component={Lecture} />
           <Route path='/:id' component={App} />
         </Switch>
       </div>

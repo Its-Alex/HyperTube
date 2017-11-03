@@ -12,7 +12,10 @@ function error(res, error, status) {
 }
 
 module.exports = (req, res) => {
-  if (typeof req.params.id !== 'string' || req.params.id.length !== 36) {
+  console.log(req)
+  console.log(req.body.id)
+  console.log(req.body.message)
+  if (typeof req.body.id !== 'string' || req.body.id.length !== 36) {
     return error(res, 'Wrong id', '403')
   }
   if (typeof req.body.comment !== 'string' || req.body.comment === '') {
@@ -21,7 +24,7 @@ module.exports = (req, res) => {
 
   model.add({
     userId: req.user.id,
-    movieId: req.params.id,
+    movieId: req.body.id,
     text: req.body.comment
   }).then(result => {
     res.json({

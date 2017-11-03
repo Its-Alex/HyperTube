@@ -29,7 +29,8 @@ class Movie extends Component {
   handlePlayMovie (received) {
     local().post(`/download/${received}`).then((res) => {
       console.log(res)
-      if (res.data.success === true) {
+      if (res.data.success !== false) {
+        this.props.history.push(`/lecture/${received}`)
         console.log('success')
       } else {
         console.log('erreur')
@@ -37,16 +38,6 @@ class Movie extends Component {
     }).catch((err2) => {
       console.log(err2)
     })
-    // this.setState({
-    //   language: received
-    // }, () => {
-    //   console.log(`film ---> ${this.state.title}`)
-    //   console.log(`id film ---> ${this.state.movie}`)
-    //   console.log(`titre_original --> ${this.state.titleOriginal}`)
-    //   console.log(`langue selectionner --> ${this.state.language}`)
-    //   console.log(`imdbId --- > ${this.state.imdbId}`)
-    //   console.log('start')
-    // })
   }
 
   componentWillMount () {
