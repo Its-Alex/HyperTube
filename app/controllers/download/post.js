@@ -38,74 +38,72 @@ module.exports = (req, res) => {
         })
 
         if (path.extname(movie.name) === '.mp4' || path.extname(movie.name) === '.webm') {
-          model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
-            global.config.pathStorage + movie.path,
-            path.extname(movie.name),
-            movie.length,
-            'downloading',
-            file.id
-          ]).then(() => {
-            res.json({
-              success: true,
-              info: 'File downloading'
-            })
-            movie.createReadStream({
-              start: 0,
-              end: file.length
-            })
-          }).catch(err => {
-            console.log(err)
-            error(res, 'Internal server error', 500)
+          res.json({
+            success: false,
+            error: 'Need transcode'
           })
-        } else if (extensions.indexOf(path.extname(movie.name)) !== -1) {
-          res.json({success: false, info: 'Need transcode'})
-          model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
-            global.config.pathStorage + `${file.id}.mp4`,
-            '.mp4',
-            movie.length,
-            'transcoding',
-            file.id
-          ]).then(() => {
-            res.json({
-              success: true,
-              info: 'File downloading'
-            })
-            let uuid = genUuid()
-            let path = global.config.pathStorage + uuid + '.mp4'
-            let stream = movie.createReadStream()
+        //   model.update('path = ?, ext = ?, length = ?, state = ? WHERE id = ?', [
+        //     global.config.pathStorage + movie.path,
+        //     path.extname(movie.name),
+        //     movie.length,
+        //     'downloading',
+        //     file.id
+        //   ]).then(() => {
+        //     res.json({
+        //       success: true,
+        //       info: 'File downloading'
+        //     })
+        //     movie.createReadStream({
+        //       start: 0,
+        //       end: file.length
+        //     })
+        //   }).catch(err => {
+        //     console.log(err)
+        //     error(res, 'Internal server error', 500)
+        //   })
+        // } else if (extensions.indexOf(path.extname(movie.name)) !== -1) {
+        //   let uuid = genUuid()
+        //   let path = global.config.pathStorage + uuid + '.webm'
+        //   let stream = movie.createReadStream()
 
-            let ffmpeg = spawn('ffmpeg', [
-              '-i', 'pipe:0',
-              '-f', 'mp4',
-              '-vcodec', 'libx264',
-              '-preset', 'fast',
-              '-profile:v', 'main',
-              '-acodec', 'aac',
-              path
-            ])
-
-            model.update('path = ? WHERE id = ?', [path, file.id]).then(result => {
-              pump(stream, ffmpeg.stdin)
-              ffmpeg.stdout.on('data', r => {
-                console.log(r.toString())
-              })
-              ffmpeg.stderr.on('data', r => {
-                console.log(r.toString())
-              })
-              ffmpeg.on('close', () => {
-                model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
-                }).catch(err => {
-                  console.log(err)
-                })
-              })
-            }).catch(err => {
-              console.log(err)
-              error(res, 'Internal server error', 500)
-            })
-          }).catch(err => {
-            console.log(err)
-            error(res, 'Internal server error', 500)
-          })
+        //   let ffmpeg = spawn('ffmpeg', [
+        //     '-i', 'pipe:0',
+        //     '-c:v', 'libvpx',
+        //     '-b:v', '1M',
+        //     '-c:a', 'libvorbis',
+        //     path
+        //   ])
+        //   model.update('state = ?, path = ?, ext = ?, length = ? WHERE id = ?', [
+        //     'transcoding',
+        //     path,
+        //     '.webm',
+        //     0,
+        //     file.id
+        //   ]).then(result => {
+        //     pump(stream, ffmpeg.stdin)
+        //     res.json({
+        //       success: true,
+        //       info: 'File downloading'
+        //     })
+        //     ffmpeg.stdout.on('data', r => {
+        //       console.log(r.toString())
+        //     })
+        //     ffmpeg.stderr.on('data', r => {
+        //       console.log(r.toString())
+        //     })
+        //     ffmpeg.on('close', () => {
+        //       model.update('state = ?, length = ? WHERE id = ?', [
+        //         'ready',
+        //         fs.statSync(path).size,
+        //         file.id
+        //       ]).then(result => {
+        //       }).catch(err => {
+        //         console.log(err)
+        //       })
+        //     })
+        //   }).catch(err => {
+        //     console.log(err)
+        //   })
         } else {
           error(res, 'Cannot use this movie', 200)
         }
@@ -114,7 +112,7 @@ module.exports = (req, res) => {
           model.getFromId(file.id).then(result => {
             if (result.length === 0) return
             result = result[0]
-            if (result.path && result.length && result.length === fs.statSync(result.path).size) {
+            if (result.state !== 'transcoding' && result.path && result.length && result.length === fs.statSync(result.path).size) {
               model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
               }).catch(err => {
                 console.log(err)
