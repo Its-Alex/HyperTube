@@ -53,8 +53,8 @@ class Register extends Component {
           this.props.history.push('/login')
         } else {
           store.addNotif(res.data.error, 'error')
+          this.setState({loadingBtn: false})
         }
-        this.setState({loadingBtn: false})
       })
       .catch(err => {
         this.setState({loadingBtn: false})
