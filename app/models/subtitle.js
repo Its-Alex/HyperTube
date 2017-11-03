@@ -18,5 +18,18 @@ module.exports = {
         })
       }).catch(err => reject(err))
     })
+  },
+  getFromMovieAndLang: (movieId, lng) => {
+    return new Promise((resolve, reject) => {
+      db.get().then(db => {
+        db.query('SELECT id, lang, encoding, score, date FROM subtitles WHERE movieId = ? AND lang = ? ORDER BY score ASC', [
+          movieId,
+          lng
+        ], (err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
+      }).catch(err => reject(err))
+    })
   }
 }
