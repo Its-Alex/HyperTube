@@ -1,7 +1,21 @@
 import React, { Component } from 'react'
 import { Header, Dimmer, Image, Button, Icon, Divider } from 'semantic-ui-react'
-import '../scss/movie.css'
 import { tmdb, local } from '../utils/api.js'
+import store from '../utils/store'
+import '../scss/movie.css'
+
+function QualityBtn (props) {
+  return (
+    <Button animated
+      onClick={props.onClick}
+      color={props.color} >
+      <Button.Content visible>{props.quality}</Button.Content>
+      <Button.Content hidden>
+        <Icon name='play' />
+      </Button.Content>
+    </Button>
+  )
+}
 
 class Movie extends Component {
   constructor (props) {
@@ -26,24 +40,24 @@ class Movie extends Component {
   handleShow () { this.setState({ active: true }) }
   handleHide () { this.setState({ active: false }) }
 
-  //  TEST --->  http://localhost:3000/movie/346364
   handlePlayMovie (received) {
     local().post(`/download/${received}`).then((res) => {
-      console.log(res)
       if (res.data.success !== false) {
-        this.props.history.push(`/lecture/${received}`)
-        console.log('success')
+        this.props.history.push(`/play/${received}`)
       } else {
-        console.log('erreur')
+        store.addNotif(res.data.error, 'error')
       }
-    }).catch((err2) => {
-      console.log(err2)
+    }).catch((err) => {
+      if (err.response) {
+        console.log(err.response)
+        store.addNotif(err.response.data.error, 'error')
+      }
     })
   }
 
   componentWillMount () {
-    tmdb().get(`movie/${this.state.movie}`
-    ).then((res) => {
+    tmdb().get(`movie/${this.state.movie}`)
+    .then((res) => {
       console.log(res)
       this.setState({
         title: res.data.title,
@@ -62,19 +76,25 @@ class Movie extends Component {
           type: 'movies',
           title: encodeURI(res.data.original_title)
         }
-      }).then((res1) => {
-        console.log(res1)
-        if (res1.data.success === true) {
+      }).then((res) => {
+        if (res.data.success === true) {
           this.setState({
-            source: res1.data.result
+            source: res.data.result
           })
+        } else {
+          store.addNotif(res.data.error, 'error')
         }
-      }).catch((err1) => {
-        console.log(err1.response)
+      }).catch((err) => {
+        if (err.response) {
+          console.log(err.response)
+          store.addNotif(err.response.data.error, 'error')
+        }
       })
-      console.log(res.data)
     }).catch((err) => {
-      console.log(err.response)
+      if (err.response) {
+        console.log(err.response)
+        store.addNotif(err.response.data.error, 'error')
+      }
     })
   }
 
@@ -107,47 +127,21 @@ class Movie extends Component {
         <div className='quality'>
           {this.state.source.map((res, index) => {
             if (res !== null) {
+              let color
               if (res.state === 'ready') {
-                return (
-                  <Button animated
-                    key={index}
-                    onClick={() => { this.handlePlayMovie(res.uuid) }}
-                    color={'green'}
-                    >
-                    <Button.Content visible>{res.quality}</Button.Content>
-                    <Button.Content hidden>
-                      <Icon name='play' />
-                    </Button.Content>
-                  </Button>
-                )
+                color = 'green'
               } else if (res.state === 'downloading') {
-                return (
-                  <Button animated
-                    key={index}
-                    onClick={() => { this.handlePlayMovie(res.uuid) }}
-                    color={'orange'}
-                    >
-                    <Button.Content visible>{res.quality}</Button.Content>
-                    <Button.Content hidden>
-                      <Icon name='play' />
-                    </Button.Content>
-                  </Button>
-                )
+                color = 'orange'
+              } else if (res.state === 'transcoding') {
+                color = 'brown'
+              } else if (res.state === 'error') {
+                color = 'red'
               } else {
-                return (
-                  <Button animated
-                    key={index}
-                    onClick={() => { this.handlePlayMovie(res.uuid) }}
-                    >
-                    <Button.Content visible>{res.quality}</Button.Content>
-                    <Button.Content hidden>
-                      <Icon name='play' />
-                    </Button.Content>
-                  </Button>
-                )
+                color = 'grey'
               }
+              return <QualityBtn key={index} uuid={res.uuid} quality={res.quality} color={color} onClick={this.handlePlayMovie.bind(this, res.uuid)} />
             } else {
-              return (<div> null </div>)
+              return null
             }
           })
           }

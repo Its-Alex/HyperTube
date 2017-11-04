@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Player from '../components/player.js'
 import Comment from '../components/comment.js'
 
-class Lecture extends Component {
+class Play extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -20,4 +20,4 @@ class Lecture extends Component {
   }
 }
 
-export default Lecture
+export default Play
