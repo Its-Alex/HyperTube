@@ -34,16 +34,19 @@ class Comment extends Component {
 
   handleSendMess (evt, message) {
     if ((evt.key === 'Enter' || evt === 'submit') && this.state.message !== '') {
-      local().post(`/comment/${this.state.uuid}`, {
+      local().put(`/comment/${this.state.uuid}`, {
         id: this.state.uuid,
         comment: this.state.message
       }).then((res) => {
         if (res.data.success === true) {
-          local().get(`/comment/${this.props.uuid}`).then((res) => {
+          local().get(`/comment/${this.state.uuid}`).then((res) => {
             this.setState({
               comments: res.data.result,
               message: ''
             })
+            setTimeout(() => {
+              console.log(this.state.comments)
+            }, 1000)
           }).catch((err) => {
             console.log(err.response)
           })
@@ -61,6 +64,7 @@ class Comment extends Component {
         {this.state.comments.map((result, index) => {
           return (
             <div key={index}>
+              <div>{result.username}</div>
               <div>{result.userId}</div>
               <div>{result.id}</div>
               <div>{result.date}</div>
