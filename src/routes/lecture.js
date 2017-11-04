@@ -9,11 +9,6 @@ class Lecture extends Component {
       uuid: this.props.match.params.id
     }
   }
-  
-  componentWillMount () {
-    console.log(this.props.match.params.id)
-  }
-  
 
   render () {
     return (

@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import store from '../utils/store'
+import Moment from 'react-moment';
 import { local } from '../utils/api.js'
 
 class Comment extends Component {
@@ -19,11 +21,11 @@ class Comment extends Component {
       this.setState({
         comments: res.data.result
       })
-      setTimeout(() => {
-        console.log(this.state.comments)
-      }, 1000)
     }).catch((err) => {
-      console.log(err.response)
+      if (err.response) {
+        store.addNotif(err.response.data.error, 'error')
+        console.log(err.response)
+      }
     })
   }
 
@@ -49,17 +51,19 @@ class Comment extends Component {
               comments: res.data.result,
               message: ''
             })
-            setTimeout(() => {
-              console.log(this.state.comments)
-            }, 1000)
           }).catch((err) => {
-            console.log(err.response)
+            if (err.response) {
+              store.addNotif(err.response.data.error, 'error')
+              console.log(err.response)
+            }
           })
         }
       }).catch((err) => {
-        console.log(err.response)
+        if (err.response) {
+          store.addNotif(err.response.data.error, 'error')
+          console.log(err.response)
+        }
       })
-      console.log(message)
     }
   }
 
@@ -70,8 +74,7 @@ class Comment extends Component {
           return (
             <div key={index}>
               <div onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
-              <div>{result.id}</div>
-              <div>{result.date}</div>
+              <div><Moment to={result.date} /></div>
               <div>{result.comment}</div>
             </div>
           )
