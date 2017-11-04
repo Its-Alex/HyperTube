@@ -125,7 +125,8 @@ class Movie extends Component {
         </div>
         <Divider horizontal>Select quality to play</Divider>
         <div className='quality'>
-          {this.state.source.map((res, index) => {
+          { this.state.source.length !== 0
+          ? this.state.source.map((res, index) => {
             if (res !== null) {
               let color
               if (res.state === 'ready') {
@@ -144,7 +145,14 @@ class Movie extends Component {
               return null
             }
           })
-          }
+          : <div className='loader'>
+            <div className='blob blob-0' />
+            <div className='blob blob-1' />
+            <div className='blob blob-2' />
+            <div className='blob blob-3' />
+            <div className='blob blob-4' />
+            <div className='blob blob-5' />
+          </div>}
         </div>
       </div>
     )
