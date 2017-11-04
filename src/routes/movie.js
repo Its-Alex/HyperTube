@@ -74,7 +74,7 @@ class Movie extends Component {
           imdbId: res.data.imdb_id,
           tmdbId: res.data.id,
           type: 'movies',
-          title: encodeURI(res.data.original_title)
+          title: res.data.original_title
         }
       }).then((res) => {
         if (res.data.success === true) {
