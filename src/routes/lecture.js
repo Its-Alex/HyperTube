@@ -18,8 +18,8 @@ class Lecture extends Component {
   render () {
     return (
       <div>
-        <Player uuid={this.props.match.params.id} />
-        <Comment uuid={this.props.match.params.id} />
+        <Player history={this.props.history} uuid={this.props.match.params.id} />
+        <Comment history={this.props.history} uuid={this.props.match.params.id} />
       </div>
     )
   }

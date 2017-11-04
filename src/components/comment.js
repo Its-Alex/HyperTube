@@ -9,6 +9,7 @@ class Comment extends Component {
       message: '',
       uuid: this.props.uuid
     }
+    this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSendMess = this.handleSendMess.bind(this)
   }
@@ -30,6 +31,10 @@ class Comment extends Component {
     this.setState({
       message: evt.target.value
     })
+  }
+
+  handleClick (id) {
+    this.props.history.push(`/user/${id}`)
   }
 
   handleSendMess (evt, message) {
@@ -64,8 +69,7 @@ class Comment extends Component {
         {this.state.comments.map((result, index) => {
           return (
             <div key={index}>
-              <div>{result.username}</div>
-              <div>{result.userId}</div>
+              <div onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
               <div>{result.id}</div>
               <div>{result.date}</div>
               <div>{result.comment}</div>
