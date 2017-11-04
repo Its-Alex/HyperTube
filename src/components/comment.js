@@ -36,7 +36,7 @@ class Comment extends Component {
   }
 
   handleClick (id) {
-    this.props.history.push(`/user/${id}`)
+    this.props.history.push(`/profile/${id}`)
   }
 
   handleSendMess (evt, message) {
