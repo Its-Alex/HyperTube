@@ -1,9 +1,6 @@
-const fs = require('fs')
 const model = require('../../models/comment.js')
 
-const picsDir = require('path').dirname(require.main.filename) + '/pictures/'
-
-function error(res, error, status) {
+function error (res, error, status) {
   res.status(status)
   res.json({
     success: false,
@@ -25,8 +22,7 @@ module.exports = (req, res) => {
     text: req.body.comment
   }).then(result => {
     res.json({
-      success: true,
-      result
+      success: true
     })
   }).catch(err => {
     console.log(err)

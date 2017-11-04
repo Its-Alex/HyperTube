@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Input, Icon, Image } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import store from '../utils/store'
 import { local } from '../utils/api'
 import _ from 'lodash'
@@ -13,7 +14,7 @@ class Login extends Component {
     this.state = {
       mail: '',
       password: '',
-      loadingBtn: false,
+      loadingBtn: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
@@ -73,15 +74,12 @@ class Login extends Component {
   render () {
     return (
       <div id='login'>
-
-      <video loop autoPlay muted id="background-video" className='login'>
-          <source src="../olivier/MP4/Screens.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
-      </video>
-
-
+        <video loop autoPlay muted id='background-video' className='login'>
+          <source src='../olivier/MP4/Screens.mp4' type='video/mp4' />Your browser does not support the video tag. I suggest you upgrade your browser.
+        </video>
 
         <div className='flexCenter'>
-          <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle'/>
+          <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle' />
           <Input
             type='text'
             placeholder='Mail'
@@ -134,17 +132,10 @@ class Login extends Component {
               <Icon name='code' /> 42
             </Button>
           </Button.Group>
-          <div>
-
-          </div>
-            <a href="http://localhost:3000/register">Register</a>
+          <div />
+          <Link to='register'>Register</Link>
         </div>
         <h1 className='title centerMiddle'>Hypertube</h1>
-
-
-
-
-
 
       </div>
     )
