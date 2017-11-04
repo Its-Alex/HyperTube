@@ -5,8 +5,6 @@ import store from '../utils/store'
 import { local } from '../utils/api'
 import _ from 'lodash'
 
-import '../scss/login.css'
-
 class Login extends Component {
   constructor (props) {
     super(props)

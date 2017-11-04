@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import store from '../utils/store'
-import Moment from 'react-moment';
+import Moment from 'react-moment'
 import { local } from '../utils/api.js'
 
 class Comment extends Component {

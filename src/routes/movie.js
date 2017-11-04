@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Header, Dimmer, Image, Button, Icon, Divider } from 'semantic-ui-react'
 import { tmdb, local } from '../utils/api.js'
 import store from '../utils/store'
-import '../scss/movie.css'
 
 function QualityBtn (props) {
   return (

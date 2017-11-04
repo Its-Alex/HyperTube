@@ -40,6 +40,7 @@ h1 {
 .loader {
     position: relative;
     margin: 20px;
+    height: 20px;
 }
 
 .blob {
@@ -50,7 +51,6 @@ h1 {
     position: absolute;
     left: calc(50% - 1rem);
     bottom: calc(50% - 1rem);
-    // box-shadow: 0 0 1rem rgba(255, 255, 255, 0.25);
 }
 
 .blob-2 { animation: animate-to-2 1.5s infinite; }

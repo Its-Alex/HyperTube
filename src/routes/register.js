@@ -6,8 +6,6 @@ import _ from 'lodash'
 import Dropzone from 'react-dropzone'
 import { Button, Input, Icon, Image } from 'semantic-ui-react'
 
-import '../scss/register.css'
-
 class Register extends Component {
   constructor (props) {
     super(props)

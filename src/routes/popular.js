@@ -5,7 +5,6 @@ import { observer } from 'mobx-react'
 import { tmdb } from '../utils/api.js'
 
 @observer
-
 class Popular extends Component {
   constructor (props) {
     super(props)

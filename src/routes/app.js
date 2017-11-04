@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import store from '../utils/store'
 import Player from '../components/player.js'
-import '../scss/components/app.css'
 
 class App extends Component {
   render () {

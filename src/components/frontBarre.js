@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
-import '../scss/components/frontBarre.css'
 import { tmdb, local } from '../utils/api'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'

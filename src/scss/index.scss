@@ -11,7 +11,7 @@ $font: 'Rubik', sans-serif;
     --color3: $color3;
   }
   
-  html, body, #root, #container-root {
+html, body, #root, #container-root {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -20,3 +20,13 @@ $font: 'Rubik', sans-serif;
     font-family: $font;
     font-size: 1rem;
 }
+
+@import 'register.scss';
+@import 'login.scss';
+@import 'movie.scss';
+@import 'profile.scss';
+@import 'components/app.scss';
+@import 'components/frontBarre.scss';
+@import 'components/grid.scss';
+@import 'components/item.scss';
+@import 'components/notification.scss';

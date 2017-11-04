@@ -5,8 +5,6 @@ import { local } from '../utils/api.js'
 import { observer } from 'mobx-react'
 import _ from 'lodash'
 
-import '../scss/profile.css'
-
 @observer
 
 class Profile extends React.Component {
