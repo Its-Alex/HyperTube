@@ -12,9 +12,6 @@ function error(res, error, status) {
 }
 
 module.exports = (req, res) => {
-  console.log(req)
-  console.log(req.body.id)
-  console.log(req.body.message)
   if (typeof req.body.id !== 'string' || req.body.id.length !== 36) {
     return error(res, 'Wrong id', '403')
   }
