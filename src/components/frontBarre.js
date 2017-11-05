@@ -71,7 +71,7 @@ class FrontBarre extends Component {
     const { activeItem } = this.state
     return (
       <div id='header'>
-        <Responsive as={Menu} maxWidth={768}>
+        <Responsive as={Menu} maxWidth={768} >
           <Dropdown icon='content' fluid selection>
             <Dropdown.Menu>
               <Menu.Item name='popular' active={activeItem === 'popular'} onClick={this.handleItemClick} />
