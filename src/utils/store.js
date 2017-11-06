@@ -13,7 +13,13 @@ class Store {
   @observable totalPages = ''
   @observable notif = ''
   @observable choicelangue = ''
-  
+  @observable moovie = []
+
+  @action
+  Addmoovie (res) {
+    this.moovie = [res]
+  }
+
 	@action
 	addResultSearch (res) {
     this.pageSearchResult = this.pageSearchResult + 1

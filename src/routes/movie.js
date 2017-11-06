@@ -75,18 +75,22 @@ class Movie extends Component {
           type: 'movies',
           title: res.data.original_title
         }
-      }).then((res) => {
-        if (res.data.success === true) {
+      }).then((res1) => {
+        console.log(res1)
+        if (res1.data.success === true) {
+          let tab = res.concat(res1)
           this.setState({
-            source: res.data.result
+            source: res1.data.result
+          }, () => {
+            store.addmoovie(tab)
           })
         } else {
           store.addNotif(res.data.error, 'error')
         }
-      }).catch((err) => {
-        if (err.response) {
-          console.log(err.response)
-          store.addNotif(err.response.data.error, 'error')
+      }).catch((err1) => {
+        if (err1.response) {
+          console.log(err1.response)
+          store.addNotif(err1.response.data.error, 'error')
         }
       })
     }).catch((err) => {
