@@ -1,4 +1,4 @@
-.ui.stackable.menu {
+.ui.menu {
     background-color: var(--bg-color);
     color: white;
     border: 0;
@@ -31,4 +31,43 @@
 
 div.ui.stackable.menu {
 	border-radius: 0%;
+}
+
+.content.icon {
+    color: white;
+}
+
+.content.icon:hover {
+    color: var(--color1);
+}
+
+.ui.dropdown {
+    background-color: var(--bg-color);
+    color: white;
+    border-radius: 0%;
+    margin: 2%;
+}
+
+.ui.dropdown:hover {
+    color: var(--color1);
+}
+
+.ui.fluid.dropdown {
+    background-color: var(--bg-color);
+}
+
+.ui.selection.active.dropdown:hover {
+    border-color: var(--color1);
+}
+
+.ui.selection.active.dropdown {
+    border-color: var(--color3);
+}
+
+.ui.selection.active.dropdown .menu {
+    border-color: var(--color3);
+}
+
+.ui.selection.active.dropdown .menu:hover {
+    border-color: var(--color1);
 }
