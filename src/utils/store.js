@@ -16,7 +16,7 @@ class Store {
   @observable moovie = []
 
   @action
-  Addmoovie (res) {
+  addMoovie (res) {
     this.moovie = [res]
   }
 
