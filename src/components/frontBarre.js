@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Input, Responsive, Icon, Button, Dropdown } from 'semantic-ui-react'
+import { Menu, Input, Responsive, Dropdown } from 'semantic-ui-react'
 import { tmdb, local } from '../utils/api'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
@@ -57,6 +57,7 @@ class FrontBarre extends Component {
           query: event.target.value
         }
       }).then((res) => {
+        console.log(res)
         store.setTotalPages(res.data.total_pages)
         store.resetSearch(res.data.results)
       }).catch((err) => {

@@ -57,6 +57,7 @@ class Store {
 
 	@action
 	resetSearch (res) {
+    this.pageSearchResult = this.pageSearchResult + 1
 		this.searchResult = res
   }
   
