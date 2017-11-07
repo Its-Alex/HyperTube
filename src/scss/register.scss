@@ -1,0 +1,26 @@
+@media screen and (max-width: 374px)
+{
+  .previewImage {
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .containerImg {
+    text-align: center;
+    margin-top: 130px;
+  }
+  #defaultPicture {
+    margin-top: 30px;
+  }
+}
+.previewImage {
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.containerImg {
+    text-align: center;
+}
