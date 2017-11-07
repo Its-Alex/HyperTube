@@ -55,3 +55,16 @@ i.user.icon {
 i.mail.icon {
     color: var(--color1);
 }
+
+.ui.ui.large.buttons {
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 605px) {
+    .ui.buttons {
+        padding-left: 0.3rem;
+    }
+    .ui.large.buttons {
+        margin-top: 10px;
+    }
+}
