@@ -60,11 +60,8 @@ module.exports = (req, res) => {
     req.body.password = bcrypt.hashSync(req.body.password, 10)
   }
 
-  console.log('Befoe check base64')
-  console.log(req.body.photo)
   req.body.photo = req.body.photo.replace('data:image/png;base64,', '')
   if (!checkBase.isBase64(req.body.photo)) return error(res, 'Invalid photo', 403)
-  console.log('Befoe check base64')
 
   req.body.id = uuid()
 
