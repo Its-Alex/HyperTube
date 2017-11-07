@@ -69,7 +69,6 @@ class Movie extends Component {
         imdbId: res.data.imdb_id,
         id: res.data.id
       }, () => { store.addMoovie(res.data) })
-      
       console.log('je passe la')
       local().get('/search', {
         params: {
@@ -78,19 +77,19 @@ class Movie extends Component {
           type: 'movies',
           title: res.data.original_title
         }
-      }).then((res1) => {
-        if (res1.data.success === true) {
+      }).then((res) => {
+        if (res.data.success === true) {
           this.setState({
-            source: res1.data.result
+            source: res.data.result
           })
           console.log(store.moovie)
         } else {
           store.addNotif(res.data.error, 'error')
         }
-      }).catch((err1) => {
-        if (err1.response) {
-          console.log(err1.response)
-          store.addNotif(err1.response.data.error, 'error')
+      }).catch((err) => {
+        if (err.response) {
+          console.log(err.response)
+          store.addNotif(err.response.data.error, 'error')
         }
       })
     }).catch((err) => {
@@ -128,25 +127,26 @@ class Movie extends Component {
         </div>
         <Divider horizontal>Select quality to play</Divider>
         <div className='quality'>
-          { this.state.source.length !== 0 ? this.state.source.map((res, index) => {
-            if (res !== null) {
-              let color
-              if (res.state === 'ready') {
-                color = 'green'
-              } else if (res.state === 'downloading') {
-                color = 'orange'
-              } else if (res.state === 'transcoding') {
-                color = 'brown'
-              } else if (res.state === 'error') {
-                color = 'red'
+          { this.state.source.length !== 0
+            ? this.state.source.map((res, index) => {
+              if (res !== null) {
+                let color
+                if (res.state === 'ready') {
+                  color = 'green'
+                } else if (res.state === 'downloading') {
+                  color = 'orange'
+                } else if (res.state === 'transcoding') {
+                  color = 'brown'
+                } else if (res.state === 'error') {
+                  color = 'red'
+                } else {
+                  color = 'grey'
+                }
+                return <QualityBtn key={index} uuid={res.uuid} quality={res.quality} color={color} onClick={this.handlePlayMovie.bind(this, res.uuid)} />
               } else {
-                color = 'grey'
+                return null
               }
-              return <QualityBtn key={index} uuid={res.uuid} quality={res.quality} color={color} onClick={this.handlePlayMovie.bind(this, res.uuid)} />
-            } else {
-              return null
-            }
-          })
+            })
           : <div className='loader'>
             <div className='blob blob-0' />
             <div className='blob blob-1' />
