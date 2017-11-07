@@ -3,7 +3,7 @@ import Player from '../components/player.js'
 import Comment from '../components/comment.js'
 import store from '../utils/store'
 import { observer } from 'mobx-react'
-import { tmdb } from '../utils/api.js'
+import { tmdb, local } from '../utils/api.js'
 
 @observer
 class Play extends Component {
@@ -11,25 +11,46 @@ class Play extends Component {
     super(props)
     this.state = {
       uuid: this.props.match.params.uuid,
-      id: this.props.match.params.id
+      id: this.props.match.params.id,
+      src: ''
     }
   }
   
   componentWillMount () {
-    if (store.moovie[0] === undefined) {
-      tmdb().get(`/movie/${this.props.match.params.id}`).then((res) => {
-        store.addMoovie(res.data)
-      }).catch((err) => {
+    local().get(`/download/one/${this.props.match.params.uuid}`).then(res => {
+      if (res.data.state === 'transcoding') {
+        this.setState({src: `http://localhost:3005/download/transcoding/${this.state.uuid}?Authorization=${global.localStorage.getItem('token')}`})
+      } else {
+        this.setState({src: `http://localhost:3005/download/${this.state.uuid}?Authorization=${global.localStorage.getItem('token')}`})        
+      }
+      if (store.movie === undefined || store.movie === null) {
+        tmdb().get(`/movie/${this.state.id}`).then((res) => {
+          store.addMovie(res.data)
+        }).catch(err => {
+          if (err.response) {
+            console.log(err.response)
+            store.addNotif(err.response.data.error)
+          }
+        })
+      }
+    }).catch(err => {
+      if (err.response) {
         console.log(err.response)
-      })
-    }
+        store.addNotif(err.response.data.error)
+      }
+    })
   }
   
 
   render () {
     return (
       <div>
-        <Player history={this.props.history} uuid={this.props.match.params.uuid} />
+        {(store.movie !== null && this.state.src !== '') ? (
+            <Player history={this.props.history}
+              id={this.props.match.params.uuid}
+              tmdbid={this.props.match.params.id}
+              src={this.state.src} />
+        ) : null}
         <Comment history={this.props.history} uuid={this.props.match.params.uuid} />
       </div>
     )

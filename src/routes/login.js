@@ -71,8 +71,8 @@ class Login extends Component {
 
   render () {
     return (
-      <div id='login'>
-        <video loop autoPlay muted id='background-video' className='login'>
+      <div id='login1'>
+        <video loop autoPlay muted id='background-video' className='login1'>
           <source src='../olivier/MP4/Screens.mp4' type='video/mp4' />Your browser does not support the video tag. I suggest you upgrade your browser.
         </video>
 

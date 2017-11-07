@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Input, Responsive, Dropdown } from 'semantic-ui-react'
+import { Menu, Input } from 'semantic-ui-react'
 import { tmdb, local } from '../utils/api'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
@@ -67,26 +67,12 @@ class FrontBarre extends Component {
       event.target.value = ''
     }
   }
-
+  
   render () {
     const { activeItem } = this.state
     return (
       <div id='header'>
-        <Responsive as={Menu} maxWidth={768} >
-          <Dropdown icon='content' fluid selection>
-            <Dropdown.Menu>
-              <Menu.Item name='popular' active={activeItem === 'popular'} onClick={this.handleItemClick} />
-              <Menu.Item name='top_rated' active={activeItem === 'top_rated'} onClick={this.handleItemClick} />
-              <Menu.Item name='profile' active={activeItem === 'profile'} onClick={this.handleItemClick} />
-              <Menu.Item name='test' active={activeItem === 'test'} onClick={this.handleItemClick} />
-              <Menu.Item>
-                <Input icon='search' placeholder='Search...' value={this.state.search} onChange={this.handleChangeSearch} onKeyPress={this.handleKeySearch} />
-              </Menu.Item>
-              <Menu.Item name='logout' onClick={() => this.handleDisconnect()} />
-            </Dropdown.Menu>
-          </Dropdown>
-        </Responsive>
-        <Responsive as={Menu} minWidth={769}>
+        <Menu stackable>
           <Menu.Item name='popular' active={activeItem === 'popular'} onClick={this.handleItemClick} />
           <Menu.Item name='top_rated' active={activeItem === 'top_rated'} onClick={this.handleItemClick} />
           <Menu.Item name='profile' active={activeItem === 'profile'} onClick={this.handleItemClick} />
@@ -97,7 +83,7 @@ class FrontBarre extends Component {
             </Menu.Item>
             <Menu.Item name='logout' onClick={() => this.handleDisconnect()} />
           </Menu.Menu>
-        </Responsive>
+        </Menu>
       </div>
     )
   }
