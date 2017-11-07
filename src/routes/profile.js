@@ -8,7 +8,6 @@ import Dropzone from 'react-dropzone'
 
 
 @observer
-
 class Profile extends React.Component {
   constructor (props) {
     super(props)
