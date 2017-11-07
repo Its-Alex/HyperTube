@@ -37,6 +37,8 @@ module.exports = (req, res) => {
           }
         })
 
+        console.log(path.extname(movie.name))
+
         model.update('originalPath = ?, originalExt = ?, length = ?, state = ? WHERE id = ?', [
           global.config.pathStorage + movie.path,
           path.extname(movie.name),

@@ -34,7 +34,7 @@ module.exports = {
   getFromMovieAndLang: (movieId, lng) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
-        db.query('SELECT id, lang, encoding, score, date FROM subtitles WHERE movieId = ? AND lang = ? ORDER BY score ASC', [
+        db.query('SELECT id, lang, encoding, score, date FROM subtitles WHERE movieId = ? AND lang = ? ORDER BY score DESC', [
           movieId,
           lng
         ], (err, res) => {

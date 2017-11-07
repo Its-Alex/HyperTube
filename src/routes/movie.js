@@ -68,8 +68,7 @@ class Movie extends Component {
         date: res.data.release_date,
         imdbId: res.data.imdb_id,
         id: res.data.id
-      }, () => { store.addMoovie(res.data) })
-      console.log('je passe la')
+      }, () => { store.addMovie(res.data) })
       local().get('/search', {
         params: {
           imdbId: res.data.imdb_id,
@@ -82,7 +81,6 @@ class Movie extends Component {
           this.setState({
             source: res.data.result
           })
-          console.log(store.moovie)
         } else {
           store.addNotif(res.data.error, 'error')
         }
