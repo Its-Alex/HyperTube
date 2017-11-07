@@ -31,12 +31,6 @@ class OtherProfile extends Component {
   feedEmail () {
     return (
       <Feed.Event>
-        <Feed.Label icon='mail' />
-        <Feed.Content>
-          <Feed.Extra text>
-            {this.state.profileMail}
-          </Feed.Extra>
-        </Feed.Content>
         <Feed.Label icon='user' />
         <Feed.Content>
           <Feed.Extra text>
