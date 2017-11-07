@@ -1,0 +1,45 @@
+.commentBlock {
+    position: absolute;
+    bottom: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.content {
+    margin-bottom: 2%;
+    margin-left: 2%;
+}
+
+.commentCom {
+    border: 5px solid var(--color1);
+    width: 50%;
+    background-color: var(--color1);
+    height: 30px;
+    border-bottom-left-radius: 2em;
+    border-top-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+    border-top-right-radius: 2em;
+}
+
+.ui.comments.contentGroup {
+    border-left: 4px solid white;
+}
+
+.ui.comments.contentGroup:hover {
+    border-left: 4px solid var(--color3);
+}
+
+time {
+    color: white;
+}
+
+.commentUser {
+    color: white;
+}
+
+.ui.button {
+    margin: auto;
+    display: block;
+    margin-bottom: 10px;
+}

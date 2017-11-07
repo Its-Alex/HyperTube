@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Player from '../components/player.js'
-import Comment from '../components/comment.js'
+import Comments from '../components/comment.js'
 import store from '../utils/store'
 import { observer } from 'mobx-react'
 import { tmdb } from '../utils/api.js'
@@ -30,7 +30,7 @@ class Play extends Component {
     return (
       <div>
         <Player history={this.props.history} uuid={this.props.match.params.uuid} />
-        <Comment history={this.props.history} uuid={this.props.match.params.uuid} />
+        <Comments history={this.props.history} uuid={this.props.match.params.uuid} />
       </div>
     )
   }
