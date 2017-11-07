@@ -13,7 +13,13 @@ class Store {
   @observable totalPages = ''
   @observable notif = ''
   @observable choicelangue = ''
-  
+  @observable moovie = []
+
+  @action
+  addMoovie (res) {
+    this.moovie = [res]
+  }
+
 	@action
 	addResultSearch (res) {
     this.pageSearchResult = this.pageSearchResult + 1
@@ -51,6 +57,7 @@ class Store {
 
 	@action
 	resetSearch (res) {
+    this.pageSearchResult = this.pageSearchResult + 1
 		this.searchResult = res
   }
   

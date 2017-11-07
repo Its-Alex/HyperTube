@@ -35,7 +35,6 @@ class Profile extends React.Component {
 
   componentWillMount () {
     local().get('/user/me').then((res) => {
-      console.log(res)
       this.setState({
         profileFirstName: res.data.user.firstName,
         profileLastName: res.data.user.lastName,

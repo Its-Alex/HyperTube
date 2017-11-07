@@ -57,6 +57,7 @@ class FrontBarre extends Component {
           query: event.target.value
         }
       }).then((res) => {
+        console.log(res)
         store.setTotalPages(res.data.total_pages)
         store.resetSearch(res.data.results)
       }).catch((err) => {
