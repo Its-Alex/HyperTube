@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import store from '../utils/store.js'
 import { observer } from 'mobx-react'
+import { local } from '../utils/api'
+
+import store from '../utils/store.js'
 
 @observer
 class Player extends Component {
@@ -8,10 +10,32 @@ class Player extends Component {
     super(props)
     this.state = {
       played: false,
-      infoMoovie: store.oovie
+      subs: []
     }
     this.ChangePlayed = this.ChangePlayed.bind(this)
   }
+
+  
+  componentWillMount () {
+    local().get('/subtitle/search', {
+      params: {
+        id: this.props.id,
+        lang: global.localStorage.getItem('langue')
+      }
+    }).then(res => {
+      this.setState({subs: res.data.result})
+    }).catch(err => {
+      if (err.response) {
+        console.log(err.response)
+        store.addNotif(err.response.data.error)
+      }
+    })
+  }
+  
+  componentWillReceiveProps (nextProps) {
+    console.log(nextProps)
+  }
+  
 
   componentDidMount () {
     window.addEventListener('keypress', this.ChangePlayed)
@@ -31,8 +55,17 @@ class Player extends Component {
   render () {
     return (
       <div>
-        <video ref={(ref) => { this.video = ref }} autoPlay controls crossOrigin='anonymous' poster={this.props.post} >
+        <video ref={(ref) => { this.video = ref }} autoPlay controls crossOrigin='anonymous' poster={store.movie.back} >
           <source src={this.props.src} />
+          {this.state.subs.map((sub, index) => {
+            let src = `http://localhost:3005/subtitle/${sub.id}?Authorization=${global.localStorage.getItem('token')}`
+            let srcLang = global.localStorage.getItem('lamguage')
+            if (index === 0) {
+              return <track key={index} default label={sub.lang} src={src} srcLang={srcLang} />
+            }
+            return <track key={index} label={sub.lang} src={src} srcLang={srcLang} />
+          })
+          }
         </video>
       </div>
     )

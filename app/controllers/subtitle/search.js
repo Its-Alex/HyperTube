@@ -20,7 +20,7 @@ function error (res, error, status) {
   })
 }
 
-function addSub(sub, cb) {
+function addSub (sub, cb) {
   model.add(sub).then(res => {
     cb(null)
   }).catch(err => {
@@ -30,7 +30,7 @@ function addSub(sub, cb) {
 }
 
 module.exports = (req, res) => {
-  if (typeof req.params.id !== 'string' || req.params.id.length !== 36 ||
+  if (typeof req.query.id !== 'string' || req.query.id.length !== 36 ||
     typeof req.query.lang !== 'string' || req.query.lang === '') {
     return error(res, 'Invalid params', 403)
   }
@@ -52,7 +52,7 @@ module.exports = (req, res) => {
     fs.mkdirSync(global.config.pathStorage + 'subtitles')
   }
 
-  modelDownload.getFromId(req.params.id).then(result => {
+  modelDownload.getFromId(req.query.id).then(result => {
     if (result.length === 0) return error(res, 'No movie for this id', 403)
     if (result[0].state === 'search') return error(res, 'Need to download movie first', 403)
     let file = result[0]
@@ -83,7 +83,7 @@ module.exports = (req, res) => {
         if (timeout) {
           clearTimeout(timer)
           each(subtitles[lng['1'].substr(0, 2)], (sub, cb) => {
-            sub.movieId = req.params.id
+            sub.movieId = req.query.id
             sub.uuid = genUuid()
             sub.path = global.config.pathStorage + 'subtitles/' + sub.uuid + '.vtt'
 
@@ -136,7 +136,6 @@ module.exports = (req, res) => {
       console.log(err)
       error(res, 'Internal server error', 500)
     })
-
   }).catch(err => {
     console.log(err)
     return error(res, 'Internal server error', 500)

@@ -24,13 +24,13 @@ module.exports = (req, res) => {
     if (file.length === 0) return error(res, 'No torrents with this id', 403)
     else file = file[0]
 
-    if (!fs.existsSync(file.path)) {
+    if (!fs.existsSync(file.originalPath)) {
       return error(res, 'Movie not found in our server', 404)
     }
 
     if (file.state !== 'search') {
       if (file.state === 'transcoding') {
-        file.length = fs.statSync(file.path).size
+        file.length = fs.statSync(file.originalPath).size
       }
       let start
       let end
@@ -48,16 +48,14 @@ module.exports = (req, res) => {
         'Content-Range': 'bytes ' + start + '-' + end + '/' + file.length,
         'Accept-Ranges': 'bytes',
         'Content-Length': chunksize,
-        'Content-Type': 'video/' + file.ext.substr(1)
+        'Content-Type': 'video/' + file.originalExt.substr(1)
       }
-      console.log(head)
 
       res.writeHead(206, head)
-      let stream = fs.createReadStream(file.path, {
+      let stream = fs.createReadStream(file.originalPath, {
         start,
         end
       })
-      console.log(stream)
       pump(stream, res)
     } else {
       error(res, 'File not downloaded', 500)

@@ -4,9 +4,10 @@ import store from '../utils/store'
 import { local } from '../utils/api.js'
 import { observer } from 'mobx-react'
 import _ from 'lodash'
+import Dropzone from 'react-dropzone'
+
 
 @observer
-
 class Profile extends React.Component {
   constructor (props) {
     super(props)
@@ -35,15 +36,17 @@ class Profile extends React.Component {
 
   componentWillMount () {
     local().get('/user/me').then((res) => {
+      console.log(res)
       this.setState({
         profileFirstName: res.data.user.firstName,
         profileLastName: res.data.user.lastName,
         profileUserName: res.data.user.username,
         profileMail: res.data.user.mail,
-        profileId: res.data.user.id,
+        profileId: res.data.user.id + '?date=',
         connectFacebook: res.data.user.isConnectFacebook,
         connectFortyTwo: res.data.user.isConnectFortyTwo,
-        connectGitHub: res.data.user.isConnectGithub
+        connectGitHub: res.data.user.isConnectGithub,
+        image: ''
       })
     }).catch((err) => {
       if (err.response) {
@@ -110,6 +113,36 @@ class Profile extends React.Component {
         }
       })
     }
+  }
+  onDrop (acceptedFiles, rejectedFiles) {
+    let self = this
+    acceptedFiles.forEach(file => {
+      var reader = new global.FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = function () {
+        setTimeout(() => {          
+          self.setState(prevState => {
+            return {
+              image: reader.result,
+              profileId: prevState.profileId.split('?')[0] + '?date=' + Date.now()
+            }
+          })
+        }, 500);
+        local().put('/picture', {
+          pic: reader.result
+        }).then((res) => {
+          console.log(res)
+        }).catch((err) => {
+          console.log(err.response)
+        })
+      }
+      reader.onerror = function (error) {
+        console.log('Error when reading image: ', error)
+      }
+    })
+    if (rejectedFiles.length !== 0) {
+      store.addNotif('This file is not allowed please use png < 5mb', 'error')
+    } 
   }
 
   editProfile () {
@@ -248,11 +281,18 @@ class Profile extends React.Component {
   render () {
     return (
       <div>
-        {this.state.profileId !== '' ? <div
-          className='backPic'
-          style={{backgroundImage: 'url(http://localhost:3005/picture/' + this.state.profileId + ')'}}
-        /> : null}
-        <Grid celled='internally'>
+        <Dropzone
+          disablePreview
+          className='dropzone'
+          accept='image/png'
+          maxSize={4000000}
+          onDrop={this.onDrop.bind(this)}>
+          {this.state.profileId !== '' ? <div
+            className='backPic'
+            style={{backgroundImage: 'url(http://localhost:3005/picture/' + this.state.profileId + ')'}}
+          /> : null}
+        </Dropzone>
+          <Grid celled='internally'>
           <Grid.Row>
             <Grid.Column width={12} textAlign='center'>
               <Modal

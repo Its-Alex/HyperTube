@@ -13,11 +13,11 @@ class Store {
   @observable totalPages = ''
   @observable notif = ''
   @observable choicelangue = ''
-  @observable moovie = []
+  @observable movie = null
 
   @action
-  addMoovie (res) {
-    this.moovie = [res]
+  addMovie (res) {
+    this.movie = res
   }
 
 	@action

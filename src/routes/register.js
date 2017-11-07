@@ -99,26 +99,19 @@ class Register extends Component {
             maxSize={4000000}
             onDrop={this.onDrop.bind(this)}>
             {!this.state.image
-            ? <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle' />
-            : <img src={this.state.img} alt='profile' className='avatarRegister' />}
+            ? <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle' Id='defaultPicture' />
+            : <div className='containerImg'>
+              <img src={this.state.image} alt='profile' className='previewImage' />
+            </div>
+            }
           </Dropzone>
           <Input
             type='text'
             placeholder='Username'
             name='username'
-            label={{content: 'Username', className: 'label-login-btn', color: 'grey'}}
+            label={{icon: 'user', className: 'label-login-btn', color: 'grey'}}
             className='input-login'
             value={this.state.username}
-            onChange={this.handleChange}
-            onKeyPress={this.stackDebounce.bind(this)}
-        />
-          <Input
-            type='mail'
-            placeholder='Mail'
-            name='mail'
-            label={{icon: 'inbox', className: 'label-login-btn', color: 'grey'}}
-            className='input-login'
-            value={this.state.mail}
             onChange={this.handleChange}
             onKeyPress={this.stackDebounce.bind(this)}
         />
@@ -136,9 +129,19 @@ class Register extends Component {
             type='text'
             placeholder='Firstname'
             name='firstName'
-            label={{content: 'Firstname', className: 'label-login-btn', color: 'grey'}}
+            label={{icon: 'user', className: 'label-login-btn', color: 'grey'}}
             className='input-login'
             value={this.state.firstName}
+            onChange={this.handleChange}
+            onKeyPress={this.stackDebounce.bind(this)}
+        />
+          <Input
+            type='mail'
+            placeholder='Mail'
+            name='mail'
+            label={{icon: 'inbox', className: 'label-login-btn', color: 'grey'}}
+            className='input-login'
+            value={this.state.mail}
             onChange={this.handleChange}
             onKeyPress={this.stackDebounce.bind(this)}
         />
@@ -146,7 +149,7 @@ class Register extends Component {
             type='password'
             placeholder='Password'
             name='password'
-            label={{content: 'Password', className: 'label-login-btn', color: 'grey'}}
+            label={{icon: 'lock', className: 'label-login-btn', color: 'grey'}}
             className='input-login'
             value={this.state.password}
             onChange={this.handleChange}
@@ -156,7 +159,7 @@ class Register extends Component {
             type='password'
             placeholder='Password'
             name='confirmPassword'
-            label={{content: 'Confirm', className: 'label-login-btn', color: 'grey'}}
+            label={{icon: 'lock', className: 'label-login-btn', color: 'grey'}}
             className='input-login'
             value={this.state.confirmPassword}
             onChange={this.handleChange}
