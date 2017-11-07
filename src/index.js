@@ -1,9 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker'
 
-import App from './routes/app'
 import FrontBarre from './components/frontBarre'
 import Login from './routes/login'
 import Register from './routes/register'
@@ -50,7 +49,7 @@ class Index extends React.Component {
           <Route exact path='/movie/:id' component={Movie} />
           <Route exact path='/search/:id' component={Search} />
           <Route exact path='/play/:uuid/:id' component={play} />
-          <Route path='/:id' component={App} />
+          <Redirect to='/popular' />
         </Switch>
       </div>
     )
