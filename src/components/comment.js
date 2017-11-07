@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import store from '../utils/store'
 import Moment from 'react-moment'
 import { local } from '../utils/api.js'
+import { observer } from 'mobx-react'
 
+@observer
 class Comment extends Component {
   constructor (props) {
     super(props)

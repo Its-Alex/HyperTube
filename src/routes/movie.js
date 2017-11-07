@@ -39,10 +39,11 @@ class Movie extends Component {
   handleShow () { this.setState({ active: true }) }
   handleHide () { this.setState({ active: false }) }
 
-  handlePlayMovie (received) {
-    local().post(`/download/${received}`).then((res) => {
+  handlePlayMovie (uuid) {
+    local().post(`/download/${uuid}`).then((res) => {
+      console.log(res)
       if (res.data.success !== false) {
-        this.props.history.push(`/play/${received}`)
+        this.props.history.push(`/play/${uuid}/${this.state.id}`)
       } else {
         store.addNotif(res.data.error, 'error')
       }
@@ -57,7 +58,6 @@ class Movie extends Component {
   componentWillMount () {
     tmdb().get(`movie/${this.state.movie}`)
     .then((res) => {
-      console.log(res)
       this.setState({
         title: res.data.title,
         titleOriginal: res.data.original_title,
@@ -66,8 +66,10 @@ class Movie extends Component {
         note: res.data.vote_average,
         background: `https://image.tmdb.org/t/p/w1000/${res.data.backdrop_path}`,
         date: res.data.release_date,
-        imdbId: res.data.imdb_id
-      })
+        imdbId: res.data.imdb_id,
+        id: res.data.id
+      }, () => { store.addMoovie(res.data) })
+      console.log('je passe la')
       local().get('/search', {
         params: {
           imdbId: res.data.imdb_id,
@@ -80,6 +82,7 @@ class Movie extends Component {
           this.setState({
             source: res.data.result
           })
+          console.log(store.moovie)
         } else {
           store.addNotif(res.data.error, 'error')
         }
@@ -125,25 +128,25 @@ class Movie extends Component {
         <Divider horizontal>Select quality to play</Divider>
         <div className='quality'>
           { this.state.source.length !== 0
-          ? this.state.source.map((res, index) => {
-            if (res !== null) {
-              let color
-              if (res.state === 'ready') {
-                color = 'green'
-              } else if (res.state === 'downloading') {
-                color = 'orange'
-              } else if (res.state === 'transcoding') {
-                color = 'brown'
-              } else if (res.state === 'error') {
-                color = 'red'
+            ? this.state.source.map((res, index) => {
+              if (res !== null) {
+                let color
+                if (res.state === 'ready') {
+                  color = 'green'
+                } else if (res.state === 'downloading') {
+                  color = 'orange'
+                } else if (res.state === 'transcoding') {
+                  color = 'brown'
+                } else if (res.state === 'error') {
+                  color = 'red'
+                } else {
+                  color = 'grey'
+                }
+                return <QualityBtn key={index} uuid={res.uuid} quality={res.quality} color={color} onClick={this.handlePlayMovie.bind(this, res.uuid)} />
               } else {
-                color = 'grey'
+                return null
               }
-              return <QualityBtn key={index} uuid={res.uuid} quality={res.quality} color={color} onClick={this.handlePlayMovie.bind(this, res.uuid)} />
-            } else {
-              return null
-            }
-          })
+            })
           : <div className='loader'>
             <div className='blob blob-0' />
             <div className='blob blob-1' />

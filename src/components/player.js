@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
+import store from '../utils/store.js'
+import { observer } from 'mobx-react'
 
+@observer
 class Player extends Component {
   constructor (props) {
     super(props)
-
     this.state = {
-      played: false
+      played: false,
+      infoMoovie: store.oovie
     }
     this.ChangePlayed = this.ChangePlayed.bind(this)
   }
