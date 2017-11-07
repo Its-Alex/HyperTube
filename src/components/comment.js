@@ -16,6 +16,7 @@ class Comment extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSendMess = this.handleSendMess.bind(this)
+    this.handleDeleteMess = this.handleDeleteMess.bind(this)
   }
 
   componentWillMount () {
@@ -39,6 +40,26 @@ class Comment extends Component {
 
   handleClick (id) {
     this.props.history.push(`/profile/${id}`)
+  }
+  handleDeleteMess (id) {
+    local().delete(`/comment/${id}`).then((res) => {
+      if (res.data.success === true) {
+        local().get(`/comment/${this.props.uuid}`).then((res1) => {
+          this.setState({
+            comments: res1.data.result
+          })
+        }).catch((err1) => {
+          if (err1.response) {
+            store.addNotif(err1.response.data.error, 'error')
+            console.log(err1.response)
+          }
+        })
+      } else {
+        store.addNotif('non-existent comment', 'error')
+      }
+    }).catch((err) => {
+      console.log(err.response)
+    })
   }
 
   handleSendMess (evt, message) {
@@ -77,6 +98,7 @@ class Comment extends Component {
             <div key={index}>
               <div onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
               <div><Moment to={result.date} /></div>
+              <div>{result.id}</div>
               <div>{result.comment}</div>
             </div>
           )
