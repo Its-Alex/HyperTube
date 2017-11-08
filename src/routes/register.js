@@ -93,9 +93,9 @@ class Register extends Component {
 
   render () {
     return (
-      <div id='login1' >
+      <div id='register' >
         <h1 className='title centerMiddle'>Hypertube</h1>
-        <video loop autoPlay muted id='background-video' className='login1'>
+        <video loop autoPlay muted id='background-video' className='register'>
           <source src='../olivier/MP4/Screens.mp4' type='video/mp4' />Your browser does not support the video tag. I suggest you upgrade your browser.
         </video>
 

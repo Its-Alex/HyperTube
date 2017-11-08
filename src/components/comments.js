@@ -46,14 +46,11 @@ class Comments extends Component {
   handleDeleteMess (id) {
     local().delete(`/comment/${id}`).then((res) => {
       if (res.data.success === true) {
-        local().get(`/comment/${this.props.uuid}`).then((res1) => {
-          this.setState({
-            comments: res1.data.result
-          })
-        }).catch((err1) => {
-          if (err1.response) {
-            store.addNotif(err1.response.data.error, 'error')
-            console.log(err1.response)
+        local().get(`/comment/${this.props.uuid}`).then((res) => {
+          this.setState({comments: res.data.result})
+        }).catch((err) => {
+          if (err.response) {
+            store.addNotif(err.response.data.error, 'error')
           }
         })
       } else {
