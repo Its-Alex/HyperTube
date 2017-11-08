@@ -141,7 +141,7 @@ class Profile extends React.Component {
       }
     })
     if (rejectedFiles.length !== 0) {
-      store.addNotif('This file is not allowed please use png < 5mb', 'error')
+      store.addNotif('This file is not allowed please use png < 1mb', 'error')
     } 
   }
 
@@ -283,9 +283,9 @@ class Profile extends React.Component {
       <div>
         <Dropzone
           disablePreview
-          className='dropzone'
+          className='dropzone backPic'
           accept='image/png'
-          maxSize={4000000}
+          maxSize={1000000}
           onDrop={this.onDrop.bind(this)}>
           {this.state.profileId !== '' ? <div
             className='backPic'

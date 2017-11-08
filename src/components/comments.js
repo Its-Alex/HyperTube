@@ -18,6 +18,7 @@ class Comments extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSendMess = this.handleSendMess.bind(this)
+    this.handleDeleteMess = this.handleDeleteMess.bind(this)
   }
 
   componentWillMount () {
@@ -42,13 +43,31 @@ class Comments extends Component {
   handleClick (id) {
     this.props.history.push(`/profile/${id}`)
   }
+  handleDeleteMess (id) {
+    local().delete(`/comment/${id}`).then((res) => {
+      if (res.data.success === true) {
+        local().get(`/comment/${this.props.uuid}`).then((res) => {
+          this.setState({comments: res.data.result})
+        }).catch((err) => {
+          if (err.response) {
+            store.addNotif(err.response.data.error, 'error')
+          }
+        })
+      } else {
+        store.addNotif('non-existent comment', 'error')
+      }
+    }).catch((err) => {
+      console.log(err.response)
+    })
+  }
 
-  handleSendMess (evt, message) {
-    if ((evt.key === 'Enter' || evt === 'submit') && this.state.message !== '') {
+  handleSendMess () {
+    if (this.state.message !== '') {
       local().put(`/comment/${this.state.uuid}`, {
         id: this.state.uuid,
         comment: this.state.message
       }).then((res) => {
+        console.log(res)
         if (res.data.success === true) {
           local().get(`/comment/${this.state.uuid}`).then((res) => {
             this.setState({
@@ -74,24 +93,24 @@ class Comments extends Component {
   render () {
     return (
       <div className="commentBlock">
+      <Comment.Group className="contentGroup">
+        <Comment>
         {this.state.comments.map((result, index) => {
           return (
-            <Comment.Group className="contentGroup">
-              <Comment key={index}>
-                <Comment.Content>
-                  <div className="commentUser" onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
-                  <Comment.Metadata className="commentDate">
-                    <Moment to={result.date} />
-                  </Comment.Metadata>
-                  <div className="commentCom">{result.comment}</div>
-                  </Comment.Content>
-              </Comment>
-            </Comment.Group>
-          )
-        })}
-        <Form>
-          <Form.Input value={this.state.message} name='message' onChange={this.handleChange} onKeyPress={(evt) => { this.handleSendMess(evt, this.state.message) }} />
-          <Form.Button name='submit' content="Submit" onClick={(evt) => { this.handleSendMess('submit', this.state.message) }} />
+            <Comment.Content key={index}>
+              <div className="commentUser" onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
+              <Comment.Metadata className="commentDate">
+                <Moment to={result.date} />
+              </Comment.Metadata>
+              <div className="commentCom">{result.comment}</div>
+              </Comment.Content>
+            )
+          })}
+          </Comment>
+        </Comment.Group>
+        <Form onSubmit={this.handleSendMess}>
+          <Form.Input value={this.state.message} name='message' onChange={this.handleChange} />
+          <Form.Button name='submit' content="Submit" />
         </Form>
       </div>
     )
