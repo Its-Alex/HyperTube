@@ -51,7 +51,7 @@ class Play extends Component {
               tmdbid={this.props.match.params.id}
               src={this.state.src} />
         ) : null}
-        <Comment history={this.props.history} uuid={this.props.match.params.uuid} />
+        <Comments history={this.props.history} uuid={this.props.match.params.uuid} />
       </div>
     )
   }
