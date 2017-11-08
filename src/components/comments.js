@@ -93,21 +93,21 @@ class Comments extends Component {
   render () {
     return (
       <div className="commentBlock">
+      <Comment.Group className="contentGroup">
+        <Comment>
         {this.state.comments.map((result, index) => {
           return (
-            <Comment.Group className="contentGroup" key={index}>
-              <Comment>
-                <Comment.Content>
-                  <div className="commentUser" onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
-                  <Comment.Metadata className="commentDate">
-                    <Moment to={result.date} />
-                  </Comment.Metadata>
-                  <div className="commentCom">{result.comment}</div>
-                  </Comment.Content>
-              </Comment>
-            </Comment.Group>
-          )
-        })}
+            <Comment.Content key={index}>
+              <div className="commentUser" onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
+              <Comment.Metadata className="commentDate">
+                <Moment to={result.date} />
+              </Comment.Metadata>
+              <div className="commentCom">{result.comment}</div>
+              </Comment.Content>
+            )
+          })}
+          </Comment>
+        </Comment.Group>
         <Form onSubmit={this.handleSendMess}>
           <Form.Input value={this.state.message} name='message' onChange={this.handleChange} />
           <Form.Button name='submit' content="Submit" />
