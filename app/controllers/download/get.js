@@ -28,10 +28,7 @@ module.exports = (req, res) => {
       return error(res, 'Movie not found in our server', 404)
     }
 
-    if (file.state !== 'search') {
-      if (file.state === 'transcoding') {
-        file.length = fs.statSync(file.originalPath).size
-      }
+    if (file.state !== 'search' && file.state !== 'transcoding') {
       let start
       let end
       let chunksize
@@ -52,11 +49,10 @@ module.exports = (req, res) => {
       }
 
       res.writeHead(206, head)
-      let stream = fs.createReadStream(file.originalPath, {
+      pump(fs.createReadStream(file.originalPath, {
         start,
         end
-      })
-      pump(stream, res)
+      }), res)
     } else {
       error(res, 'File not downloaded', 500)
     }
