@@ -64,12 +64,13 @@ class Comments extends Component {
     })
   }
 
-  handleSendMess (evt, message) {
-    if ((evt.key === 'Enter' || evt === 'submit') && this.state.message !== '') {
+  handleSendMess () {
+    if (this.state.message !== '') {
       local().put(`/comment/${this.state.uuid}`, {
         id: this.state.uuid,
         comment: this.state.message
       }).then((res) => {
+        console.log(res)
         if (res.data.success === true) {
           local().get(`/comment/${this.state.uuid}`).then((res) => {
             this.setState({
@@ -97,8 +98,8 @@ class Comments extends Component {
       <div className="commentBlock">
         {this.state.comments.map((result, index) => {
           return (
-            <Comment.Group className="contentGroup">
-              <Comment key={index}>
+            <Comment.Group className="contentGroup" key={index}>
+              <Comment>
                 <Comment.Content>
                   <div className="commentUser" onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
                   <Comment.Metadata className="commentDate">
@@ -110,9 +111,9 @@ class Comments extends Component {
             </Comment.Group>
           )
         })}
-        <Form>
-          <Form.Input value={this.state.message} name='message' onChange={this.handleChange} onKeyPress={(evt) => { this.handleSendMess(evt, this.state.message) }} />
-          <Form.Button name='submit' content="Submit" onClick={(evt) => { this.handleSendMess('submit', this.state.message) }} />
+        <Form onSubmit={this.handleSendMess}>
+          <Form.Input value={this.state.message} name='message' onChange={this.handleChange} />
+          <Form.Button name='submit' content="Submit" />
         </Form>
       </div>
     )
