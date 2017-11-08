@@ -3,9 +3,11 @@ import store from '../utils/store'
 import Moment from 'react-moment'
 import { local } from '../utils/api.js'
 import { observer } from 'mobx-react'
+import { Form, Comment } from 'semantic-ui-react'
 
 @observer
-class Comment extends Component {
+
+class Comments extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -92,22 +94,38 @@ class Comment extends Component {
 
   render () {
     return (
-      <div>
+      <div className="commentBlock">
         {this.state.comments.map((result, index) => {
           return (
+<<<<<<< HEAD
             <div key={index}>
               <div onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
               <div><Moment to={result.date} /></div>
               <div>{result.id}</div>
               <div>{result.comment}</div>
             </div>
+=======
+            <Comment.Group className="contentGroup">
+              <Comment key={index}>
+                <Comment.Content>
+                  <div className="commentUser" onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
+                  <Comment.Metadata className="commentDate">
+                    <Moment to={result.date} />
+                  </Comment.Metadata>
+                  <div className="commentCom">{result.comment}</div>
+                  </Comment.Content>
+              </Comment>
+            </Comment.Group>
+>>>>>>> eb2ad5f109e47f2d81f59a2fd6016c4ec664314b
           )
         })}
-        <input value={this.state.message} name='message' onChange={this.handleChange} onKeyPress={(evt) => { this.handleSendMess(evt, this.state.message) }} />
-        <button name='submit' onClick={(evt) => { this.handleSendMess('submit', this.state.message) }} />
+        <Form>
+          <Form.Input value={this.state.message} name='message' onChange={this.handleChange} onKeyPress={(evt) => { this.handleSendMess(evt, this.state.message) }} />
+          <Form.Button name='submit' content="Submit" onClick={(evt) => { this.handleSendMess('submit', this.state.message) }} />
+        </Form>
       </div>
     )
   }
 }
 
-export default Comment
+export default Comments
