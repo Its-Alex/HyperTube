@@ -35,7 +35,7 @@ module.exports = (req, res) => {
   typeof req.body.photo !== 'string') return error(res, 'Invalid fields', 400)
 
   if (isEmpty(req.body.username) || req.body.username.length > 30) {
-    return error(res, 'Invalid username')
+    return error(res, 'Invalid username', 403)
   }
 
   if (!isEmail(req.body.mail)) return error(res, 'Invalid mail', 403)
