@@ -37,25 +37,28 @@ module.exports = (req, res) => {
           }
         })
 
-        console.log(path.extname(movie.name))
+        file.originalPath = global.config.pathStorage + movie.path
+        file.originalExt = path.extname(movie.name)
+        file.length = movie.length
+        file.state = 'downloading'
 
         model.update('originalPath = ?, originalExt = ?, length = ?, state = ? WHERE id = ?', [
-          global.config.pathStorage + movie.path,
-          path.extname(movie.name),
-          movie.length,
-          'downloading',
+          file.originalPath,
+          file.originalExt,
+          file.length,
+          file.state,
           file.id
         ]).then(() => {
-          if (path.extname(movie.name) === '.mp4' || path.extname(movie.name) === '.webm') {
+          global.download[file.id] = file
+          global.download[file.id].file = movie
+
+          if (file.originalExt === '.mp4' || file.originalExt === '.webm') {
             res.json({
               success: true,
               info: 'File downloading'
             })
-            movie.createReadStream({
-              start: 0,
-              end: file.length
-            })
-          } else if (extensions.indexOf(path.extname(movie.name)) !== -1) {
+            movie.select()
+          } else if (extensions.indexOf(file.originalExt) !== -1) {
             res.json({
               success: false,
               error: 'Need transcode'
@@ -111,16 +114,13 @@ module.exports = (req, res) => {
         })
 
         engine.on('idle', () => {
-          model.getFromId(file.id).then(result => {
-            if (result.length === 0) return
-            result = result[0]
-            if (result.state !== 'transcoding' && result.path && result.length && result.length === fs.statSync(result.path).size) {
-              model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
-              }).catch(err => {
-                console.log(err)
-              })
-            }
-          })
+          if (file.state !== 'ready' && file.originalPath && file.length && file.length === fs.statSync(file.originalPath).size) {
+            global.download[file.id].state = 'ready'
+            model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
+            }).catch(err => {
+              console.log(err)
+            })
+          }
         })
       })
     } else {
