@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Player from '../components/player.js'
-import Comments from '../components/comment.js'
+import Comments from '../components/comments.js'
 import store from '../utils/store'
 import { observer } from 'mobx-react'
 import { tmdb, local } from '../utils/api.js'
@@ -51,7 +51,7 @@ class Play extends Component {
               tmdbid={this.props.match.params.id}
               src={this.state.src} />
         ) : null}
-        <Comment history={this.props.history} uuid={this.props.match.params.uuid} />
+        <Comments history={this.props.history} uuid={this.props.match.params.uuid} />
       </div>
     )
   }

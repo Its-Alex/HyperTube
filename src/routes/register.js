@@ -94,12 +94,12 @@ class Register extends Component {
         <div className='flexCenter'>
           <Dropzone
             disablePreview
-            className='dropzone'
+            className='dropzone previewDropZone'
             accept='image/png'
             maxSize={4000000}
             onDrop={this.onDrop.bind(this)}>
             {!this.state.image
-            ? <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle' Id='defaultPicture' />
+            ? <Image src='../olivier/Movie-icon.png' size='small' className='centerMiddle' id='defaultPicture' />
             : <div className='containerImg'>
               <img src={this.state.image} alt='profile' className='previewImage' />
             </div>
@@ -114,7 +114,7 @@ class Register extends Component {
             value={this.state.username}
             onChange={this.handleChange}
             onKeyPress={this.stackDebounce.bind(this)}
-        />
+          />
           <Input
             type='text'
             placeholder='Lastname'
@@ -124,7 +124,7 @@ class Register extends Component {
             value={this.state.lastName}
             onChange={this.handleChange}
             onKeyPress={this.stackDebounce.bind(this)}
-        />
+          />
           <Input
             type='text'
             placeholder='Firstname'
@@ -134,7 +134,7 @@ class Register extends Component {
             value={this.state.firstName}
             onChange={this.handleChange}
             onKeyPress={this.stackDebounce.bind(this)}
-        />
+          />
           <Input
             type='mail'
             placeholder='Mail'
@@ -144,7 +144,7 @@ class Register extends Component {
             value={this.state.mail}
             onChange={this.handleChange}
             onKeyPress={this.stackDebounce.bind(this)}
-        />
+          />
           <Input
             type='password'
             placeholder='Password'
@@ -154,7 +154,7 @@ class Register extends Component {
             value={this.state.password}
             onChange={this.handleChange}
             onKeyPress={this.stackDebounce.bind(this)}
-        />
+          />
           <Input
             type='password'
             placeholder='Password'
@@ -164,7 +164,7 @@ class Register extends Component {
             value={this.state.confirmPassword}
             onChange={this.handleChange}
             onKeyPress={this.stackDebounce.bind(this)}
-        />
+          />
           <Button
             animated='fade'
             loading={this.state.loadingBtn}

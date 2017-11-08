@@ -97,14 +97,6 @@ class Comments extends Component {
       <div className="commentBlock">
         {this.state.comments.map((result, index) => {
           return (
-<<<<<<< HEAD
-            <div key={index}>
-              <div onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
-              <div><Moment to={result.date} /></div>
-              <div>{result.id}</div>
-              <div>{result.comment}</div>
-            </div>
-=======
             <Comment.Group className="contentGroup">
               <Comment key={index}>
                 <Comment.Content>
@@ -116,7 +108,6 @@ class Comments extends Component {
                   </Comment.Content>
               </Comment>
             </Comment.Group>
->>>>>>> eb2ad5f109e47f2d81f59a2fd6016c4ec664314b
           )
         })}
         <Form>
