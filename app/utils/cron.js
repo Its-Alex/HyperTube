@@ -12,3 +12,7 @@ const modelDownlaod = require('../models/download.js')
 //     console.log('Cron delete film error')
 //   })
 // }, 864000)
+
+// setInterval(() => {
+//   console.log(global.download)
+// }, 5000)

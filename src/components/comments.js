@@ -80,6 +80,8 @@ class Comments extends Component {
               console.log(err.response)
             }
           })
+        } else {
+          store.addNotif(res.data.error, 'error')
         }
       }).catch((err) => {
         if (err.response) {
