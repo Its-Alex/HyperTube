@@ -1,8 +1,7 @@
 const ts = require('torrent-stream')
 const fs = require('fs')
 const path = require('path')
-const { spawn } = require('child_process')
-const pump = require('pump')
+const ffmpeg = require('fluent-ffmpeg')
 const genUuid = require('uuid')
 
 const model = require('../../models/download.js')
@@ -42,6 +41,9 @@ module.exports = (req, res) => {
         file.length = movie.length
         file.state = 'downloading'
 
+        global.download[file.id] = file
+        global.download[file.id].file = movie
+
         model.update('originalPath = ?, originalExt = ?, length = ?, state = ? WHERE id = ?', [
           file.originalPath,
           file.originalExt,
@@ -49,62 +51,64 @@ module.exports = (req, res) => {
           file.state,
           file.id
         ]).then(() => {
-          global.download[file.id] = file
-          global.download[file.id].file = movie
-
           if (file.originalExt === '.mp4' || file.originalExt === '.webm') {
             res.json({
               success: true,
-              info: 'File downloading'
+              info: 'downloading'
             })
             movie.select()
           } else if (extensions.indexOf(file.originalExt) !== -1) {
-            res.json({
-              success: false,
-              error: 'Need transcode'
-            })
-            // let uuid = genUuid()
-            // let path = global.config.pathStorage + uuid + '.webm'
-            // let stream = movie.createReadStream()
+            console.log('Need transcode for:' + file.name)
+            global.download[file.id].needTranscode = true
+            global.download[file.id].state = 'transcoding'
+            global.download[file.id].path = global.config.pathStorage + genUuid() + '.webm'
+            global.download[file.id].ext = '.webm'
 
-            // let ffmpeg = spawn('ffmpeg', [
-            //   '-i', 'pipe:0',
-            //   '-c:v', 'libvpx',
-            //   '-b:v', '1M',
-            //   '-c:a', 'libvorbis',
-            //   path
-            // ])
-            // model.update('state = ?, path = ?, ext = ?, length = ? WHERE id = ?', [
-            //   'transcoding',
-            //   path,
-            //   '.webm',
-            //   0,
-            //   file.id
-            // ]).then(result => {
-            //   pump(stream, ffmpeg.stdin)
-            //   res.json({
-            //     success: true,
-            //     info: 'File downloading'
-            //   })
-            //   ffmpeg.stdout.on('data', r => {
-            //     console.log(r.toString())
-            //   })
-            //   ffmpeg.stderr.on('data', r => {
-            //     console.log(r.toString())
-            //   })
-            //   ffmpeg.on('close', () => {
-            //     model.update('state = ?, length = ? WHERE id = ?', [
-            //       'ready',
-            //       fs.statSync(path).size,
-            //       file.id
-            //     ]).then(result => {
-            //     }).catch(err => {
-            //       console.log(err)
-            //     })
-            //   })
-            // }).catch(err => {
-            //   console.log(err)
-            // })
+            model.update('state = ?, path = ?, ext = ? WHERE id = ?', [
+              global.download[file.id].state,
+              global.download[file.id].path,
+              global.download[file.id].ext,
+              file.id
+            ]).then(result => {
+              ffmpeg(movie.createReadStream())
+                .videoCodec('libvpx')
+                .audioCodec('libvorbis')
+                .format('webm')
+                .audioBitrate(128)
+                .videoBitrate(1024)
+                .outputOptions([
+                  '-deadline realtime',
+                  '-error-resilient 1'
+                ])
+                .on('start', (commandLine) => {
+                  console.log('Spawned Ffmpeg with command: ' + commandLine)
+                  res.json({
+                    success: true,
+                    info: 'transcoding'
+                  })
+                })
+                .on('end', function () {
+                  model.update('state = ? WHERE id = ?', ['ready', file.id])
+                  .then(result => {
+                    global.download[file.id].file.state = 'ready'
+                  }).catch(err => {
+                    console.log(err)
+                  })
+                })
+                // .on('codecData', function (data) {
+                //   console.log(data)
+                // })
+                .on('progress', function (progress) {
+                  console.log(progress)
+                })
+                .on('error', function (err) {
+                  console.log('Cannot convert movie')
+                  console.log(err)
+                })
+                .save(global.download[file.id].path)
+            }).catch(err => {
+              console.log(err)
+            })
           } else {
             error(res, 'Cannot use this movie', 200)
           }
@@ -114,7 +118,7 @@ module.exports = (req, res) => {
         })
 
         engine.on('idle', () => {
-          if (file.state !== 'ready' && file.originalPath && file.length && file.length === fs.statSync(file.originalPath).size) {
+          if (file.state !== 'ready' && file.state !== 'transcode' && file.originalPath && file.length && file.length === fs.statSync(file.originalPath).size) {
             global.download[file.id].state = 'ready'
             model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
             }).catch(err => {
