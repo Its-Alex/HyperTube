@@ -43,7 +43,8 @@ INNER JOIN download
 ON download.id = comments.movieId
 INNER JOIN users
 ON comments.userId = users.id
-WHERE comments.movieId = ?`,
+WHERE comments.movieId = ?
+ORDER BY comments.date DESC`,
           [
             id
           ], (err, res) => {
