@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Dimmer, Image, Button, Icon, Divider, Accordion } from 'semantic-ui-react'
+import { Header, Dimmer, Image, Button, Icon, Divider, Accordion, Label } from 'semantic-ui-react'
 import { tmdb, local } from '../utils/api.js'
 import store from '../utils/store'
 
@@ -138,17 +138,17 @@ class Movie extends Component {
 
   render () {
     const { active } = this.state
+    const time = this.state.runtime
     const content = (
       <div className='movieBlock'>
-        <Header as='h2' inverted>
-          {this.state.title}
-        </Header>
+        <Button label={this.state.runtime} icon='time' labelPosition='left' />
       </div>
     )
     const { activeIndex } = this.state
     return (
       <div className='backMovie'>
         <h1>{this.state.title}</h1>
+        <h5 className="movieDateTime">{this.state.date}</h5>
         <Dimmer.Dimmable
           as={Image}
           dimmed={active}
@@ -163,13 +163,13 @@ class Movie extends Component {
           {this.state.description}
         </div>
         <Accordion fluid styled>
-          <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+          <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
             <Divider horizontal>
             <Icon name='dropdown' />
               DETAIL
             </Divider>
           </Accordion.Title>
-          <Accordion.Content active={activeIndex === 0}>
+          <Accordion.Content active={activeIndex === 1}>
             <div className='detail'>
               {this.state.cast ? this.state.cast.map((result, index) => {
                 return (
@@ -182,17 +182,15 @@ class Movie extends Component {
               : (
                 null
               )}
-              Durée: {this.state.runtime}
-              Date de Sortie: {this.state.date}
             </div>
           </Accordion.Content>
-          <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
+          <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}>
             <Divider horizontal>
             <Icon name='dropdown' />
               PRODUCTION
             </Divider>
           </Accordion.Title>
-          <Accordion.Content active={activeIndex === 1}>
+          <Accordion.Content active={activeIndex === 2}>
             <div>
               {this.state.crew ? this.state.crew.map((result, index) => {
                 return (

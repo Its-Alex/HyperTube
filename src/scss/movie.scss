@@ -38,12 +38,16 @@
 h1 {
     text-align: center;
     color: white;
-    margin-bottom: 4%;
-    margin-top: 6%;
 }
 
 .ui.fluid.accordion {
     background: none;
+}
+
+h5.movieDateTime {
+    color: white;
+    text-align: center;
+    margin-top: -10px;
 }
 
 .loader {
