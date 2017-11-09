@@ -47,7 +47,7 @@ module.exports = (req, res) => {
       }
 
       res.writeHead(206, head)
-      pump(file.file.createReadStream({
+      pump(file.stream({
         start,
         end
       }), res)

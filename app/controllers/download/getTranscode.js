@@ -26,6 +26,9 @@ module.exports = (req, res) => {
   }
 
   if (file.state === 'transcoding') {
+    if (!file.streamTranscode) {
+      return error(res, 'Stream movie has an error', 403)
+    }
     let start
     let end
     let chunksize
@@ -46,7 +49,7 @@ module.exports = (req, res) => {
     }
 
     res.writeHead(206, head)
-    pump(file.file.createReadStream({
+    pump(file.streamTranscode({
       start,
       end
     }), res)
