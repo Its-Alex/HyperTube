@@ -17,10 +17,10 @@
     border-top-right-radius: 2em;
     word-break: break-all;
     padding: 2px;
+    line-height: 1;
 }
 
 .ui.comments.contentGroup {
-    border-left: 4px solid white;
     -webkit-flex: 1 1 auto;
     overflow-y: auto;
     min-height: 100px;
@@ -46,7 +46,13 @@
 	background-color: var(--color3);
 }
 
-.ui.comments.contentGroup:hover {
+div.contentDiv.content {
+    border-left: 4px solid white;
+    margin: 15px 13px;
+    padding: 10px;
+}
+
+div.contentDiv.content:hover {
     border-left: 4px solid var(--color3);
 }
 
