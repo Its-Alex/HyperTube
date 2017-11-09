@@ -10,11 +10,13 @@
     border: 5px solid var(--color1);
     width: 50%;
     background-color: var(--color1);
-    height: 30px;
+    height: auto;
     border-bottom-left-radius: 2em;
     border-top-left-radius: 2em;
     border-bottom-right-radius: 2em;
     border-top-right-radius: 2em;
+    word-break: break-all;
+    padding: 2px;
 }
 
 .ui.comments.contentGroup {
@@ -22,7 +24,7 @@
     -webkit-flex: 1 1 auto;
     overflow-y: auto;
     min-height: 100px;
-    height: 283px;
+    height: 500px;
     width: 100%;
     max-width: 100%;
 }
