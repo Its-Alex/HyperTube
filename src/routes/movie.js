@@ -36,7 +36,8 @@ class Movie extends Component {
       imdbId: '',
       background: '',
       timming: '',
-      cast: []
+      cast: [],
+      crew: []
     }
     this.handlePlayMovie = this.handlePlayMovie.bind(this)
     this.handleShow = this.handleShow.bind(this)
@@ -83,10 +84,17 @@ class Movie extends Component {
         res1.data.cast.forEach(element => {
           if (typeof element.profile_path === 'string') {
             element.profile_path = `https://image.tmdb.org/t/p/w500${element.profile_path}`
-            console.log(element.profile_path)
           }
         })
-        this.setState({cast: res1.data.cast})
+        res1.data.crew.forEach(element => {
+          if (typeof element.profile_path === 'string') {
+            element.profile_path = `https://image.tmdb.org/t/p/w500${element.profile_path}`
+          }
+        })
+        this.setState({
+          cast: res1.data.cast,
+          crew: res1.data.crew
+        })
       }).catch((err1) => {
         console.log(err1.response)
       })
@@ -159,6 +167,20 @@ class Movie extends Component {
           )}
           Durée: {this.state.runtime}
           Date de Sortie: {this.state.date}
+        </div>
+        <Divider horizontal>Production</Divider>
+        <div>
+          {this.state.crew ? this.state.crew.map((result, index) => {
+            return (
+              <div key={index}>
+                <div>{result.name}</div>
+                <div>{result.profile_path}</div>
+              </div>
+            )
+          })
+          : (
+            null
+          )}
         </div>
         <Divider horizontal>Select quality to play</Divider>
         <div className='quality'>
