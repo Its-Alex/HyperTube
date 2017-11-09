@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Dimmer, Image, Button, Icon, Divider } from 'semantic-ui-react'
+import { Header, Dimmer, Image, Button, Icon, Divider, Accordion } from 'semantic-ui-react'
 import { tmdb, local } from '../utils/api.js'
 import store from '../utils/store'
 
@@ -37,11 +37,20 @@ class Movie extends Component {
       background: '',
       timming: '',
       cast: [],
-      crew: []
+      crew: [],
+      activeIndex: 0
     }
     this.handlePlayMovie = this.handlePlayMovie.bind(this)
     this.handleShow = this.handleShow.bind(this)
     this.handleHide = this.handleHide.bind(this)
+  }
+
+  handleClick = (e, titleProps) => {
+    const { index } = titleProps
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index
+
+    this.setState({ activeIndex: newIndex })
   }
 
   handleShow () { this.setState({ active: true }) }
@@ -136,6 +145,7 @@ class Movie extends Component {
         </Header>
       </div>
     )
+    const { activeIndex } = this.state
     return (
       <div className='backMovie'>
         <h1>{this.state.title}</h1>
@@ -152,36 +162,52 @@ class Movie extends Component {
         <div className='overview'>
           {this.state.description}
         </div>
-        <Divider horizontal> Detail </Divider>
-        <div className='detail'>
-          {this.state.cast ? this.state.cast.map((result, index) => {
-            return (
-              <div key={index}>
-                <div>{result.name}</div>
-                <div>{result.profile_path}</div>
-              </div>
-            )
-          })
-          : (
-            null
-          )}
-          Durée: {this.state.runtime}
-          Date de Sortie: {this.state.date}
-        </div>
-        <Divider horizontal>Production</Divider>
-        <div>
-          {this.state.crew ? this.state.crew.map((result, index) => {
-            return (
-              <div key={index}>
-                <div>{result.name}</div>
-                <div>{result.profile_path}</div>
-              </div>
-            )
-          })
-          : (
-            null
-          )}
-        </div>
+        <Accordion fluid styled>
+          <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+            <Divider horizontal>
+            <Icon name='dropdown' />
+              DETAIL
+            </Divider>
+          </Accordion.Title>
+          <Accordion.Content active={activeIndex === 0}>
+            <div className='detail'>
+              {this.state.cast ? this.state.cast.map((result, index) => {
+                return (
+                  <div key={index}>
+                    <div>{result.name}</div>
+                    <div>{result.profile_path}</div>
+                  </div>
+                )
+              })
+              : (
+                null
+              )}
+              Durée: {this.state.runtime}
+              Date de Sortie: {this.state.date}
+            </div>
+          </Accordion.Content>
+          <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
+            <Divider horizontal>
+            <Icon name='dropdown' />
+              PRODUCTION
+            </Divider>
+          </Accordion.Title>
+          <Accordion.Content active={activeIndex === 1}>
+            <div>
+              {this.state.crew ? this.state.crew.map((result, index) => {
+                return (
+                  <div key={index}>
+                    <div>{result.name}</div>
+                    <div>{result.profile_path}</div>
+                  </div>
+                )
+              })
+              : (
+                null
+              )}
+            </div>
+          </Accordion.Content>
+        </Accordion>
         <Divider horizontal>Select quality to play</Divider>
         <div className='quality'>
           { this.state.source.length !== 0
