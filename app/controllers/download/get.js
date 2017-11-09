@@ -21,7 +21,7 @@ module.exports = (req, res) => {
   let file = global.download[req.params.id]
   if (!file) return error(res, 'Movie not cached', 404)
 
-  if (file.state === 'downloading' && file.state === 'ready') {
+  if (file.state === 'downloading' || file.state === 'ready') {
     if (!file.path) {
       if (!file.originalPath || !fs.existsSync(file.originalPath)) {
         return error(res, 'Movie not found in our server', 404)
@@ -82,6 +82,6 @@ module.exports = (req, res) => {
       }), res)
     }
   } else {
-    error(res, 'File error or bad gateway', 500)
+    error(res, 'File error or bad gateway', 403)
   }
 }

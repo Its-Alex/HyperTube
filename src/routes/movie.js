@@ -40,10 +40,14 @@ class Movie extends Component {
   handleHide () { this.setState({ active: false }) }
 
   handlePlayMovie (uuid) {
+    console.log(Date.now())
     local().post(`/download/${uuid}`).then((res) => {
-      console.log(res)
-      if (res.data.success !== false) {
-        this.props.history.push(`/play/${uuid}/${this.state.id}`)
+      if (res.data.success === true) {
+        if (res.data.info === 'downloading' || res.data.info === 'downloaded' || res.data.info === 'transcoding') {
+          this.props.history.push(`/play/${uuid}/${this.state.id}`)
+        } else {
+          store.addNotif(`Can't play this movie`, 'error')
+        }
       } else {
         store.addNotif(res.data.error, 'error')
       }

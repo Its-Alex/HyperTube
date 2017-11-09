@@ -52,6 +52,7 @@ module.exports = (req, res) => {
           file.id
         ]).then(() => {
           if (file.originalExt === '.mp4' || file.originalExt === '.webm') {
+            global.download[file.id].state = 'downloading'
             res.json({
               success: true,
               info: 'downloading'
@@ -99,7 +100,12 @@ module.exports = (req, res) => {
                 //   console.log(data)
                 // })
                 .on('progress', function (progress) {
-                  console.log(progress)
+                  model.update('length = ? WHERE id = ?', [progress.targetSize, file.id]).then(result => {
+                    global.download[file.id].file.length = progress.targetSize
+                    console.log(progress)
+                  }).catch(err => {
+                    console.log(err)
+                  })
                 })
                 .on('error', function (err) {
                   console.log('Cannot convert movie')
@@ -127,11 +133,13 @@ module.exports = (req, res) => {
           }
         })
       })
-    } else {
+    } else if (file.state === 'ready') {
       res.json({
         success: 200,
-        info: 'File already downloaded'
+        info: 'downloaded'
       })
+    } else if (file.state === 'error') {
+      return error(res, 'File error', 403)
     }
   }).catch(err => {
     console.log(err)

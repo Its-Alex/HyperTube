@@ -51,6 +51,6 @@ module.exports = (req, res) => {
       end
     }), res)
   } else {
-    error(res, 'File error or bad gateway', 500)
+    error(res, 'File error or bad gateway', 403)
   }
 }
