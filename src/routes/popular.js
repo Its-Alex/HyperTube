@@ -3,16 +3,17 @@ import Grid from '../components/grid'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
 import { tmdb } from '../utils/api.js'
+import { Dropdown } from 'semantic-ui-react'
 
 @observer
 class Popular extends Component {
   constructor (props) {
     super(props)
-
     this.state = {
       page: 1,
       hasMore: true,
-      nbPage: ''
+      nbPage: '',
+      choiceSort: null
     }
     this._isMounted = false
     this.handleChangePage = this.handleChangePage.bind(this)
@@ -27,15 +28,17 @@ class Popular extends Component {
   }
 
   handleSortsRequest () {
-    store.resetPopular()
+    // store.resetPopular()
     // changement de trie
-    this._isMounted = false
+    // this._isMounted = false
   }
 
   handleChangePage () {
     tmdb().get(`discover/movie`, {
       params: {
-        page: store.pageResultPopular
+        page: store.pageResultPopular,
+        sort_by: this.state.choiceSort,
+
       }
     }).then((res) => {
       if (this.state.page === res.data.total_pages && this._isMounted === true) {
