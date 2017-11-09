@@ -30,11 +30,7 @@ class Item extends Component {
 
   render () {
     return (
-      <div className='item-container' style={
-        {
-          // backgroundImage: 'url(`https://react.semantic-ui.com/assets/images/wireframe/image.png`)',          
-          backgroundImage: 'url(' + this.props.poster + ')'
-        }}>
+      <div className='item-container' style={{backgroundImage: 'url(' + this.props.poster + ')'}}>
         <div className='opac'>
           <div className='item-info'>
             <div className='title'>
