@@ -26,8 +26,14 @@ class Popular extends Component {
     this._isMounted = false
   }
 
+  handleSortsRequest () {
+    store.resetPopular()
+    // changement de trie
+    this._isMounted = false
+  }
+
   handleChangePage () {
-    tmdb().get(`movie/popular`, {
+    tmdb().get(`discover/movie`, {
       params: {
         page: store.pageResultPopular
       }

@@ -39,6 +39,12 @@ class Store {
       this.resultPopular = res
     }
   }
+  @action
+  resetPopular () {
+    this.pageResultPopular = 1
+    this.resultPopular = []
+  }
+
 
   @action
   addResultTopRated (res) {
