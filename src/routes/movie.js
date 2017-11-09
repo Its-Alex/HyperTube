@@ -16,6 +16,11 @@ function QualityBtn (props) {
   )
 }
 
+function getTimming (time) {
+  let heure = Math.trunc(time / 60) + 'h' + Math.round(time % 60)
+  return heure
+}
+
 class Movie extends Component {
   constructor (props) {
     super(props)
@@ -29,7 +34,8 @@ class Movie extends Component {
       note: '',
       date: '',
       imdbId: '',
-      background: ''
+      background: '',
+      timming: ''
     }
     this.handlePlayMovie = this.handlePlayMovie.bind(this)
     this.handleShow = this.handleShow.bind(this)
@@ -58,6 +64,7 @@ class Movie extends Component {
   componentWillMount () {
     tmdb().get(`movie/${this.state.movie}`)
     .then((res) => {
+      console.log(res)
       this.setState({
         title: res.data.title,
         titleOriginal: res.data.original_title,
@@ -67,7 +74,8 @@ class Movie extends Component {
         background: `https://image.tmdb.org/t/p/w1000/${res.data.backdrop_path}`,
         date: res.data.release_date,
         imdbId: res.data.imdb_id,
-        id: res.data.id
+        id: res.data.id,
+        runtime: getTimming(res.data.runtime)
       }, () => { store.addMovie(res.data) })
       local().get('/search', {
         params: {
@@ -122,6 +130,11 @@ class Movie extends Component {
         <Divider horizontal>overview</Divider>
         <div className='overview'>
           {this.state.description}
+        </div>
+        <Divider horizontal> Detail </Divider>
+        <div className='detail'>
+          Durée: {this.state.runtime}
+          Date de Sortie: {this.state.date}
         </div>
         <Divider horizontal>Select quality to play</Divider>
         <div className='quality'>
