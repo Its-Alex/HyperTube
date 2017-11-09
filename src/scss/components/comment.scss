@@ -1,9 +1,4 @@
 .commentBlock {
-    position: absolute;
-    bottom: 0;
-    margin: auto;
-    left: 0;
-    right: 0;
 }
 
 .content {
@@ -24,6 +19,29 @@
 
 .ui.comments.contentGroup {
     border-left: 4px solid white;
+    -webkit-flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 100px;
+    height: 283px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.ui.comments.contentGroup::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+.ui.comments.contentGroup::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+.ui.comments.contentGroup::-webkit-scrollbar-thumb
+{
+	background-color: var(--color3);
 }
 
 .ui.comments.contentGroup:hover {
@@ -36,6 +54,10 @@ time {
 
 .commentUser {
     color: white;
+}
+
+.commentUser:hover {
+    color: var(--color1);
 }
 
 .ui.button {
