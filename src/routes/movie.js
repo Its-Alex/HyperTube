@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Dimmer, Image, Button, Icon, Divider, Accordion, Label } from 'semantic-ui-react'
+import { Dimmer, Image, Button, Icon, Divider, Accordion, Card } from 'semantic-ui-react'
 import { tmdb, local } from '../utils/api.js'
 import store from '../utils/store'
 
@@ -138,7 +138,6 @@ class Movie extends Component {
 
   render () {
     const { active } = this.state
-    const time = this.state.runtime
     const content = (
       <div className='movieBlock'>
         <Button label={this.state.runtime} icon='time' labelPosition='left' />
@@ -172,12 +171,33 @@ class Movie extends Component {
           <Accordion.Content active={activeIndex === 1}>
             <div className='detail'>
               {this.state.cast ? this.state.cast.map((result, index) => {
-                return (
-                  <div key={index}>
-                    <div>{result.name}</div>
-                    <div>{result.profile_path}</div>
-                  </div>
-                )
+                if (result.profile_path) {
+                  return (
+                    <div key={index} className='myCard'>
+                      <Card className='detailCard'>
+                        <Image src={result.profile_path} />
+                        <Card.Content>
+                          <Card.Header>
+                            {result.name}
+                          </Card.Header>
+                        </Card.Content>
+                      </Card>
+                    </div>
+                  )
+                } else {
+                  return (
+                    <div key={index} className='myCard'>
+                      <Card className='detailCard'>
+                        <Image src='https://museum.wales/media/40374/empty-profile-grey.jpg' />
+                        <Card.Content>
+                          <Card.Header>
+                            {result.name}
+                          </Card.Header>
+                        </Card.Content>
+                      </Card>
+                    </div>
+                  )
+                }
               })
               : (
                 null
@@ -191,14 +211,35 @@ class Movie extends Component {
             </Divider>
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 2}>
-            <div>
+            <div className='detail'>
               {this.state.crew ? this.state.crew.map((result, index) => {
-                return (
-                  <div key={index}>
-                    <div>{result.name}</div>
-                    <div>{result.profile_path}</div>
-                  </div>
-                )
+                  if (result.profile_path) {
+                    return (
+                      <div key={index} className='myCard'>
+                        <Card className='detailCard'>
+                          <Image src={result.profile_path} />
+                          <Card.Content>
+                            <Card.Header>
+                              {result.name}
+                            </Card.Header>
+                          </Card.Content>
+                        </Card>
+                      </div>
+                    )
+                  } else {
+                    return (
+                      <div key={index} className='myCard'>
+                        <Card className='detailCard'>
+                          <Image src='https://museum.wales/media/40374/empty-profile-grey.jpg' />
+                          <Card.Content>
+                            <Card.Header>
+                              {result.name}
+                            </Card.Header>
+                          </Card.Content>
+                        </Card>
+                      </div>
+                    )
+                  }
               })
               : (
                 null
