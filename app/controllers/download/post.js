@@ -1,8 +1,7 @@
 const ts = require('torrent-stream')
 const fs = require('fs')
 const path = require('path')
-const { spawn } = require('child_process')
-const pump = require('pump')
+const ffmpeg = require('fluent-ffmpeg')
 const genUuid = require('uuid')
 
 const model = require('../../models/download.js')
@@ -11,7 +10,7 @@ let extensions = ['.avi', '.mkv', '.mp4', '.webm']
 
 function error (res, error, status) {
   res.status(status)
-  res.json({
+  return res.json({
     success: false,
     error
   })
@@ -24,9 +23,14 @@ module.exports = (req, res) => {
     if (file.length === 0) return error(res, 'No torrents with this id', 403)
     else file = file[0]
 
+    if (!global.download[file.id]) global.download[file.id] = file
+
     if (file.state === 'search') {
       let movie
-      let engine = ts(file.magnet, { tmp: global.config.pathStorage, path: global.config.pathStorage })
+      let engine = ts(file.magnet, {
+        tmp: global.config.pathStorage,
+        path: global.config.pathStorage
+      })
 
       engine.on('ready', () => {
         engine.files.forEach((fileToSelect, index) => {
@@ -42,6 +46,9 @@ module.exports = (req, res) => {
         file.length = movie.length
         file.state = 'downloading'
 
+        global.download[file.id] = file
+        global.download[file.id].createStream = movie.createReadStream
+
         model.update('originalPath = ?, originalExt = ?, length = ?, state = ? WHERE id = ?', [
           file.originalPath,
           file.originalExt,
@@ -49,62 +56,66 @@ module.exports = (req, res) => {
           file.state,
           file.id
         ]).then(() => {
-          global.download[file.id] = file
-          global.download[file.id].file = movie
-
           if (file.originalExt === '.mp4' || file.originalExt === '.webm') {
-            res.json({
-              success: true,
-              info: 'File downloading'
-            })
+            global.download[file.id].state = 'downloading'
             movie.select()
-          } else if (extensions.indexOf(file.originalExt) !== -1) {
-            res.json({
-              success: false,
-              error: 'Need transcode'
+            console.log(`Movie ${movie.name} downloading...`)
+            return res.json({
+              success: true,
+              info: 'downloading'
             })
-            // let uuid = genUuid()
-            // let path = global.config.pathStorage + uuid + '.webm'
-            // let stream = movie.createReadStream()
+          } else if (extensions.indexOf(file.originalExt) !== -1) {
+            global.download[file.id].state = 'transcoding'
+            global.download[file.id].path = global.config.pathStorage + genUuid() + '.webm'
+            global.download[file.id].ext = '.webm'
 
-            // let ffmpeg = spawn('ffmpeg', [
-            //   '-i', 'pipe:0',
-            //   '-c:v', 'libvpx',
-            //   '-b:v', '1M',
-            //   '-c:a', 'libvorbis',
-            //   path
-            // ])
-            // model.update('state = ?, path = ?, ext = ?, length = ? WHERE id = ?', [
-            //   'transcoding',
-            //   path,
-            //   '.webm',
-            //   0,
-            //   file.id
-            // ]).then(result => {
-            //   pump(stream, ffmpeg.stdin)
-            //   res.json({
-            //     success: true,
-            //     info: 'File downloading'
-            //   })
-            //   ffmpeg.stdout.on('data', r => {
-            //     console.log(r.toString())
-            //   })
-            //   ffmpeg.stderr.on('data', r => {
-            //     console.log(r.toString())
-            //   })
-            //   ffmpeg.on('close', () => {
-            //     model.update('state = ?, length = ? WHERE id = ?', [
-            //       'ready',
-            //       fs.statSync(path).size,
-            //       file.id
-            //     ]).then(result => {
-            //     }).catch(err => {
-            //       console.log(err)
-            //     })
-            //   })
-            // }).catch(err => {
-            //   console.log(err)
-            // })
+            let size
+            model.update('state = ?, path = ?, ext = ? WHERE id = ?', [
+              global.download[file.id].state,
+              global.download[file.id].path,
+              global.download[file.id].ext,
+              file.id
+            ]).then(result => {
+              ffmpeg(movie.createReadStream())
+                .videoCodec('libvpx')
+                .audioCodec('libvorbis')
+                .format('webm')
+                // .audioBitrate(128)
+                // .videoBitrate(1024)
+                .outputOptions([
+                  '-deadline realtime'
+                ])
+                .on('start', (commandLine) => {
+                  console.log(`Movie ${file.title} transcoding...`)
+                  return res.json({
+                    success: true,
+                    info: 'transcoding'
+                  })
+                })
+                .on('end', () => {
+                  model.update('state = ?, lenght = ? WHERE id = ?', ['ready', size, file.id])
+                  .then(result => {
+                    global.download[file.id].length = size
+                    global.download[file.id].state = 'ready'
+                  }).catch(err => {
+                    console.log(err)
+                  })
+                })
+                .on('progress', (progress) => {
+                  size = progress.targetSize
+                })
+                .on('error', (err) => {
+                  model.update('state = ? WHERE id = ?', ['error', file.id]).then(result => {
+                    global.download[file.id].state = 'error'
+                    console.log(err)
+                  }).catch(err => {
+                    console.log(err)
+                  })
+                })
+                .save(global.download[file.id].path)
+            }).catch(err => {
+              console.log(err)
+            })
           } else {
             error(res, 'Cannot use this movie', 200)
           }
@@ -114,7 +125,8 @@ module.exports = (req, res) => {
         })
 
         engine.on('idle', () => {
-          if (file.state !== 'ready' && file.originalPath && file.length && file.length === fs.statSync(file.originalPath).size) {
+          if (file.state !== 'ready' && file.state !== 'transcode' && file.originalPath && file.length && file.length === fs.statSync(file.originalPath).size) {
+            console.log(`Movie ${file.title} downloaded`)
             global.download[file.id].state = 'ready'
             model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
             }).catch(err => {
@@ -123,11 +135,18 @@ module.exports = (req, res) => {
           }
         })
       })
-    } else {
-      res.json({
-        success: 200,
-        info: 'File already downloaded'
+    } else if (file.state === 'ready') {
+      return res.json({
+        success: true,
+        info: 'downloaded'
       })
+    } else if (file.state === 'transcoding') {
+      return res.json({
+        success: true,
+        info: 'transcoding'
+      })
+    } else {
+      return error(res, 'File error', 403)
     }
   }).catch(err => {
     console.log(err)

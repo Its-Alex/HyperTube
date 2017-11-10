@@ -60,49 +60,7 @@ class Player extends Component {
       this.video.addEventListener('volumechange', (volume) => {
         global.localStorage.setItem('volume', this.video.volume)
       })
-      this.video.addEventListener('keyup', this.ChangePlayed)
-      // this.video.addEventListener('loadstart', (e) => {
-      //   console.log(e)
-      //   console.log(this.video.readyState)
-      // })
-      // this.video.addEventListener('durationchange', (e) => {
-      //   console.log(e)
-      //   console.log(this.video.readyState)
-      // })
-      // this.video.addEventListener('loadedmetadata', (e) => {
-      //   console.log(e)
-      //   console.log(this.video.readyState)
-      // })
-      // this.video.addEventListener('loadeddata', (e) => {
-      //   console.log(e)
-      //   console.log(this.video.readyState)
-      // })
-      // this.video.addEventListener('stalled', (e) => {
-      //   console.log(e)
-      //   console.log(this.video.readyState)
-      // })
-      // this.video.addEventListener('progress', (e) => {
-      //   console.log(e)
-      //   console.log(this.video.readyState)
-      //   console.log(this.video.buffered)
-      //   if (this.video.buffered.length >= 1) {
-      //     console.log(this.video.buffered.start(0))
-      //     console.log(this.video.buffered.end(0))
-      //   }
-      // })
-      // this.video.addEventListener('canplay', (e) => {
-      //   console.log(e)
-      //   console.log(this.video.readyState)
-      // })
-      // this.video.addEventListener('canplaythrough', (e) => {
-      //   console.log(this.video.CAN_PLAY_THROUGH)
-      // })
-      // this.video.addEventListener('emptied', (e) => {
-      //   console.log(this.video.error)
-      //   this.video.currentTime = 0
-      //   this.video.load()
-      //   store.addNotif('An error occured in this video!', 'error')
-      // })
+      // this.video.addEventListener('keyup', this.ChangePlayed)
       this.video.addEventListener('error', (err) => {
         console.log(this.video.error)
         this.video.currentTime = 0

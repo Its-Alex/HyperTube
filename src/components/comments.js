@@ -3,7 +3,7 @@ import store from '../utils/store'
 import Moment from 'react-moment'
 import { local } from '../utils/api.js'
 import { observer } from 'mobx-react'
-import { Form, Comment } from 'semantic-ui-react'
+import { Divider, Form, Comment } from 'semantic-ui-react'
 
 @observer
 
@@ -95,25 +95,26 @@ class Comments extends Component {
   render () {
     return (
       <div className="commentBlock">
-      <Comment.Group className="contentGroup">
-        <Comment>
-        {this.state.comments.map((result, index) => {
-          return (
-            <Comment.Content key={index}>
-              <div className="commentUser" onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
-              <Comment.Metadata className="commentDate">
-                <Moment to={result.date} />
-              </Comment.Metadata>
-              <div className="commentCom">{result.comment}</div>
-              </Comment.Content>
-            )
-          })}
-          </Comment>
-        </Comment.Group>
+        <Divider horizontal>Comments</Divider>
         <Form onSubmit={this.handleSendMess}>
           <Form.Input value={this.state.message} name='message' onChange={this.handleChange} />
           <Form.Button name='submit' content="Submit" />
         </Form>
+        <Comment.Group className="contentGroup">
+          <Comment>
+          {this.state.comments.map((result, index) => {
+            return (
+              <Comment.Content key={index} className="contentDiv">
+                <div className="commentUser" onClick={() => { this.handleClick(result.userId) }}>{result.username}</div>
+                <Comment.Metadata className="commentDate">
+                  <Moment to={result.date} />
+                </Comment.Metadata>
+                <div className="commentCom">{result.comment}</div>
+              </Comment.Content>
+              )
+            })}
+          </Comment>
+        </Comment.Group>
       </div>
     )
   }
