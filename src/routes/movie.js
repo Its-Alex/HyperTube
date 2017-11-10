@@ -58,6 +58,7 @@ class Movie extends Component {
   componentWillMount () {
     tmdb().get(`movie/${this.state.movie}`)
     .then((res) => {
+      console.log(res)
       this.setState({
         title: res.data.title,
         titleOriginal: res.data.original_title,
