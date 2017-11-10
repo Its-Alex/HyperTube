@@ -22,10 +22,6 @@ module.exports = (req, res) => {
   let file = global.download[req.params.id]
   if (!file) return error(res, 'Movie not cached', 404)
 
-  if (!file.path || !fs.existsSync(file.path)) {
-    return error(res, 'Movie not found in our server', 404)
-  }
-
   if (file.state === 'transcoding') {
     let start
     let end
@@ -47,7 +43,7 @@ module.exports = (req, res) => {
     }
 
     res.writeHead(206, head)
-    let convert = ffmpeg(file.path)
+    let convert = ffmpeg(file.createStream({start, end}))
       .videoCodec('libvpx')
       .audioCodec('libvorbis')
       .format('webm')
@@ -58,8 +54,9 @@ module.exports = (req, res) => {
         '-deadline realtime',
         '-error-resilient 1'
       ])
-      .on('error', () => {
+      .on('error', (err) => {
         console.log('Cannot convert movie ' + file.title)
+        console.log(err)
       })
     pump(convert, res)
   } else {

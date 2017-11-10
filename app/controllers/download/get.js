@@ -22,10 +22,6 @@ module.exports = (req, res) => {
   if (!file) return error(res, 'Movie not cached', 404)
 
   if (!file.path && file.state === 'downloading') {
-    if (!file.originalPath || !fs.existsSync(file.originalPath)) {
-      return error(res, 'Movie not found in our server', 404)
-    }
-
     let start
     let end
     let chunksize
@@ -46,7 +42,7 @@ module.exports = (req, res) => {
     }
 
     res.writeHead(206, head)
-    pump(file.stream({
+    pump(file.createStream({
       start,
       end
     }), res)

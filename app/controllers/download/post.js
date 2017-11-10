@@ -47,6 +47,7 @@ module.exports = (req, res) => {
         file.state = 'downloading'
 
         global.download[file.id] = file
+        global.download[file.id].createStream = movie.createReadStream
 
         model.update('originalPath = ?, originalExt = ?, length = ?, state = ? WHERE id = ?', [
           file.originalPath,
@@ -57,7 +58,6 @@ module.exports = (req, res) => {
         ]).then(() => {
           if (file.originalExt === '.mp4' || file.originalExt === '.webm') {
             global.download[file.id].state = 'downloading'
-            global.download[file.id].stream = movie.createReadStream
             movie.select()
             console.log(`Movie ${movie.name} downloading...`)
             return res.json({
@@ -65,7 +65,6 @@ module.exports = (req, res) => {
               info: 'downloading'
             })
           } else if (extensions.indexOf(file.originalExt) !== -1) {
-            global.download[file.id].needTranscode = true
             global.download[file.id].state = 'transcoding'
             global.download[file.id].path = global.config.pathStorage + genUuid() + '.webm'
             global.download[file.id].ext = '.webm'
