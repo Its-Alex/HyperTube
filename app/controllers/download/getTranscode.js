@@ -1,4 +1,5 @@
 const fs = require('fs')
+const ffmpeg = require('fluent-ffmpeg')
 const pump = require('pump')
 
 function error (res, error, status) {
@@ -45,13 +46,22 @@ module.exports = (req, res) => {
       'Content-Type': 'video/' + file.ext.substr(1)
     }
 
-    console.log(head)
-
     res.writeHead(206, head)
-    pump(fs.createReadStream(file.path, {
-      start,
-      end
-    }), res)
+    let convert = ffmpeg(file.path)
+      .videoCodec('libvpx')
+      .audioCodec('libvorbis')
+      .format('webm')
+      // .audioBitrate(128)
+      // .videoBitrate(1024)
+      .outputOptions([
+        '-threads 8',
+        '-deadline realtime',
+        '-error-resilient 1'
+      ])
+      .on('error', () => {
+        console.log('Cannot convert movie ' + file.title)
+      })
+    pump(convert, res)
   } else {
     error(res, 'File error or bad gateway', 403)
   }

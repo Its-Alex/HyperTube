@@ -65,12 +65,12 @@ module.exports = (req, res) => {
               info: 'downloading'
             })
           } else if (extensions.indexOf(file.originalExt) !== -1) {
-            console.log('Need transcode for:' + file.title)
             global.download[file.id].needTranscode = true
             global.download[file.id].state = 'transcoding'
             global.download[file.id].path = global.config.pathStorage + genUuid() + '.webm'
             global.download[file.id].ext = '.webm'
 
+            let size
             model.update('state = ?, path = ?, ext = ? WHERE id = ?', [
               global.download[file.id].state,
               global.download[file.id].path,
@@ -88,30 +88,24 @@ module.exports = (req, res) => {
                 ])
                 .on('start', (commandLine) => {
                   console.log(`Movie ${file.title} transcoding...`)
-                  console.log('Spawned ffmpeg with command: ' + commandLine)
                   return res.json({
                     success: true,
                     info: 'transcoding'
                   })
                 })
                 .on('end', () => {
-                  model.update('state = ? WHERE id = ?', ['ready', file.id])
+                  model.update('state = ?, lenght = ? WHERE id = ?', ['ready', size, file.id])
                   .then(result => {
+                    global.download[file.id].length = size
                     global.download[file.id].state = 'ready'
                   }).catch(err => {
                     console.log(err)
                   })
                 })
                 .on('progress', (progress) => {
-                  model.update('length = ? WHERE id = ?', [progress.targetSize, file.id]).then(result => {
-                    global.download[file.id].length = progress.targetSize
-                    console.log(progress)
-                  }).catch(err => {
-                    console.log(err)
-                  })
+                  size = progress.targetSize
                 })
                 .on('error', (err) => {
-                  console.log('Cannot convert movie')
                   model.update('state = ? WHERE id = ?', ['error', file.id]).then(result => {
                     global.download[file.id].state = 'error'
                     console.log(err)
