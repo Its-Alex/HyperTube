@@ -61,6 +61,12 @@ class Movie extends Component {
   componentWillMount () {
     tmdb().get(`movie/${this.state.movie}`)
     .then((res) => {
+      if (res.data.success === false) {
+        store.addNotif('Server tmdb offline', 'error')
+        return this.setState({
+          source: null
+        })
+      }
       this.setState({
         title: res.data.title,
         titleOriginal: res.data.original_title,
@@ -86,17 +92,36 @@ class Movie extends Component {
           })
         } else {
           store.addNotif(res.data.error, 'error')
+          this.setState({
+            source: null
+          })
         }
       }).catch((err) => {
         if (err.response) {
           console.log(err.response)
           store.addNotif(err.response.data.error, 'error')
+          this.setState({
+            source: null
+          })
+        } else {
+          store.addNotif('Somethings is wrong with our server', 'error')
+          this.setState({
+            source: null
+          })
         }
       })
     }).catch((err) => {
       if (err.response) {
         console.log(err.response)
         store.addNotif(err.response.data.error, 'error')
+        this.setState({
+          source: null
+        })
+      } else {
+        store.addNotif('Somethings is wrong with tmdb server', 'error')
+        this.setState({
+          source: null
+        })
       }
     })
   }
@@ -128,7 +153,7 @@ class Movie extends Component {
         </div>
         <Divider horizontal>Select quality to play</Divider>
         <div className='quality'>
-          { this.state.source.length !== 0
+          { this.state.source !== null && this.state.source.length !== 0
             ? this.state.source.map((res, index) => {
               if (res !== null) {
                 let color
@@ -151,14 +176,15 @@ class Movie extends Component {
                 return null
               }
             })
-          : <div className='loader'>
+          : (this.state.source !== null)
+          ? <div className='loader'>
             <div className='blob blob-0' />
             <div className='blob blob-1' />
             <div className='blob blob-2' />
             <div className='blob blob-3' />
             <div className='blob blob-4' />
             <div className='blob blob-5' />
-          </div>}
+          </div> : null}
         </div>
       </div>
     )
