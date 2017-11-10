@@ -94,7 +94,9 @@ class Popular extends Component {
         'primary_release_date.lte':  this.state.endDate1  // Date la plus recente
       }
     }).then((res) => {
+      console.log(res)
       if (this.state.page === res.data.total_pages && this._isMounted === true) {
+        console.log('je passe ici')
         store.addResultPopular(res.data.results)
         this.setState({hasMore: false})
         this._isMounted = false
@@ -103,6 +105,7 @@ class Popular extends Component {
         console.log(res.data.results)
         store.addResultPopular(res.data.results)
       }
+
     }).catch((err) => {
       console.log(err.response)
     })
@@ -128,9 +131,12 @@ class Popular extends Component {
   handleStartTrie () {
     if (getDiff(this.state.startDate1, this.state.endDate1) === true) {
       store.resetPopular()
-      this.setState({
-        hasMore: true
-      })
+      setTimeout(() => {
+        this._isMounted = true
+        this.setState({
+          hasMore: true
+        })
+      }, 800);
     }
   }
 
