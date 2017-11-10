@@ -63,8 +63,6 @@ class Popular extends Component {
     this.setState({
       choiceSort: choice,
       choiceOfSorts: name,
-    }, () => {
-      console.log(`${choice} ---> ${name}`)
     })
   }
   
@@ -79,9 +77,7 @@ class Popular extends Component {
         choiceOfTheme: name,
         choiceTheme: num
       })
-    }
-    console.log(`${num} ---> ${name}`)
-    
+    }    
   }
   
   handleChangePage () {
@@ -94,15 +90,12 @@ class Popular extends Component {
         'primary_release_date.lte':  this.state.endDate1  // Date la plus recente
       }
     }).then((res) => {
-      console.log(res)
       if (this.state.page === res.data.total_pages && this._isMounted === true) {
-        console.log('je passe ici')
         store.addResultPopular(res.data.results)
         this.setState({hasMore: false})
         this._isMounted = false
       }
       if (this._isMounted === true) {
-        console.log(res.data.results)
         store.addResultPopular(res.data.results)
       }
 
