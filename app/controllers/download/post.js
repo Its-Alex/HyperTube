@@ -87,7 +87,7 @@ module.exports = (req, res) => {
                   '-deadline realtime'
                 ])
                 .on('start', (commandLine) => {
-                  console.log(`Movie ${movie.name} transcoding...`)
+                  console.log(`Movie ${file.title} transcoding...`)
                   console.log('Spawned ffmpeg with command: ' + commandLine)
                   return res.json({
                     success: true,
@@ -133,7 +133,7 @@ module.exports = (req, res) => {
 
         engine.on('idle', () => {
           if (file.state !== 'ready' && file.state !== 'transcode' && file.originalPath && file.length && file.length === fs.statSync(file.originalPath).size) {
-            console.log(`Movie ${movie.name} downloaded`)
+            console.log(`Movie ${file.title} downloaded`)
             global.download[file.id].state = 'ready'
             model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
             }).catch(err => {

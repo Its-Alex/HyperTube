@@ -45,6 +45,8 @@ module.exports = (req, res) => {
       'Content-Type': 'video/' + file.ext.substr(1)
     }
 
+    console.log(head)
+
     res.writeHead(206, head)
     pump(fs.createReadStream(file.path, {
       start,
