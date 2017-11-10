@@ -26,9 +26,6 @@ module.exports = (req, res) => {
   }
 
   if (file.state === 'transcoding') {
-    if (!file.streamTranscode) {
-      return error(res, 'Stream movie has an error', 403)
-    }
     let start
     let end
     let chunksize
@@ -45,11 +42,11 @@ module.exports = (req, res) => {
       'Content-Range': 'bytes ' + start + '-' + end + '/' + file.length,
       'Accept-Ranges': 'bytes',
       'Content-Length': chunksize,
-      'Content-Type': 'video/' + file.originalExt.substr(1)
+      'Content-Type': 'video/' + file.ext.substr(1)
     }
 
     res.writeHead(206, head)
-    pump(file.streamTranscode({
+    pump(fs.createReadStream(file.path, {
       start,
       end
     }), res)

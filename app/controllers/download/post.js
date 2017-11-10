@@ -23,6 +23,8 @@ module.exports = (req, res) => {
     if (file.length === 0) return error(res, 'No torrents with this id', 403)
     else file = file[0]
 
+    if (!global.download[file.id]) global.download[file.id] = file
+
     if (file.state === 'search') {
       let movie
       let engine = ts(file.magnet, {
@@ -57,6 +59,7 @@ module.exports = (req, res) => {
             global.download[file.id].state = 'downloading'
             global.download[file.id].stream = movie.createReadStream
             movie.select()
+            console.log(`Movie ${movie.name} downloading...`)
             return res.json({
               success: true,
               info: 'downloading'
@@ -65,8 +68,8 @@ module.exports = (req, res) => {
             console.log('Need transcode for:' + file.title)
             global.download[file.id].needTranscode = true
             global.download[file.id].state = 'transcoding'
-            global.download[file.id].path = global.config.pathStorage + genUuid() + '.mp4'
-            global.download[file.id].ext = '.mp4'
+            global.download[file.id].path = global.config.pathStorage + genUuid() + '.webm'
+            global.download[file.id].ext = '.webm'
 
             model.update('state = ?, path = ?, ext = ? WHERE id = ?', [
               global.download[file.id].state,
@@ -75,16 +78,17 @@ module.exports = (req, res) => {
               file.id
             ]).then(result => {
               ffmpeg(movie.createReadStream())
-                .format('mp4')
-                .audioBitrate(128)
-                .videoBitrate(1024)
+                .videoCodec('libvpx')
+                .audioCodec('libvorbis')
+                .format('webm')
+                // .audioBitrate(128)
+                // .videoBitrate(1024)
                 .outputOptions([
-                  '-vcodec h264',
-                  '-acodec aac',
                   '-deadline realtime'
                 ])
                 .on('start', (commandLine) => {
-                  console.log('Spawned Ffmpeg with command: ' + commandLine)
+                  console.log(`Movie ${movie.name} transcoding...`)
+                  console.log('Spawned ffmpeg with command: ' + commandLine)
                   return res.json({
                     success: true,
                     info: 'transcoding'
@@ -107,9 +111,9 @@ module.exports = (req, res) => {
                   })
                 })
                 .on('error', (err) => {
+                  console.log('Cannot convert movie')
                   model.update('state = ? WHERE id = ?', ['error', file.id]).then(result => {
                     global.download[file.id].state = 'error'
-                    console.log('Cannot convert movie')
                     console.log(err)
                   }).catch(err => {
                     console.log(err)
@@ -129,6 +133,7 @@ module.exports = (req, res) => {
 
         engine.on('idle', () => {
           if (file.state !== 'ready' && file.state !== 'transcode' && file.originalPath && file.length && file.length === fs.statSync(file.originalPath).size) {
+            console.log(`Movie ${movie.name} downloaded`)
             global.download[file.id].state = 'ready'
             model.update('state = ? WHERE id = ?', ['ready', file.id]).then(result => {
             }).catch(err => {
@@ -139,10 +144,15 @@ module.exports = (req, res) => {
       })
     } else if (file.state === 'ready') {
       return res.json({
-        success: 200,
+        success: true,
         info: 'downloaded'
       })
-    } else if (file.state === 'error') {
+    } else if (file.state === 'transcoding') {
+      return res.json({
+        success: true,
+        info: 'transcoding'
+      })
+    } else {
       return error(res, 'File error', 403)
     }
   }).catch(err => {

@@ -40,7 +40,6 @@ class Movie extends Component {
   handleHide () { this.setState({ active: false }) }
 
   handlePlayMovie (uuid) {
-    console.log(Date.now())
     local().post(`/download/${uuid}`).then((res) => {
       if (res.data.success === true) {
         if (res.data.info === 'downloading' || res.data.info === 'downloaded' || res.data.info === 'transcoding') {
@@ -141,6 +140,9 @@ class Movie extends Component {
                   color = 'brown'
                 } else if (res.state === 'error') {
                   color = 'red'
+                  return <QualityBtn key={index} uuid={res.uuid} quality={res.quality} color={color} onClick={() => {
+                    store.addNotif(`This video can't be played`, 'error')
+                  }} />
                 } else {
                   color = 'grey'
                 }
