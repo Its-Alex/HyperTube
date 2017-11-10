@@ -315,7 +315,7 @@ class Profile extends React.Component {
               </div>
             </Grid.Column>
           </Grid.Row>
-          <Button.Group>
+          <Button.Group className='oklm'>
             { this.state.connectFacebook ? (
               <Button disabled
                 color='facebook'
