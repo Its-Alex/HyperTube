@@ -54,15 +54,48 @@ h5.movieDateTime {
 }
 
 .ui.card.detailCard {
-    margin: 1em 0;
-    height: 95%;
     margin-left: 2%;
     margin-right: 7%;
+    height: 400px;
+    background-size: cover;
+    margin: 0% 1% 7% -1%;
+    background-position: center;
+    border: 3px solid var(--color1);
+    box-shadow: none;
+}
+
+.ui.card.detailCard:hover {
+    border: 3px solid var(--color3);
+}
+
+.card-container {
+    margin: 0% 0.5% 0% 0.5%;
 }
 
 div.myCard {
     margin-left: 1%;
     margin-right: 1%;
+}
+
+.opacitavy {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: -webkit-fill-available;
+  opacity: 0;
+}
+
+.opacitavy:hover {
+    opacity: 1;
+}
+
+div.header.cardName {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40%;
+    font-size: 2em;
+    text-align: center;
+    line-height: 1;
 }
 
 .loader {

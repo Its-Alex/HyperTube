@@ -200,27 +200,33 @@ class Movie extends Component {
               {this.state.cast ? this.state.cast.map((result, index) => {
                 if (result.profile_path) {
                   return (
-                    <div key={index} className='myCard'>
-                      <Card className='detailCard'>
-                        <Image src={result.profile_path} />
-                        <Card.Content>
-                          <Card.Header>
-                            {result.name}
-                          </Card.Header>
-                        </Card.Content>
+                    <div key={index} className='card-container'>
+                      <Card className='detailCard' style={{backgroundImage: `url('${result.profile_path}')`}} >
+                        <div className='opacitavy'>
+                          <div className='myCard'>
+                            <Card.Content>
+                              <Card.Header className='cardName'>
+                                {result.name}
+                              </Card.Header>
+                            </Card.Content>
+                          </div>
+                        </div>
                       </Card>
                     </div>
                   )
                 } else {
                   return (
-                    <div key={index} className='myCard'>
-                      <Card className='detailCard'>
-                        <Image src='https://museum.wales/media/40374/empty-profile-grey.jpg' />
-                        <Card.Content>
-                          <Card.Header>
-                            {result.name}
-                          </Card.Header>
-                        </Card.Content>
+                    <div key={index} className='card-container'>
+                      <Card className='detailCard' style={{backgroundImage: 'url(https://museum.wales/media/40374/empty-profile-grey.jpg)'}} >
+                        <div className='opacitavy'>
+                          <div className='myCard'>
+                            <Card.Content>
+                              <Card.Header className='cardName'>
+                                {result.name}
+                              </Card.Header>
+                            </Card.Content>
+                          </div>
+                        </div>
                       </Card>
                     </div>
                   )
@@ -242,27 +248,33 @@ class Movie extends Component {
               {this.state.crew ? this.state.crew.map((result, index) => {
                   if (result.profile_path) {
                     return (
-                      <div key={index} className='myCard'>
-                        <Card className='detailCard'>
-                          <Image src={result.profile_path} />
-                          <Card.Content>
-                            <Card.Header>
-                              {result.name}
-                            </Card.Header>
-                          </Card.Content>
+                      <div key={index} className='card-container'>
+                        <Card className='detailCard' style={{backgroundImage: `url('${result.profile_path}')`}} >
+                          <div className='opacitavy'>
+                            <div className='myCard'>
+                              <Card.Content>
+                                <Card.Header className='cardName'>
+                                  {result.name}
+                                </Card.Header>
+                              </Card.Content>
+                            </div>
+                          </div>
                         </Card>
                       </div>
                     )
                   } else {
                     return (
-                      <div key={index} className='myCard'>
-                        <Card className='detailCard'>
-                          <Image src='https://museum.wales/media/40374/empty-profile-grey.jpg' />
-                          <Card.Content>
-                            <Card.Header>
-                              {result.name}
-                            </Card.Header>
-                          </Card.Content>
+                      <div key={index} className='card-container'>
+                        <Card className='detailCard' style={{backgroundImage: 'url(https://museum.wales/media/40374/empty-profile-grey.jpg)'}} >
+                          <div className='opacitavy'>
+                            <div className='myCard'>
+                              <Card.Content>
+                                <Card.Header className='cardName'>
+                                  {result.name}
+                                </Card.Header>
+                              </Card.Content>
+                            </div>
+                          </div>
                         </Card>
                       </div>
                     )
