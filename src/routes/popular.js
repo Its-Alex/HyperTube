@@ -33,7 +33,7 @@ class Popular extends Component {
       hasMore: true,
       nbPage: '',
       choiceSort: 'popularity.desc',
-      choiceOfSorts: 'Trie',
+      choiceOfSorts: 'Sort by',
       choiceTheme: null,
       choiceOfTheme: 'Genre',
       startDate: '',
@@ -48,7 +48,7 @@ class Popular extends Component {
     this.handleSortTheme = this.handleSortTheme.bind(this)
     this.handleChangePage = this.handleChangePage.bind(this)
     this.handleChangeDate = this.handleChangeDate.bind(this)
-    this.handleStartTrie = this.handleStartTrie.bind(this)
+    this.handleStartSort = this.handleStartSort.bind(this)
     this.handleReset = this.handleReset.bind(this)
   }
 
@@ -144,7 +144,7 @@ class Popular extends Component {
     })
 }
 
-  handleStartTrie () {
+  handleStartSort () {
     if (this.state.useDate === true) {
       if (getDiff(this.state.startDate1, this.state.endDate1) === true) {
         store.resetPopular()
@@ -211,7 +211,7 @@ class Popular extends Component {
           </Dropdown>
           </Menu.Item>
           <Menu.Item>
-            <Button onClick={this.handleStartTrie}>Trie</Button>
+            <Button onClick={this.handleStartSort}>Sort</Button>
           </Menu.Item>
           <Menu.Item>
             <Button onClick={this.handleReset}>Reset</Button>
@@ -219,13 +219,13 @@ class Popular extends Component {
         </Menu>
         <Menu stackable>
           <Menu.Item>
-            <Menu.Header>Compris entre :</Menu.Header>
+            <Menu.Header>Between :</Menu.Header>
             </Menu.Item>
           <Menu.Item>            
             <Input name='startDate' value={this.state.startDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
           </Menu.Item>
           <Menu.Item>
-            <Menu.Header>et</Menu.Header>
+            <Menu.Header>and</Menu.Header>
             </Menu.Item>
           <Menu.Item>
             <Input name='endDate' value={this.state.endDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
