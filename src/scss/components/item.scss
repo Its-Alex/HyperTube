@@ -22,6 +22,11 @@
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
   width: 100%;
+  -webkit-transition: opacity .35s ease-in-out;
+  -moz-transition: opacity .35s ease-in-out;
+  -ms-transition: opacity .35s ease-in-out;
+  -o-transition: opacity .35s ease-in-out;
+  transition: opacity .35s ease-in-out;
 }
 
 .title {
@@ -70,6 +75,11 @@
 
 .item-container:hover > .opac {
   opacity: 1;
+  -webkit-transition: opacity .35s ease-in-out;
+  -moz-transition: opacity .35s ease-in-out;
+  -ms-transition: opacity .35s ease-in-out;
+  -o-transition: opacity .35s ease-in-out;
+  transition: opacity .35s ease-in-out;
 }
 
 .ui.statistic > .value.statValue {
@@ -91,10 +101,18 @@
 .ui.green.inverted.button {
   color: var(--color3);
   box-shadow: 0 0 0 2px var(--color3) inset!important;
+  -webkit-transition: background-color 0.5s ease-in;
+  -moz-transition: background-color 0.5s ease-in;
+  -o-transition: background-color 0.5s ease-in;
+  transition: background-color 0.5s ease-in;
 }
 
 .ui.green.inverted.button:hover {
-  background-color: var(--color3)
+  background-color: var(--color3);
+  -webkit-transition: background-color 1s ease-out;
+  -moz-transition: background-color 1s ease-out;
+  -o-transition: background-color 1s ease-out;
+  transition: background-color 1s ease-out;
 }
 
 .ui.green.inverted.button:focus {
