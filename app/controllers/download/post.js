@@ -66,8 +66,8 @@ module.exports = (req, res) => {
             })
           } else if (extensions.indexOf(file.originalExt) !== -1) {
             global.download[file.id].state = 'transcoding'
-            global.download[file.id].path = global.config.pathStorage + genUuid() + '.webm'
-            global.download[file.id].ext = '.webm'
+            global.download[file.id].path = global.config.pathStorage + genUuid() + '.mp4'
+            global.download[file.id].ext = '.mp4'
 
             let size
             model.update('state = ?, path = ?, ext = ? WHERE id = ?', [
@@ -76,14 +76,14 @@ module.exports = (req, res) => {
               global.download[file.id].ext,
               file.id
             ]).then(result => {
-              ffmpeg(movie.createReadStream())
+              let convert = ffmpeg(movie.createReadStream())
                 .videoCodec('libvpx')
                 .audioCodec('libvorbis')
+                .videoBitrate('1024k')
                 .format('webm')
-                // .audioBitrate(128)
-                // .videoBitrate(1024)
                 .outputOptions([
-                  '-deadline realtime'
+                  '-deadline realtime',
+                  '-error-resilient 1'
                 ])
                 .on('start', (commandLine) => {
                   console.log(`Movie ${file.title} transcoding...`)
@@ -105,6 +105,8 @@ module.exports = (req, res) => {
                   size = progress.targetSize
                 })
                 .on('error', (err) => {
+                  convert.kill()
+                  console.log('Failed to convert this movie')
                   model.update('state = ? WHERE id = ?', ['error', file.id]).then(result => {
                     global.download[file.id].state = 'error'
                     console.log(err)
