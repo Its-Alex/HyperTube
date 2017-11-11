@@ -122,14 +122,26 @@ class Popular extends Component {
   }
 
   handleStartTrie () {
-    if (getDiff(this.state.startDate1, this.state.endDate1) === true) {
+    if (this.state.useDate === true) {
+      if (getDiff(this.state.startDate1, this.state.endDate1) === true) {
+        store.resetPopular()
+        setTimeout(() => {
+          this._isMounted = true
+          this.setState({
+            hasMore: true
+          })
+        }, 800)
+      } else {
+        store.addNotif('Date Not Formated', 'error')
+      }
+    } else {
       store.resetPopular()
       setTimeout(() => {
         this._isMounted = true
         this.setState({
           hasMore: true
         })
-      }, 800);
+      }, 800)
     }
   }
 

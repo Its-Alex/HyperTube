@@ -56,15 +56,11 @@ class Store {
     }    
   }
 
-  @action
-  setTotalPages (res) {
-    this.totalPages = res
-  }
-
 	@action
 	resetSearch (res) {
-    this.pageSearchResult = this.pageSearchResult + 1
-		this.searchResult = res
+    this.totalPages = res.total_pages
+    this.pageSearchResult = 2
+		this.searchResult = res.results
   }
   
   @action
