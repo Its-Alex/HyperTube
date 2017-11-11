@@ -40,7 +40,8 @@ class Popular extends Component {
       endDate: '',
       startDate1: '',
       endDate1: '',
-      useDate: false
+      useDate: false,
+      useSort: false
     }
     this._isMounted = false
     this.handleSortsChoice = this.handleSortsChoice.bind(this)
@@ -48,6 +49,7 @@ class Popular extends Component {
     this.handleChangePage = this.handleChangePage.bind(this)
     this.handleChangeDate = this.handleChangeDate.bind(this)
     this.handleStartTrie = this.handleStartTrie.bind(this)
+    this.handleReset = this.handleReset.bind(this)
   }
 
   componentDidMount () {
@@ -56,6 +58,9 @@ class Popular extends Component {
 
   componentWillUnmount () {
     this._isMounted = false
+    if (this.state.useSort === true) {
+      store.resetPopular()
+    }
   }
   
 
@@ -121,6 +126,24 @@ class Popular extends Component {
     })
   }
 
+  handleReset () {
+    store.resetPopular()
+    this._isMounted = true
+    this.setState({
+      startDate1: '',
+      startDate: '',
+      endDate1: '',
+      endDate: '',
+      choiceTheme: null,
+      choiceOfTheme: 'Genre',
+      choiceSort: 'popularity.desc',
+      choiceOfSorts: 'Trie',
+      useDate: false,
+      useSort: false,
+      hasMore: true
+    })
+}
+
   handleStartTrie () {
     if (this.state.useDate === true) {
       if (getDiff(this.state.startDate1, this.state.endDate1) === true) {
@@ -128,6 +151,7 @@ class Popular extends Component {
         setTimeout(() => {
           this._isMounted = true
           this.setState({
+            useSort: true,
             hasMore: true
           })
         }, 800)
@@ -139,6 +163,7 @@ class Popular extends Component {
       setTimeout(() => {
         this._isMounted = true
         this.setState({
+          useSort: true,
           hasMore: true
         })
       }, 800)
@@ -176,8 +201,8 @@ class Popular extends Component {
           <Menu.Item>
           <Dropdown text={this.state.choiceOfSorts} icon='filter' floating labeled button className='icon'>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => {this.handleSortsChoice('popularity.desc', 'Popularité Décroissante (défaut)')}}>Pop Décroissante (défaut)</Dropdown.Item>
-              <Dropdown.Item onClick={() => {this.handleSortsChoice('popularity.asc', 'Popularité Croissante')}}>Pop Croissante</Dropdown.Item>
+              <Dropdown.Item onClick={() => {this.handleSortsChoice('popularity.desc', 'Pop Décroissante (défaut)')}}>Pop Décroissante (défaut)</Dropdown.Item>
+              <Dropdown.Item onClick={() => {this.handleSortsChoice('popularity.asc', 'Pop Croissante')}}>Pop Croissante</Dropdown.Item>
               <Dropdown.Item onClick={() => {this.handleSortsChoice('release_date.desc', 'Date Décroissante')}}>Date Décroissante</Dropdown.Item>
               <Dropdown.Item onClick={() => {this.handleSortsChoice('release_date.asc', 'Date Croissante')}}>Date Croissante</Dropdown.Item>
               <Dropdown.Item onClick={() => {this.handleSortsChoice('vote_average.desc', 'Vote Décroissante')}}>Vote Décroissante</Dropdown.Item>
@@ -189,16 +214,19 @@ class Popular extends Component {
             <Menu.Header>Compris entre :</Menu.Header>
             </Menu.Item>
           <Menu.Item>            
-            <Input name='startDate' onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
+            <Input name='startDate' value={this.state.startDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
           </Menu.Item>
           <Menu.Item>
             <Menu.Header>et</Menu.Header>
             </Menu.Item>
           <Menu.Item>
-            <Input name='endDate' onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
+            <Input name='endDate' value={this.state.endDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
           </Menu.Item>
           <Menu.Item>
             <Button onClick={this.handleStartTrie}>Trie</Button>
+          </Menu.Item>
+          <Menu.Item>
+            <Button onClick={this.handleReset}>Reset</Button>
           </Menu.Item>
         </Menu>
         <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={store.resultPopular} history={this.props.history} />
