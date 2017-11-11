@@ -92,7 +92,7 @@ class Popular extends Component {
         sort_by: this.state.choiceSort,
         with_genres: this.state.choiceTheme,
         'primary_release_date.gte': this.state.startDate1,    // Date la plus vieille
-        'primary_release_date.lte':  this.state.endDate1  // Date la plus recente
+        'primary_release_date.lte':  this.state.endDate1      // Date la plus recente
       }
     }).then((res) => {
       if (this.state.page === res.data.total_pages && this._isMounted === true) {
@@ -211,6 +211,14 @@ class Popular extends Component {
           </Dropdown>
           </Menu.Item>
           <Menu.Item>
+            <Button onClick={this.handleStartTrie}>Trie</Button>
+          </Menu.Item>
+          <Menu.Item>
+            <Button onClick={this.handleReset}>Reset</Button>
+          </Menu.Item>
+        </Menu>
+        <Menu stackable>
+          <Menu.Item>
             <Menu.Header>Compris entre :</Menu.Header>
             </Menu.Item>
           <Menu.Item>            
@@ -221,12 +229,6 @@ class Popular extends Component {
             </Menu.Item>
           <Menu.Item>
             <Input name='endDate' value={this.state.endDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
-          </Menu.Item>
-          <Menu.Item>
-            <Button onClick={this.handleStartTrie}>Trie</Button>
-          </Menu.Item>
-          <Menu.Item>
-            <Button onClick={this.handleReset}>Reset</Button>
           </Menu.Item>
         </Menu>
         <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={store.resultPopular} history={this.props.history} />
