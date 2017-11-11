@@ -41,7 +41,8 @@ class Popular extends Component {
       startDate1: '',
       endDate1: '',
       useDate: false,
-      useSort: false
+      useSort: false,
+      alreadyView: [346364, 284053, 440021]
     }
     this._isMounted = false
     this.handleSortsChoice = this.handleSortsChoice.bind(this)
@@ -63,6 +64,16 @@ class Popular extends Component {
     }
   }
   
+  
+  // componentWillMount () {
+  //   local().get('/user/view').then((res) => {
+  //     if (res.data.success === true) {
+  //      this.setState({alreadyView: res.data.result})
+  //     }
+  //   }).catch((err) => {
+  //      console.log(er.response)
+  //   })
+  // }
 
   handleSortsChoice (choice, name) {
     this.setState({
@@ -95,13 +106,19 @@ class Popular extends Component {
         'primary_release_date.lte':  this.state.endDate1      // Date la plus recente
       }
     }).then((res) => {
-      if (this.state.page === res.data.total_pages && this._isMounted === true) {
-        store.addResultPopular(res.data.results)
-        this.setState({hasMore: false})
-        this._isMounted = false
-      }
       if (this._isMounted === true) {
+        res.data.results = res.data.results.map((element) => {
+          if (this.state.alreadyView.indexOf(element.id) !== -1) {
+            element.isViewed = true
+          } else {
+            element.isViewed = false
+          }
+          return element
+        }, this)
         store.addResultPopular(res.data.results)
+      }
+      if (this.state.page === res.data.total_pages && this._isMounted === true) {
+        this.setState({hasMore: false})
       }
 
     }).catch((err) => {
