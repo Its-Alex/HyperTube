@@ -21,15 +21,6 @@ html, body, #root, #container-root {
     font-size: 1rem;
 }
 
-::-webkit-scrollbar-thumb {
-    background-color: #343434;
-}
-
-::-webkit-scrollbar {
-    width: 4px;
-    background-color: #BBB;
-}
-
 ::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -45,6 +36,10 @@ html, body, #root, #container-root {
 ::-webkit-scrollbar-thumb
 {
 	background-color: var(--color3);
+}
+
+video::cue {
+    background: none;
 }
 
 @import 'register.scss';
