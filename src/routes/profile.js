@@ -36,7 +36,6 @@ class Profile extends React.Component {
 
   componentWillMount () {
     local().get('/user/me').then((res) => {
-      console.log(res)
       this.setState({
         profileFirstName: res.data.user.firstName,
         profileLastName: res.data.user.lastName,
@@ -50,7 +49,6 @@ class Profile extends React.Component {
       })
     }).catch((err) => {
       if (err.response) {
-        console.log(err.response)
         store.addNotif(err.response.data.error, 'error')
       }
     })
@@ -108,7 +106,6 @@ class Profile extends React.Component {
       .catch(err => {
         this.setState({loadingBtn: false})
         if (err.response) {
-          console.log(err.response)
           store.addNotif(err.response.data.error, 'error')
         }
       })
@@ -131,9 +128,11 @@ class Profile extends React.Component {
         local().put('/picture', {
           pic: reader.result
         }).then((res) => {
-          console.log(res)
+          if (res.data.success === false) store.addNotif(res.data.error, 'error')
         }).catch((err) => {
-          console.log(err.response)
+          if (err.response) {
+            store.addNotif(err.response.data.error, 'error')
+          }
         })
       }
       reader.onerror = function (error) {

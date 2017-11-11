@@ -69,7 +69,6 @@ class Movie extends Component {
       }
     }).catch((err) => {
       if (err.response) {
-        console.log(err.response)
         store.addNotif(err.response.data.error, 'error')
       }
     })
@@ -97,7 +96,6 @@ class Movie extends Component {
         runtime: getTimming(res.data.runtime)
       }, () => { store.addMovie(res.data) })
       tmdb().get(`/movie/${this.state.movie}/credits`).then((res1) => {
-        console.log(res1)
         res1.data.cast.forEach(element => {
           if (typeof element.profile_path === 'string') {
             element.profile_path = `https://image.tmdb.org/t/p/w500${element.profile_path}`
@@ -112,8 +110,7 @@ class Movie extends Component {
           cast: res1.data.cast,
           crew: res1.data.crew
         })
-      }).catch((err1) => {
-        console.log(err1.response)
+      }).catch(() => {
       })
       local().get('/search', {
         params: {
@@ -135,7 +132,6 @@ class Movie extends Component {
         }
       }).catch((err) => {
         if (err.response) {
-          console.log(err.response)
           store.addNotif(err.response.data.error, 'error')
           this.setState({
             source: null
@@ -149,7 +145,6 @@ class Movie extends Component {
       })
     }).catch((err) => {
       if (err.response) {
-        console.log(err.response)
         store.addNotif(err.response.data.error, 'error')
         this.setState({
           source: null

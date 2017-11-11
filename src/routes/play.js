@@ -18,7 +18,6 @@ class Play extends Component {
   
   componentWillMount () {
     local().get(`/download/one/${this.props.match.params.uuid}`).then(res => {
-      console.log(res)
       if (res.data.result[0].state === 'transcoding') {
         this.setState({src: `http://localhost:3005/download/transcoding/${this.state.uuid}?Authorization=${global.localStorage.getItem('token')}`})
       } else if (res.data.result[0].state === 'error') {
@@ -32,14 +31,12 @@ class Play extends Component {
           store.addMovie(res.data)
         }).catch(err => {
           if (err.response) {
-            console.log(err.response)
             store.addNotif(err.response.data.error)
           }
         })
       }
     }).catch(err => {
       if (err.response) {
-        console.log(err.response)
         store.addNotif(err.response.data.error)
       }
     })

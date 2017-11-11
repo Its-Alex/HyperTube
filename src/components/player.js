@@ -26,7 +26,6 @@ class Player extends Component {
       }
     }).catch(err => {
       if (err.response) {
-        console.log(err.response)
         store.addNotif(err.response.data.error, 'error')
       }
     })
@@ -42,12 +41,10 @@ class Player extends Component {
       if (res.data.success === true) {
         this.setState({subs: res.data.result})
       } else {
-        console.log(res.data.error)
         store.addNotif(res.data.error, 'error')
       }
     }).catch(err => {
       if (err.response) {
-        console.log(err.response)
         store.addNotif(err.response.data.error, 'error')
       }
     })

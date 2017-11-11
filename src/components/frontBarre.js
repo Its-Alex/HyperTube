@@ -28,7 +28,6 @@ class FrontBarre extends Component {
       }
     }).catch(err => {
       if (err.response) {
-        console.log(err.response)
         store.addNotif(err.response.data.error, 'error')
       }
     })
@@ -52,11 +51,9 @@ class FrontBarre extends Component {
           query: this.state.search
         }
       }).then((res) => {
-        console.log(res)
         store.resetSearch(res.data)
         this.setState({ search: '' })
       }).catch((err) => {
-        console.log(err)
       })
       this.props.history.push(`/search/${event.target.value}`)
       event.target.value = ''

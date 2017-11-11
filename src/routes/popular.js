@@ -105,7 +105,7 @@ class Popular extends Component {
       }
 
     }).catch((err) => {
-      console.log(err.response)
+      (err.response)
     })
   }
 

@@ -28,7 +28,7 @@ class TopRated extends Component {
       if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
       store.addResultTopRated(res.data.results)
     }).catch((err) => {
-      console.log(err.response)
+      store.addNotif('Themoviedb error', 'error')
     })
   }
 

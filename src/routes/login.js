@@ -61,7 +61,6 @@ class Login extends Component {
       })
       .catch(err => {
         this.setState({loadingBtn: false})
-        console.log(err.response)
         if (err.response) {
           store.addNotif(err.response.data.error)
         }
