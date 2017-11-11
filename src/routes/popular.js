@@ -6,7 +6,7 @@ import { tmdb } from '../utils/api.js'
 import { Dropdown, Menu, Input, Button } from 'semantic-ui-react'
 
 function getDiff (start, end) {
-  if ((2020 < parseInt(start.substr(0, 4) ,10)) || (parseInt(end.substr(0, 4) ,10) > 2020)) {
+  if ((((new Date()).getFullYear() + 3) < parseInt(start.substr(0, 4) ,10)) || (parseInt(end.substr(0, 4) ,10) > (((new Date()).getFullYear()) + 3))) {
     return false
   }
   let year = parseInt(start.substr(0, 4), 10) - parseInt(end.substr(0, 4), 10)
@@ -63,6 +63,10 @@ class Popular extends Component {
     }
   }
   
+
+  componentWillMount () {
+    console.log((new Date()).getFullYear() + 3)
+  }
 
   handleSortsChoice (choice, name) {
     this.setState({
