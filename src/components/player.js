@@ -30,6 +30,9 @@ class Player extends Component {
         store.addNotif(err.response.data.error, 'error')
       }
     })
+    if (!global.localStorage.getItem('langue')) {
+      global.localStorage.setItem('langue', 'en')
+    }
     local().get('/subtitle/search', {
       params: {
         id: this.props.id,
@@ -80,7 +83,7 @@ class Player extends Component {
   render () {
     return (
       <div>
-        <video id='player' ref={(ref) => { this.video = ref }} autoPlay controls crossOrigin='anonymous' poster={`https://image.tmdb.org/t/p/w500/${store.movie.backdrop_path}`} >
+        <video id='player' ref={(ref) => { this.video = ref }} autoPlay controls crossOrigin='anonymous' poster={`https://image.tmdb.org/t/p/w1000/${store.movie.backdrop_path}`} >
           <source src={this.props.src} />
           {this.state.subs.map((sub, index) => {
             let src = `http://localhost:3005/subtitle/${sub.id}?Authorization=${global.localStorage.getItem('token')}`
@@ -92,6 +95,9 @@ class Player extends Component {
           })
           }
         </video>
+        {this.state.subs.length === 0
+          ? <p>There is no subtitles for this movie</p>
+          : null}
       </div>
     )
   }
