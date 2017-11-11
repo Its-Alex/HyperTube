@@ -9,10 +9,12 @@ function error (res, error, status) {
 }
 
 module.exports = (req, res) => {
-  if (typeof req.body.imdbId !== 'string' || req.body.imdbId === ''
-  || typeof req.body.tmdbId !== 'string' || req.body.tmdbId === '') {
+  if (typeof req.body.imdbId !== 'string' || req.body.imdbId === '' ||
+  typeof req.body.tmdbId !== 'number' || req.body.tmdbId === 0) {
     return error(res, 'Invalid params', 403)
   }
+
+  req.body.tmdbId = req.body.tmdbId.toString()
 
   model.getAllViewOfUser(req.user.id).then(result => {
     let exist = false

@@ -17,10 +17,10 @@ class Player extends Component {
   }
 
   
-  componentWillMount () {
+  componentDidMount () {
     local().get(`/download/one/${this.props.id}`).then(res => {
       if (res.data.success === true) {
-        this.setState({localMovie: res.data.result})
+        this.setState({ localMovie: res.data.result })
       } else {
         store.addNotif(res.data.error, 'error')
       }
@@ -39,7 +39,7 @@ class Player extends Component {
       }
     }).then(res => {
       if (res.data.success === true) {
-        this.setState({subs: res.data.result})
+        this.setState({ subs: res.data.result })
       } else {
         store.addNotif(res.data.error, 'error')
       }
@@ -48,9 +48,6 @@ class Player extends Component {
         store.addNotif(err.response.data.error, 'error')
       }
     })
-  }  
-
-  componentDidMount () {
     if (this.video) {
       if (global.localStorage.getItem('volume')) {
         this.video.volume = global.localStorage.getItem('volume')

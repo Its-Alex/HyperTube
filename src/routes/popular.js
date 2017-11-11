@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Grid from '../components/grid'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
-import { tmdb } from '../utils/api.js'
+import { tmdb, local } from '../utils/api.js'
 import { Dropdown, Menu, Input, Button } from 'semantic-ui-react'
 
 function getDiff (start, end) {
@@ -40,6 +40,8 @@ class Popular extends Component {
       endDate: '',
       startDate1: '',
       endDate1: '',
+      getViewed: false,
+      viewed: [],
       useDate: false,
       useSort: false
     }
@@ -51,6 +53,16 @@ class Popular extends Component {
     this.handleStartSort = this.handleStartSort.bind(this)
     this.handleReset = this.handleReset.bind(this)
   }
+
+  componentWillMount () {
+    store.resetPopular()
+    local().get('/view').then(res => {
+      this.setState({
+        viewed: res.data.result,
+        getViewed: true
+      })
+    }).catch(err => {})
+  }  
 
   componentDidMount () {
     this._isMounted = true
@@ -98,8 +110,15 @@ class Popular extends Component {
       if (this.state.page === res.data.total_pages && this._isMounted === true) {
         this.setState({hasMore: false})
       }
-      store.addResultPopular(res.data.results)
+      store.addResultPopular(res.data.results.map(tmdbElem => {
+        this.state.viewed.forEach(viewElem => {
+          if (tmdbElem.id.toString() === viewElem.tmdbId) tmdbElem.viewed = true
+          else tmdbElem.viewed = false
+        })
+        return tmdbElem
+      }))
     }).catch((err) => {
+        console.log(err)
         store.addNotif('Themoviedb error', 'error')
     })
   }
@@ -225,7 +244,9 @@ class Popular extends Component {
             <Input name='endDate' value={this.state.endDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
           </Menu.Item>
         </Menu>
-        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={store.resultPopular} history={this.props.history} />
+        {this.state.getViewed === true
+          ? <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={store.resultPopular} history={this.props.history} />
+          : null}
       </div>
     )
   }

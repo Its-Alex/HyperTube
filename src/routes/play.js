@@ -35,6 +35,10 @@ class Play extends Component {
           }
         })
       }
+      local().put('/view', {
+        tmdbId: store.movie.id,
+        imdbId: store.movie.imdb_id
+      }).then(res => {}).catch(err => {})
     }).catch(err => {
       if (err.response) {
         store.addNotif(err.response.data.error)
