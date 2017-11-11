@@ -91,21 +91,16 @@ class Popular extends Component {
         page: store.pageResultPopular,
         sort_by: this.state.choiceSort,
         with_genres: this.state.choiceTheme,
-        'primary_release_date.gte': this.state.startDate1,    // Date la plus vieille
-        'primary_release_date.lte':  this.state.endDate1      // Date la plus recente
+        'primary_release_date.gte': this.state.startDate1,
+        'primary_release_date.lte':  this.state.endDate1
       }
     }).then((res) => {
       if (this.state.page === res.data.total_pages && this._isMounted === true) {
-        store.addResultPopular(res.data.results)
         this.setState({hasMore: false})
-        this._isMounted = false
       }
-      if (this._isMounted === true) {
-        store.addResultPopular(res.data.results)
-      }
-
+      store.addResultPopular(res.data.results)
     }).catch((err) => {
-      (err.response)
+        store.addNotif('Themoviedb error', 'error')
     })
   }
 
@@ -128,7 +123,6 @@ class Popular extends Component {
 
   handleReset () {
     store.resetPopular()
-    this._isMounted = true
     this.setState({
       startDate1: '',
       startDate: '',
