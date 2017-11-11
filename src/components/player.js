@@ -30,6 +30,9 @@ class Player extends Component {
         store.addNotif(err.response.data.error, 'error')
       }
     })
+    if (!global.localStorage.getItem('langue')) {
+      global.localStorage.setItem('langue', 'en')
+    }
     local().get('/subtitle/search', {
       params: {
         id: this.props.id,

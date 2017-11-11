@@ -25,7 +25,7 @@ module.exports = (req, res) => {
 
     if (!global.download[file.id]) global.download[file.id] = file
 
-    if (file.state === 'search') {
+    if (file.state === 'search' || file.state === 'downloading') {
       let movie
       let engine = ts(file.magnet, {
         tmp: global.config.pathStorage,
