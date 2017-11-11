@@ -130,7 +130,10 @@ module.exports = (req, res) => {
         }
       }).catch(err => {
         console.log(err)
-        if (timeout) return error(res, 'Internal server error', 500)
+        if (timeout) {
+          clearTimeout(timer)
+          if (timeout) return error(res, 'Internal server error', 500)
+        }
       })
     }).catch(err => {
       console.log(err)

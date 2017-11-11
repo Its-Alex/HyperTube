@@ -30,11 +30,39 @@
     color: white;
 }
 
+.detail{
+    margin: -1% -1% -1%;
+    color: white;
+    display: flex;
+    overflow: scroll;
+    overflow-y: hidden;
+}
+
 h1 {
     text-align: center;
     color: white;
-    margin-bottom: 4%;
-    margin-top: 6%;
+}
+
+.ui.fluid.accordion {
+    background: none;
+}
+
+h5.movieDateTime {
+    color: white;
+    text-align: center;
+    margin-top: -10px;
+}
+
+.ui.card.detailCard {
+    margin: 1em 0;
+    height: 95%;
+    margin-left: 2%;
+    margin-right: 7%;
+}
+
+div.myCard {
+    margin-left: 1%;
+    margin-right: 1%;
 }
 
 .loader {

@@ -18,7 +18,8 @@ class Play extends Component {
   
   componentWillMount () {
     local().get(`/download/one/${this.props.match.params.uuid}`).then(res => {
-      if (res.data.state === 'transcoding') {
+      console.log(res)
+      if (res.data.result[0].state === 'transcoding') {
         this.setState({src: `http://localhost:3005/download/transcoding/${this.state.uuid}?Authorization=${global.localStorage.getItem('token')}`})
       } else {
         this.setState({src: `http://localhost:3005/download/${this.state.uuid}?Authorization=${global.localStorage.getItem('token')}`})        
