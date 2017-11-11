@@ -64,10 +64,6 @@ class Popular extends Component {
   }
   
 
-  componentWillMount () {
-    console.log((new Date()).getFullYear() + 3)
-  }
-
   handleSortsChoice (choice, name) {
     this.setState({
       choiceSort: choice,
