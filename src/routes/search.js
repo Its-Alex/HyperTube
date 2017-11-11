@@ -15,13 +15,14 @@ class Search extends Component {
     }
     this.handleChangePage = this.handleChangePage.bind(this)
   }
-
+  
   handleChangePage () {
-    if (store.totalPages > 1 && store.totalPages < 1000) {
+    if (store.totalPages > 1 && store.totalPages < 1000 &&
+      store.pageSearchResult <= store.totalPages ) {
       tmdb().get(`search/movie`, {
         params: {
           page: store.pageSearchResult,
-          query: this.props.match.params.id
+          query: this.props.match.params.id       
         }
       }).then((res) => {
         console.log(res)

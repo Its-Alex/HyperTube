@@ -35,16 +35,12 @@ class FrontBarre extends Component {
   }
 
   handleItemClick (e, { name }) {
-    this.setState({
-      activeItem: name
-    })
+    this.setState({ activeItem: name })
     this.props.history.push(`/${name}`)
   }
 
   handleChangeSearch (event) {
-    this.setState({
-      search: event.target.value
-    })
+    this.setState({[event.target.name]: event.target.value})
   }
 
   handleKeySearch (event) {
@@ -52,13 +48,13 @@ class FrontBarre extends Component {
       tmdb().get(`https://api.themoviedb.org/3/search/movie`, {
         params: {
           api_key: '4add767f00472cadffc84346bd8572e6',
-          page: store.pageSearchResult,
-          query: event.target.value
+          page: 1,
+          query: this.state.search
         }
       }).then((res) => {
         console.log(res)
-        store.setTotalPages(res.data.total_pages)
-        store.resetSearch(res.data.results)
+        store.resetSearch(res.data)
+        this.setState({ search: '' })
       }).catch((err) => {
         console.log(err)
       })
@@ -77,7 +73,7 @@ class FrontBarre extends Component {
           <Menu.Item name='profile' active={activeItem === 'profile'} onClick={this.handleItemClick} />
           <Menu.Menu position='right'>
             <Menu.Item>
-              <Input icon='search' placeholder='Search...' value={this.state.search} onChange={this.handleChangeSearch} onKeyPress={this.handleKeySearch} />
+              <Input icon='search' name='search' placeholder='Search...' value={this.state.search} onChange={this.handleChangeSearch} onKeyPress={this.handleKeySearch} />
             </Menu.Item>
             <Menu.Item name='logout' onClick={() => this.handleDisconnect()} />
           </Menu.Menu>
