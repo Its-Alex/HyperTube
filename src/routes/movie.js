@@ -276,9 +276,8 @@ class Movie extends Component {
                               </Card.Content>
                             </div>
                           </div>
-                        </div>
-                      </Card>
-                    </div>
+                        </Card>
+                      </div>
                   )
                 }
               })
