@@ -79,6 +79,19 @@ module.exports = {
       }).catch(err => reject(err))
     })
   },
+  updatePassword: (id, pwd) => {
+    return new Promise((resolve, reject) => {
+      db.get().then(db => {
+        db.query('UPDATE users SET password = ? WHERE id = ?', [
+          pwd,
+          id
+        ], (err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
+      }).catch(err => reject(err))
+    })
+  },
   updateFortyTwoId: (userId, id) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
