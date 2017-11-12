@@ -24,6 +24,7 @@ class Store {
 
 	@action
 	addResultSearch (res) {
+    this.refresh = false
     this.totalPages = res.total_pages
     this.pageSearchResult = this.pageSearchResult + 1
     if (this.searchResult.length !== 0) {
@@ -73,23 +74,13 @@ class Store {
     this.totalPages = res.total_pages
     this.pageSearchResult = 2
     this.searchResult = res.results
-    setTimeout(() => {
-      this.refresh = true
-    }, 300);
   }
 
   @action
-	resetSearchRefresh (res) {
+	resetSearchRefresh () {
+    this.refresh = true
     this.pageSearchResult = 1
     this.searchResult = []
-    setTimeout(() => {
-      this.refresh = true
-    }, 300);
-  }
-
-  @action
-  resetRefresh () {
-    this.refresh = false
   }
 
   @action

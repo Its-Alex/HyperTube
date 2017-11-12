@@ -17,17 +17,24 @@ class Search extends Component {
 
   
   componentWillMount () {
-    if (store.refresh === true)
+    if (this.props.history !== undefined) {
     store.resetSearchRefresh()
-  }
-  
-  componentWillUnmount () {
-    store.resetRefresh()
+  //   local().get('/user/view').then((res) => {
+  //     if (res.data.success === true) {
+  //      store.addAlreadyView(res.data.result)
+  //     }
+  //   }).catch((err) => {
+  //      console.log(er.response)
+  //   })
+  // }
+    }
+    console.log(store.totalPages)
+    console.log(store.pageSearchResult)
+    console.log(store.refresh)
   }
   
   handleChangePage () {
-    if (store.totalPages > 1 && store.totalPages < 1000 &&
-      store.pageSearchResult <= store.totalPages ) {
+    if ((store.totalPages >= 1 && store.totalPages < 1000 && store.pageSearchResult <= store.totalPages) || (store.refresh === true)) {
       tmdb().get(`search/movie`, {
         params: {
           page: store.pageSearchResult,
