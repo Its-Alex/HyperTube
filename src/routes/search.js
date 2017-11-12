@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { tmdb } from '../utils/api.js'
+import { tmdb, local } from '../utils/api.js'
 import Grid from '../components/grid'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
@@ -24,7 +24,7 @@ class Search extends Component {
         store.addAlreadyView(res.data.result)
         }
       }).catch((err) => {
-        console.log(er.response)
+        console.log(err.response)
       })
     }
   }
@@ -37,7 +37,6 @@ class Search extends Component {
           query: this.props.match.params.id
         }
       }).then((res) => {
-        console.log(res)
         res.data.results = res.data.results.map((element) => {
           if (store.alreadyView.indexOf(element.id) !== -1) {
             element.isViewed = true

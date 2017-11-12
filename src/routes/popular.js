@@ -59,7 +59,7 @@ class Popular extends Component {
     store.resetPopular()
     local().get('/view').then(res => {
       this.setState({
-        viewed: res.data.result,
+        alreadyView: res.data.result,
         getViewed: true
       })
     }).catch(err => {})
@@ -74,17 +74,6 @@ class Popular extends Component {
     if (this.state.useSort === true) {
       store.resetPopular()
     }
-  }
-  
-  
-  componentWillMount () {
-    local().get('/view').then((res) => {
-      if (res.data.success === true) {
-       this.setState({alreadyView: res.data.result})
-      }
-    }).catch((err) => {
-       console.log(er.response)
-    })
   }
 
   handleSortsChoice (choice, name) {

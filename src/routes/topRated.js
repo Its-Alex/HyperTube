@@ -19,12 +19,12 @@ class TopRated extends Component {
   }
 
   componentWillMount () {
-    local().get('/user/view').then((res) => {
+    local().get('/view').then((res) => {
       if (res.data.success === true) {
        this.setState({alreadyView: res.data.result})
       }
     }).catch((err) => {
-       console.log(er.response)
+       console.log(err.response)
     })
   }
 
