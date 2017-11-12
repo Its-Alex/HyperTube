@@ -5,7 +5,6 @@ import store from '../utils/store.js'
 import { observer } from 'mobx-react'
 
 @observer
-
 class Search extends Component {
   constructor (props) {
     super(props)
@@ -15,6 +14,16 @@ class Search extends Component {
     }
     this.handleChangePage = this.handleChangePage.bind(this)
   }
+
+  
+  componentWillMount () {
+    if (store.refresh === true)
+    store.resetSearchRefresh()
+  }
+  
+  componentWillUnmount () {
+    store.resetRefresh()
+  }
   
   handleChangePage () {
     if (store.totalPages > 1 && store.totalPages < 1000 &&
@@ -22,11 +31,19 @@ class Search extends Component {
       tmdb().get(`search/movie`, {
         params: {
           page: store.pageSearchResult,
-          query: this.props.match.params.id       
+          query: this.props.match.params.id
         }
       }).then((res) => {
         console.log(res)
-        store.addResultSearch(res.data.results)
+        res.data.results = res.data.results.map((element) => {
+          if (store.alreadyView.indexOf(element.id) !== -1) {
+            element.isViewed = true
+          } else {
+            element.isViewed = false
+          }
+          return element
+        }, this)
+        store.addResultSearch(res.data)
         if (this.state.page <= res.data.total_pages) return this.setState({
           hasMore: this.state.page !== res.data.total_pages ? true : false
         })

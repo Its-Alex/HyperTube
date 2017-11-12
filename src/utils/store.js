@@ -14,6 +14,8 @@ class Store {
   @observable notif = ''
   @observable choicelangue = ''
   @observable movie = null
+  @observable alreadyView = []
+  @observable refresh = false
 
   @action
   addMovie (res) {
@@ -22,12 +24,23 @@ class Store {
 
 	@action
 	addResultSearch (res) {
+    this.totalPages = res.total_pages
     this.pageSearchResult = this.pageSearchResult + 1
     if (this.searchResult.length !== 0) {
-      this.searchResult = this.searchResult.concat(res)
+      this.searchResult = this.searchResult.concat(res.results)
     } else {
-      this.searchResult = res
+      this.searchResult = res.results
     }
+  }
+
+  @action
+  addAlreadyView (res) {
+    this.alreadyView = res
+  }
+
+  @action
+  resetAlreadyView() {
+    this.alreadyView = []
   }
 
   @action
@@ -45,7 +58,6 @@ class Store {
     this.resultPopular = []
   }
 
-
   @action
   addResultTopRated (res) {
     this.pageResultTopRated = this.pageResultTopRated + 1
@@ -60,9 +72,26 @@ class Store {
 	resetSearch (res) {
     this.totalPages = res.total_pages
     this.pageSearchResult = 2
-		this.searchResult = res.results
+    this.searchResult = res.results
+    setTimeout(() => {
+      this.refresh = true
+    }, 300);
   }
-  
+
+  @action
+	resetSearchRefresh (res) {
+    this.pageSearchResult = 1
+    this.searchResult = []
+    setTimeout(() => {
+      this.refresh = true
+    }, 300);
+  }
+
+  @action
+  resetRefresh () {
+    this.refresh = false
+  }
+
   @action
   addNotif (msg, type) {
     let notif = document.getElementById('notification')

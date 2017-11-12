@@ -10,7 +10,8 @@ class FrontBarre extends Component {
     super(props)
     this.state = {
       activeItem: this.props.history,
-      search: ''
+      search: '',
+      alreadyView: [346364, 284053, 440021]      
     }
     this.handleItemClick = this.handleItemClick.bind(this)
     this.handleChangeSearch = this.handleChangeSearch.bind(this)
@@ -34,6 +35,21 @@ class FrontBarre extends Component {
     })
   }
 
+  // componentWillMount () {
+  //   local().get('/user/view').then((res) => {
+  //     if (res.data.success === true) {
+  //      store.addAlreadyView(res.data.result)
+  //     }
+  //   }).catch((err) => {
+  //      console.log(er.response)
+  //   })
+  // }
+  // 
+  // componentWillUnmount () {
+  //   store.ResetAlreadyView()
+  // }
+  
+
   handleItemClick (e, { name }) {
     this.setState({ activeItem: name })
     this.props.history.push(`/${name}`)
@@ -53,6 +69,14 @@ class FrontBarre extends Component {
         }
       }).then((res) => {
         console.log(res)
+        res.data.results = res.data.results.map((element) => {
+          if (store.alreadyView.indexOf(element.id) !== -1) {
+            element.isViewed = true
+          } else {
+            element.isViewed = false
+          }
+          return element
+        }, this)
         store.resetSearch(res.data)
         this.setState({ search: '' })
       }).catch((err) => {
