@@ -21,10 +21,6 @@
     color: white;
 }
 
-.ui.animated.button {
-    // margin-top: 2%;
-}
-
 .overview {
     margin: 3% 15% 3%;
     color: white;
@@ -66,6 +62,7 @@ h5.movieDateTime {
 
 .ui.card.detailCard:hover {
     border: 3px solid var(--color3);
+    border-radius: 8px;
 }
 
 .card-container {
