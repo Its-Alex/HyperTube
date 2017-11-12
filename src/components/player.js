@@ -63,11 +63,14 @@ class Player extends Component {
       this.video.addEventListener('volumechange', (volume) => {
         global.localStorage.setItem('volume', this.video.volume)
       })
-      // this.video.addEventListener('keyup', this.ChangePlayed)
+      if (this.props.src.indexOf('transcod') !== -1) {
+        let self = this
+        setTimeout(() => {
+          self.video.play()
+        }, 1000)
+      }
       this.video.addEventListener('error', (err) => {
-        console.log(this.video.error)
-        this.video.currentTime = 0
-        this.video.load()
+        this.props.history.goBack()
         store.addNotif('An error occured in this video!', 'error')
       })
     }

@@ -21,6 +21,9 @@ class Play extends Component {
       console.log(res)
       if (res.data.result[0].state === 'transcoding') {
         this.setState({src: `http://localhost:3005/download/transcoding/${this.state.uuid}?Authorization=${global.localStorage.getItem('token')}`})
+      } else if (res.data.result[0].state === 'error') {
+        this.props.history.goBack()
+        store.addNotif('Somethings goes wrong with this movie', 'error')
       } else {
         this.setState({src: `http://localhost:3005/download/${this.state.uuid}?Authorization=${global.localStorage.getItem('token')}`})        
       }
