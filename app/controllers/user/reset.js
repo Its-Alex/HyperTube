@@ -4,16 +4,6 @@ const bcrypt = require('bcryptjs')
 const model = require('../../models/user.js')
 const modelForget = require('../../models/forget.js')
 
-function genToken () {
-  var str = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`
-  var token = ''
-
-  for (var count = 0; count < 128; count++) {
-    token += str[Math.floor((Math.random() * str.length))]
-  }
-  return (token)
-}
-
 function error (res, error, status) {
   res.status(status)
   res.json({
@@ -23,6 +13,7 @@ function error (res, error, status) {
 }
 
 module.exports = (req, res) => {
+  console.log(req.body)
   if (typeof req.body.token !== 'string' || req.body.token === '' ||
     typeof req.body.password !== 'string' || req.body.password === '') {
     return error(res, 'Invalid fields', 400)

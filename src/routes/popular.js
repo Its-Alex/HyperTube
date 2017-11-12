@@ -115,7 +115,6 @@ class Popular extends Component {
           if (tmdbElem.id.toString() === viewElem.tmdbId && !tmdbElem.viewed) tmdbElem.viewed = true
           else if (!tmdbElem.viewed) tmdbElem.viewed = false
         })
-        console.log(tmdbElem.viewed)
         return tmdbElem
       }))
     }).catch((err) => {

@@ -132,6 +132,7 @@ class Login extends Component {
           </Button.Group>
           <div />
           <Link to='register'>Register</Link>
+          <Link to='forget'>Forgot password ?</Link>
         </div>
         <h1 className='title centerMiddle'>Hypertube</h1>
 
