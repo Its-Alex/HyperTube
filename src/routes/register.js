@@ -37,37 +37,31 @@ class Register extends Component {
 
   handleSubmit (key, data) {
     if (key === 'Enter' || (data && data.name === 'submit')) {
-      if (this.state.username !== '' && this.state.mail !== '' &&
-      this.state.lastName !== '' && this.state.firstName !== '' &&
-      this.state.password !== '' && this.state.newPassword !== '' &&
-      this.state.photo !== '') {
-        local().put('/user', {
-          username: this.state.username,
-          mail: this.state.mail,
-          lastName: this.state.lastName,
-          firstName: this.state.firstName,
-          password: this.state.password,
-          newPassword: this.state.confirmPassword,
-          photo: this.state.image
-        })
-        .then(res => {
-          if (res.data.success === true) {
-            this.props.history.push('/login')
-          } else {
-            store.addNotif(res.data.error, 'error')
-            this.setState({loadingBtn: false})
-          }
-        })
-        .catch(err => {
+      local().put('/user', {
+        username: this.state.username,
+        mail: this.state.mail,
+        lastName: this.state.lastName,
+        firstName: this.state.firstName,
+        password: this.state.password,
+        newPassword: this.state.confirmPassword,
+        photo: this.state.image
+      })
+      .then(res => {
+        if (res.data.success === true) {
+          this.props.history.push('/login')
+        } else {
+          store.addNotif(res.data.error, 'error')
           this.setState({loadingBtn: false})
-          if (err.response) {
-            store.addNotif(err.response.data.error, 'error')
-          }
-        })
-      } else {
-        store.addNotif('input not completed', 'error')
+        }
+      })
+      .catch(err => {
         this.setState({loadingBtn: false})
-      }
+        if (err.response) {
+          store.addNotif(err.response.data.error, 'error')
+        }
+      })
+    } else {
+      this.setState({loadingBtn: false})
     }
   }
 
