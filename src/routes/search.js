@@ -19,18 +19,14 @@ class Search extends Component {
   componentWillMount () {
     if (this.props.history !== undefined) {
     store.resetSearchRefresh()
-  //   local().get('/user/view').then((res) => {
-  //     if (res.data.success === true) {
-  //      store.addAlreadyView(res.data.result)
-  //     }
-  //   }).catch((err) => {
-  //      console.log(er.response)
-  //   })
-  // }
+      local().get('/view').then((res) => {
+        if (res.data.success === true) {
+        store.addAlreadyView(res.data.result)
+        }
+      }).catch((err) => {
+        console.log(er.response)
+      })
     }
-    console.log(store.totalPages)
-    console.log(store.pageSearchResult)
-    console.log(store.refresh)
   }
   
   handleChangePage () {

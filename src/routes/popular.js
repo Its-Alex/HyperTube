@@ -44,7 +44,7 @@ class Popular extends Component {
       viewed: [],
       useDate: false,
       useSort: false,
-      alreadyView: [346364, 284053, 440021]
+      alreadyView: []
     }
     this._isMounted = false
     this.handleSortsChoice = this.handleSortsChoice.bind(this)
@@ -77,15 +77,15 @@ class Popular extends Component {
   }
   
   
-  // componentWillMount () {
-  //   local().get('/user/view').then((res) => {
-  //     if (res.data.success === true) {
-  //      this.setState({alreadyView: res.data.result})
-  //     }
-  //   }).catch((err) => {
-  //      console.log(er.response)
-  //   })
-  // }
+  componentWillMount () {
+    local().get('/view').then((res) => {
+      if (res.data.success === true) {
+       this.setState({alreadyView: res.data.result})
+      }
+    }).catch((err) => {
+       console.log(er.response)
+    })
+  }
 
   handleSortsChoice (choice, name) {
     this.setState({
@@ -122,7 +122,7 @@ class Popular extends Component {
         this.setState({hasMore: false})
       }
       store.addResultPopular(res.data.results.map(tmdbElem => {
-        this.state.viewed.forEach(viewElem => {
+        this.state.alreadyView.forEach(viewElem => {
           if (tmdbElem.id.toString() === viewElem.tmdbId) tmdbElem.viewed = true
           else tmdbElem.viewed = false
         })

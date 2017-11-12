@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { tmdb } from '../utils/api.js'
+import { tmdb, local } from '../utils/api.js'
 import Grid from '../components/grid'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
@@ -13,20 +13,20 @@ class TopRated extends Component {
       page: 1,
       hasMore: true,
       nbPage: '',
-      alreadyView: [346364, 284053, 440021]      
+      alreadyView: []      
     }
     this.handleChangePage = this.handleChangePage.bind(this)
   }
 
-  // componentWillMount () {
-  //   local().get('/user/view').then((res) => {
-  //     if (res.data.success === true) {
-  //      this.setState({alreadyView: res.data.result})
-  //     }
-  //   }).catch((err) => {
-  //      console.log(er.response)
-  //   })
-  // }
+  componentWillMount () {
+    local().get('/user/view').then((res) => {
+      if (res.data.success === true) {
+       this.setState({alreadyView: res.data.result})
+      }
+    }).catch((err) => {
+       console.log(er.response)
+    })
+  }
 
   handleChangePage () {
     tmdb().get('discover/movie', {
