@@ -61,7 +61,6 @@ class Register extends Component {
         .catch(err => {
           this.setState({loadingBtn: false})
           if (err.response) {
-            console.log(err.response)
             store.addNotif(err.response.data.error, 'error')
           }
         })

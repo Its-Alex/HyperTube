@@ -71,7 +71,6 @@ class Movie extends Component {
       }
     }).catch((err) => {
       if (err.response) {
-        console.log(err.response)
         store.addNotif(err.response.data.error, 'error')
       }
     })
@@ -99,7 +98,6 @@ class Movie extends Component {
         runtime: getTimming(res.data.runtime)
       }, () => { store.addMovie(res.data) })
       tmdb().get(`/movie/${this.state.movie}/credits`).then((res1) => {
-        console.log(res1)
         res1.data.cast.forEach(element => {
           if (typeof element.profile_path === 'string') {
             element.profile_path = `https://image.tmdb.org/t/p/w500${element.profile_path}`
@@ -114,8 +112,7 @@ class Movie extends Component {
           cast: res1.data.cast,
           crew: res1.data.crew
         })
-      }).catch((err1) => {
-        console.log(err1.response)
+      }).catch(() => {
       })
       local().get('/search', {
         params: {
@@ -137,7 +134,6 @@ class Movie extends Component {
         }
       }).catch((err) => {
         if (err.response) {
-          console.log(err.response)
           store.addNotif(err.response.data.error, 'error')
           this.setState({
             source: null
@@ -151,7 +147,6 @@ class Movie extends Component {
       })
     }).catch((err) => {
       if (err.response) {
-        console.log(err.response)
         store.addNotif(err.response.data.error, 'error')
         this.setState({
           source: null
@@ -210,6 +205,7 @@ class Movie extends Component {
                               <Card.Header className='cardName'>
                                 {result.name}
                               </Card.Header>
+                              <p className='char'>{result.character}</p>
                             </Card.Content>
                           </div>
                         </div>
@@ -226,6 +222,7 @@ class Movie extends Component {
                               <Card.Header className='cardName'>
                                 {result.name}
                               </Card.Header>
+                              <p className='char'>{result.character}</p>
                             </Card.Content>
                           </div>
                         </div>
@@ -248,33 +245,36 @@ class Movie extends Component {
           <Accordion.Content active={activeIndex === 2}>
             <div className='detail'>
               {this.state.crew ? this.state.crew.map((result, index) => {
-                if (result.profile_path) {
-                  return (
-                    <div key={index} className='card-container'>
-                      <Card className='detailCard' style={{backgroundImage: `url('${result.profile_path}')`}} >
-                        <div className='opacitavy'>
-                          <div className='myCard'>
-                            <Card.Content>
-                              <Card.Header className='cardName'>
-                                {result.name}
-                              </Card.Header>
-                            </Card.Content>
+                  if (result.profile_path) {
+                    return (
+                      <div key={index} className='card-container'>
+                        <Card className='detailCard' style={{backgroundImage: `url('${result.profile_path}')`}} >
+                          <div className='opacitavy'>
+                            <div className='myCard'>
+                              <Card.Content>
+                                <Card.Header className='cardName'>
+                                  {result.name}
+                                </Card.Header>
+                                <p className='job'>{result.job}</p>
+                              </Card.Content>
+                            </div>
                           </div>
-                        </div>
-                      </Card>
-                    </div>
-                  )
-                } else {
-                  return (
-                    <div key={index} className='card-container'>
-                      <Card className='detailCard' style={{backgroundImage: 'url(https://museum.wales/media/40374/empty-profile-grey.jpg)'}} >
-                        <div className='opacitavy'>
-                          <div className='myCard'>
-                            <Card.Content>
-                              <Card.Header className='cardName'>
-                                {result.name}
-                              </Card.Header>
-                            </Card.Content>
+                        </Card>
+                      </div>
+                    )
+                  } else {
+                    return (
+                      <div key={index} className='card-container'>
+                        <Card className='detailCard' style={{backgroundImage: 'url(https://museum.wales/media/40374/empty-profile-grey.jpg)'}} >
+                          <div className='opacitavy'>
+                            <div className='myCard'>
+                              <Card.Content>
+                                <Card.Header className='cardName'>
+                                  {result.name}
+                                </Card.Header>
+                                <p className='job'>{result.job}</p>
+                              </Card.Content>
+                            </div>
                           </div>
                         </div>
                       </Card>

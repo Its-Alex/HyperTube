@@ -29,7 +29,6 @@ class Comments extends Component {
     }).catch((err) => {
       if (err.response) {
         store.addNotif(err.response.data.error, 'error')
-        console.log(err.response)
       }
     })
   }
@@ -57,7 +56,9 @@ class Comments extends Component {
         store.addNotif('non-existent comment', 'error')
       }
     }).catch((err) => {
-      console.log(err.response)
+      if (err.response) {
+        store.addNotif(err.response.data.error, 'error')
+      }
     })
   }
 
@@ -67,7 +68,6 @@ class Comments extends Component {
         id: this.state.uuid,
         comment: this.state.message
       }).then((res) => {
-        console.log(res)
         if (res.data.success === true) {
           local().get(`/comment/${this.state.uuid}`).then((res) => {
             this.setState({
@@ -77,7 +77,6 @@ class Comments extends Component {
           }).catch((err) => {
             if (err.response) {
               store.addNotif(err.response.data.error, 'error')
-              console.log(err.response)
             }
           })
         } else {
@@ -86,7 +85,6 @@ class Comments extends Component {
       }).catch((err) => {
         if (err.response) {
           store.addNotif(err.response.data.error, 'error')
-          console.log(err.response)
         }
       })
     }

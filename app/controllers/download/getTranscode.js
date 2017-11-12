@@ -1,4 +1,3 @@
-const fs = require('fs')
 const ffmpeg = require('fluent-ffmpeg')
 const pump = require('pump')
 
@@ -43,20 +42,27 @@ module.exports = (req, res) => {
     }
 
     res.writeHead(206, head)
-    let convert = ffmpeg(file.createStream({start, end}))
+    let convert = ffmpeg(file.createStream({
+      start,
+      end
+    }))
       .videoCodec('libvpx')
       .audioCodec('libvorbis')
+      .videoBitrate('512k')
       .format('webm')
-      // .audioBitrate(128)
-      // .videoBitrate(1024)
       .outputOptions([
-        '-threads 8',
         '-deadline realtime',
         '-error-resilient 1'
       ])
-      .on('error', (err) => {
-        console.log('Cannot convert movie ' + file.title)
-        console.log(err)
+      .on('start', () => {
+        console.log(`'${file.title}' transcoding for ${req.user.id}...`)
+      })
+      .on('error', err => {
+        if (err.message !== 'Output stream closed') {
+          console.log(`Cannot convert '${file.title}' for ${req.user.id}...`)
+          console.log(err.message)
+          convert.kill()
+        }
       })
     pump(convert, res)
   } else {

@@ -13,12 +13,14 @@ module.exports = (req, res) => {
     return error(res, 'Wrong id', '403')
   }
 
-  model.delete(req.params.id).then(result => {
-    res.json({
-      success: true
-    })
-  }).catch(err => {
-    console.log(err)
-    error(res, 'Internal server error', 500)
-  })
+  return error(res, 'Route not integrated', 200)
+
+  // model.delete(req.params.id).then(result => {
+  //   res.json({
+  //     success: true
+  //   })
+  // }).catch(err => {
+  //   console.log(err)
+  //   error(res, 'Internal server error', 500)
+  // })
 }

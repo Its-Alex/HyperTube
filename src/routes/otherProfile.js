@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import store from '../utils/store'
 import { Feed, Grid } from 'semantic-ui-react'
 import { local } from '../utils/api.js'
 
@@ -16,7 +17,6 @@ class OtherProfile extends Component {
   componentWillMount () {
     local().get(`user/${this.props.match.params.id}`
     ).then((res) => {
-      console.log(res)
       this.setState({
         profileFirstName: res.data.user.firstName,
         profileLastName: res.data.user.lastName,
@@ -24,7 +24,9 @@ class OtherProfile extends Component {
         profileUserName: res.data.user.username
       })
     }).catch((err) => {
-      console.log(err.response)
+      if (err.response) {
+        store.addNotif(err.response.data.error, 'error')
+      }
     })
   }
 
