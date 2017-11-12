@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Grid from '../components/grid'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
-import { tmdb } from '../utils/api.js'
+import { tmdb, local } from '../utils/api.js'
 import { Dropdown, Menu, Input, Button } from 'semantic-ui-react'
 
 function getDiff (start, end) {
@@ -40,6 +40,8 @@ class Popular extends Component {
       endDate: '',
       startDate1: '',
       endDate1: '',
+      getViewed: false,
+      viewed: [],
       useDate: false,
       useSort: false,
       alreadyView: [346364, 284053, 440021]
@@ -52,6 +54,16 @@ class Popular extends Component {
     this.handleStartSort = this.handleStartSort.bind(this)
     this.handleReset = this.handleReset.bind(this)
   }
+
+  componentWillMount () {
+    store.resetPopular()
+    local().get('/view').then(res => {
+      this.setState({
+        viewed: res.data.result,
+        getViewed: true
+      })
+    }).catch(err => {})
+  }  
 
   componentDidMount () {
     this._isMounted = true
@@ -102,27 +114,23 @@ class Popular extends Component {
         page: store.pageResultPopular,
         sort_by: this.state.choiceSort,
         with_genres: this.state.choiceTheme,
-        'primary_release_date.gte': this.state.startDate1,    // Date la plus vieille
-        'primary_release_date.lte':  this.state.endDate1      // Date la plus recente
+        'primary_release_date.gte': this.state.startDate1,
+        'primary_release_date.lte':  this.state.endDate1
       }
     }).then((res) => {
-      if (this._isMounted === true) {
-        res.data.results = res.data.results.map((element) => {
-          if (this.state.alreadyView.indexOf(element.id) !== -1) {
-            element.isViewed = true
-          } else {
-            element.isViewed = false
-          }
-          return element
-        }, this)
-        store.addResultPopular(res.data.results)
-      }
       if (this.state.page === res.data.total_pages && this._isMounted === true) {
         this.setState({hasMore: false})
       }
-
+      store.addResultPopular(res.data.results.map(tmdbElem => {
+        this.state.viewed.forEach(viewElem => {
+          if (tmdbElem.id.toString() === viewElem.tmdbId) tmdbElem.viewed = true
+          else tmdbElem.viewed = false
+        })
+        return tmdbElem
+      }))
     }).catch((err) => {
-      console.log(err.response)
+        console.log(err)
+        store.addNotif('Themoviedb error', 'error')
     })
   }
 
@@ -145,7 +153,6 @@ class Popular extends Component {
 
   handleReset () {
     store.resetPopular()
-    this._isMounted = true
     this.setState({
       startDate1: '',
       startDate: '',
@@ -248,7 +255,9 @@ class Popular extends Component {
             <Input name='endDate' value={this.state.endDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
           </Menu.Item>
         </Menu>
-        <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={store.resultPopular} history={this.props.history} />
+        {this.state.getViewed === true
+          ? <Grid handleChangePage={this.handleChangePage} hasMore={this.state.hasMore} result={store.resultPopular} history={this.props.history} />
+          : null}
       </div>
     )
   }

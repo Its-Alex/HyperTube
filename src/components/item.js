@@ -24,6 +24,7 @@ class Item extends Component {
       </Statistic>
     )
   }
+
   handleMovie (id) {
     this.props.history.push(`/movie/${id}`)
   }
@@ -35,12 +36,15 @@ class Item extends Component {
           <div className='item-info'>
             <div className='title'>
               {this.props.title}
-            </div>
-            <div className='date'>
-              {this.props.date}
+              <div className='date'>
+                {this.props.date}
+              </div>
             </div>
             <Segment inverted>
               <Button inverted color='green' onClick={() => this.handleMovie(this.props.id)} >See More</Button>
+              {this.props.viewed === true
+              ? <p>Viwed</p>
+              : null}
             </Segment>
             <div className='grade'>
               <hr />
