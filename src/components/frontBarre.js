@@ -17,7 +17,6 @@ class FrontBarre extends Component {
     this.handleChangeSearch = this.handleChangeSearch.bind(this)
     this.handleKeySearch = this.handleKeySearch.bind(this)
     this.handleDisconnect = this.handleDisconnect.bind(this)
-    this.handleAlreadyViewed = this.handleAlreadyViewed.bind(this)
   }
 
   handleDisconnect () {
@@ -34,8 +33,8 @@ class FrontBarre extends Component {
       }
     })
   }
-
-  handleAlreadyViewed () {
+  
+  componentWillMount () {
     local().get('/view').then((res) => {
       if (res.data.success === true) {
        store.addAlreadyView(res.data.result)
@@ -61,7 +60,6 @@ class FrontBarre extends Component {
 
   handleKeySearch (event) {
     if (typeof event.target.value === 'string' && event.target.value !== '' && event.key === 'Enter') {
-      this.handleAlreadyViewed()
       tmdb().get(`https://api.themoviedb.org/3/search/movie`, {
         params: {
           api_key: '4add767f00472cadffc84346bd8572e6',

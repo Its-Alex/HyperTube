@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Grid from '../components/grid'
 import store from '../utils/store.js'
 import { observer } from 'mobx-react'
-import { tmdb, local } from '../utils/api.js'
+import { tmdb } from '../utils/api.js'
 import { Dropdown, Menu, Input, Button } from 'semantic-ui-react'
 
 function getDiff (start, end) {
@@ -40,7 +40,7 @@ class Popular extends Component {
       endDate: '',
       startDate1: '',
       endDate1: '',
-      getViewed: false,
+      getViewed: true,
       viewed: [],
       useDate: false,
       useSort: false,
@@ -54,16 +54,6 @@ class Popular extends Component {
     this.handleStartSort = this.handleStartSort.bind(this)
     this.handleReset = this.handleReset.bind(this)
   }
-
-  componentWillMount () {
-    store.resetPopular()
-    local().get('/view').then(res => {
-      this.setState({
-        alreadyView: res.data.result,
-        getViewed: true
-      })
-    }).catch(err => {})
-  }  
 
   componentDidMount () {
     this._isMounted = true
@@ -111,7 +101,7 @@ class Popular extends Component {
         this.setState({hasMore: false})
       }
       store.addResultPopular(res.data.results.map(tmdbElem => {
-        this.state.alreadyView.forEach(viewElem => {
+        store.alreadyView.forEach(viewElem => {
           if (tmdbElem.id.toString() === viewElem.tmdbId) tmdbElem.viewed = true
           else tmdbElem.viewed = false
         })
