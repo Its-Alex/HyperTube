@@ -112,9 +112,10 @@ class Popular extends Component {
       }
       store.addResultPopular(res.data.results.map(tmdbElem => {
         this.state.viewed.forEach(viewElem => {
-          if (tmdbElem.id.toString() === viewElem.tmdbId) tmdbElem.viewed = true
-          else tmdbElem.viewed = false
+          if (tmdbElem.id.toString() === viewElem.tmdbId && !tmdbElem.viewed) tmdbElem.viewed = true
+          else if (!tmdbElem.viewed) tmdbElem.viewed = false
         })
+        console.log(tmdbElem.viewed)
         return tmdbElem
       }))
     }).catch((err) => {
