@@ -26,6 +26,7 @@ class Login extends Component {
       if (str[0][0] === 'success' && str[0][1] === 'true') {
         if (str[1][0] === 'token') {
           global.localStorage.setItem('token', str[1][1])
+          global.localStorage.setItem('langue', 'en')
           this.props.history.push('/popular')
         }
       }

@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { Dimmer, Image, Button, Icon, Divider, Accordion, Card } from 'semantic-ui-react'
 import { tmdb, local } from '../utils/api.js'
 import store from '../utils/store'
+import _ from 'lodash'
 
 function QualityBtn (props) {
   return (
     <Button animated
       onClick={props.onClick}
-      color={props.color} >
+      color={props.color}
+      name='submit' >
       <Button.Content visible>{props.quality}</Button.Content>
       <Button.Content hidden>
         <Icon name='play' />
@@ -40,7 +42,7 @@ class Movie extends Component {
       crew: [],
       activeIndex: 0
     }
-    this.handlePlayMovie = this.handlePlayMovie.bind(this)
+    this.handlePlayMovie = _.debounce(this.handlePlayMovie.bind(this), 1000)
     this.handleShow = this.handleShow.bind(this)
     this.handleHide = this.handleHide.bind(this)
   }
@@ -186,9 +188,9 @@ class Movie extends Component {
         <Accordion fluid styled>
           <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
             <Divider horizontal>
-            <Icon name='dropdown' />
-              DETAIL
-            </Divider>
+              <Icon name='dropdown' />
+                DETAIL
+              </Divider>
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 1}>
             <div className='detail'>
@@ -236,9 +238,9 @@ class Movie extends Component {
           </Accordion.Content>
           <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}>
             <Divider horizontal>
-            <Icon name='dropdown' />
-              PRODUCTION
-            </Divider>
+              <Icon name='dropdown' />
+                PRODUCTION
+              </Divider>
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 2}>
             <div className='detail'>
@@ -274,10 +276,11 @@ class Movie extends Component {
                               </Card.Content>
                             </div>
                           </div>
-                        </Card>
-                      </div>
-                    )
-                  }
+                        </div>
+                      </Card>
+                    </div>
+                  )
+                }
               })
               : (
                 null
@@ -299,13 +302,13 @@ class Movie extends Component {
                   color = 'brown'
                 } else if (res.state === 'error') {
                   color = 'red'
-                  return <QualityBtn key={index} uuid={res.uuid} quality={res.quality} color={color} onClick={() => {
+                  return <QualityBtn key={index} name='submit' uuid={res.uuid} quality={res.quality} color={color} onClick={() => {
                     store.addNotif(`This video can't be played`, 'error')
                   }} />
                 } else {
                   color = 'grey'
                 }
-                return <QualityBtn key={index} uuid={res.uuid} quality={res.quality} color={color} onClick={this.handlePlayMovie.bind(this, res.uuid)} />
+                return <QualityBtn key={index} name='submit' uuid={res.uuid} quality={res.quality} color={color} onClick={this.handlePlayMovie.bind(this, res.uuid)} />
               } else {
                 return null
               }
