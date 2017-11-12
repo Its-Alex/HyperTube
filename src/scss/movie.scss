@@ -114,6 +114,14 @@ div.header.cardName {
     bottom: calc(50% - 1rem);
 }
 
+p.job {
+    text-align: center;
+}
+
+p.char {
+    text-align: center;
+}
+
 .blob-2 { animation: animate-to-2 1.5s infinite; }
 .blob-3 { animation: animate-to-3 1.5s infinite; }
 .blob-1 { animation: animate-to-1 1.5s infinite; }

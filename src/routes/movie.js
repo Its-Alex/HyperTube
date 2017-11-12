@@ -203,6 +203,7 @@ class Movie extends Component {
                               <Card.Header className='cardName'>
                                 {result.name}
                               </Card.Header>
+                              <p className='char'>{result.character}</p>
                             </Card.Content>
                           </div>
                         </div>
@@ -219,6 +220,7 @@ class Movie extends Component {
                               <Card.Header className='cardName'>
                                 {result.name}
                               </Card.Header>
+                              <p className='char'>{result.character}</p>
                             </Card.Content>
                           </div>
                         </div>
@@ -251,6 +253,7 @@ class Movie extends Component {
                                 <Card.Header className='cardName'>
                                   {result.name}
                                 </Card.Header>
+                                <p className='job'>{result.job}</p>
                               </Card.Content>
                             </div>
                           </div>
@@ -267,6 +270,7 @@ class Movie extends Component {
                                 <Card.Header className='cardName'>
                                   {result.name}
                                 </Card.Header>
+                                <p className='job'>{result.job}</p>
                               </Card.Content>
                             </div>
                           </div>
