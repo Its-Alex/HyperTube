@@ -25,7 +25,7 @@ function genToken () {
 
 function updateOauth (id, provider, oauthId) {
   return new Promise((resolve, reject) => {
-    modelUser.getUserByOauth(oauthId).then(result => {
+    modelUser.getUserByOauth(id).then(result => {
       if (result.length !== 0) return resolve()
       if (provider === '42') {
         modelUser.updateFortyTwoId(id, oauthId.fortyTwo)
