@@ -20,34 +20,31 @@ class Search extends Component {
   
   componentWillMount () {
     store.resetSearchRefresh()
-    if (this.props.history !== undefined) {
-      local().get('/view').then((res) => {
-        if (res.data.success === true) {
-          this.setState({
-            alreadyView: res.data.result,
-            getViwed: true
-          })
-        }
-      }).catch((err) => {
-        console.log(err.response)
-      })
-    }
+    local().get('/view').then((res) => {
+      if (res.data.success === true) {
+        this.setState({
+          alreadyView: res.data.result,
+          getViwed: true
+        })
+      }
+    }).catch((err) => {
+      console.log(err.response)
+    })
   }
 
   componentWillReceiveProps (nextProps) {
     store.resetSearchRefresh()
-    if (this.props.history !== undefined) {
-      local().get('/view').then((res) => {
-        if (res.data.success === true) {
-          this.setState({
-            alreadyView: res.data.result,
-            getViwed: true
-          })
-        }
-      }).catch((err) => {
-        console.log(err.response)
-      })
-    }
+    this.setState({hasMore : true})
+    local().get('/view').then((res) => {
+      if (res.data.success === true) {
+        this.setState({
+          alreadyView: res.data.result,
+          getViwed: true
+        })
+      }
+    }).catch((err) => {
+      console.log(err.response)
+    })
   }
   
   

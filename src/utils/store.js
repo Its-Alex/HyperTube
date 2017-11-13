@@ -3,7 +3,6 @@ import { observable, action, useStrict } from 'mobx'
 useStrict(true)
 
 class Store {
-
   @observable searchResult = []
   @observable pageSearchResult = 1
   @observable resultPopular = []

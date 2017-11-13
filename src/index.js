@@ -33,7 +33,6 @@ class Index extends React.Component {
   componentWillMount () {
     if (global.localStorage.getItem('token')) {
       local().get('/user/me').then((res) => {
-        console.log(res)
         if (res.data.success === true) {
           this.setState({ hasToken: true })
         } else {
