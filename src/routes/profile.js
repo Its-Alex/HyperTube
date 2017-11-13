@@ -238,7 +238,7 @@ class Profile extends React.Component {
             />
           </Form.Field>
           <Form.Field>
-            <label>Old password</label>
+            <label>New password</label>
             <Input
               id='oldpswd'
               type='password'
@@ -250,7 +250,7 @@ class Profile extends React.Component {
             />
           </Form.Field>
           <Form.Field>
-            <label>New password</label>
+            <label>Repeat password</label>
             <Input
               id='newpswd'
               type='password'
