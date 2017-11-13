@@ -26,7 +26,7 @@ class Index extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      hasToken: false
+      hasToken: null
     }
   }
 
@@ -36,11 +36,13 @@ class Index extends React.Component {
         if (res.data.success === true) {
           this.setState({ hasToken: true })
         } else {
+          this.setState({ hasToken: false })
           store.addNotif(res.data.error, 'error')
           global.localStorage.removeItem('token')
           this.props.history.push('/login')
         }
       }).catch((err) => {
+        this.setState({ hasToken: false })
         if (err.response) {
           store.addNotif(err.response.data.error, 'error')
           global.localStorage.removeItem('token')
@@ -70,12 +72,14 @@ class Index extends React.Component {
         if (res.data.success === true) {
           this.setState({ hasToken: true })
         } else {
+          this.setState({ hasToken: false })
           store.addNotif(res.data.error, 'error')
           global.localStorage.removeItem('token')
           this.props.history.push('/login')
         }
       }).catch((err) => {
         if (err.response) {
+          this.setState({ hasToken: false })
           store.addNotif(err.response.data.error, 'error')
           global.localStorage.removeItem('token')
           this.props.history.push('/login')
@@ -104,9 +108,11 @@ class Index extends React.Component {
           <Route exact path='/movie/:id' component={Movie} />
           <Route exact path='/search/:id' component={Search} />
           <Route exact path='/play/:uuid/:id' component={Play} />
-          {this.state.hasToken
-            ? <Redirect to='/popular' />
-            : <Redirect to='/login' />}
+          {this.state.hasToken !== null
+            ? this.state.hasToken
+              ? <Redirect to='/popular' />
+              : <Redirect to='/login' />
+            : null}
         </Switch>
       </div>
     )
