@@ -35,16 +35,16 @@ let getUserFromProfile = (profile) => {
   if (profile.provider === '42') {
     user.id_42 = profile.id
     user.id_github = null
-    user.username = profile.name.givenName + ' ' + profile.name.familyName
-    user.firstName = profile.name.givenName
-    user.lastName = profile.name.familyName
+    user.username = profile.name.givenName + ' ' + profile.name.familyName || 'none'
+    user.firstName = profile.name.givenName || 'none'
+    user.lastName = profile.name.familyName || 'none'
   } else if (profile.provider === 'github' || profile.provider === 'facebook') {
     if (profile.provider === 'github') user.id_github = profile.id
     if (profile.provider === 'facebook') user.id_facebook = profile.id
-    user.username = profile.displayName
-    let name = profile.displayName.split(' ')
-    user.firstName = name[0]
-    user.lastName = name[1]
+    user.username = profile.displayName || 'none'
+    let name = profile.displayName ? profile.displayName.split(' ') : 'none'
+    user.firstName = name.length === 2 ? name[0] : 'none'
+    user.lastName = name.length === 2 ? name[1] : 'none'
   }
   saveProfilePicture(profile.photos[0].value, user.id, profile.provider)
   return (user)
