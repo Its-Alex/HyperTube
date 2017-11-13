@@ -88,7 +88,8 @@ function passportCb (req, res) {
       })
     } else {
       modelUser.addUser(req.user).then(result => {
-        modelToken.addToken(result[0].userId, token).then(result => {
+
+        modelToken.addToken(result[0].id, token).then(result => {
           res.redirect(`http://localhost:3000/login?success=true&token=${token}`)
         }).catch(err => {
           console.log(err)
