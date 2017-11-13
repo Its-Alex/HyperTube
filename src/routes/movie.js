@@ -122,7 +122,12 @@ class Movie extends Component {
       })
     }).catch((err) => {
       if (err.response) {
-        store.addNotif(err.response.data.error, 'error')
+        if (err.response.status === 404) {
+          store.addNotif('Movie not found', 'error')
+          this.props.history.goBack()
+        } else {
+          store.addNotif(err.response.data.status_message, 'error')
+        }
         if (this._isMounted === true) this.setState({
           source: null
         })
