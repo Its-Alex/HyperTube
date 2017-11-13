@@ -13,7 +13,6 @@ class Player extends Component {
       played: false,
       subs: []
     }
-    this.ChangePlayed = this.ChangePlayed.bind(this)
   }
 
   

@@ -14,7 +14,6 @@ class Store {
   @observable notif = ''
   @observable choicelangue = ''
   @observable movie = null
-  @observable alreadyView = []
   @observable refresh = false
 
   @action
@@ -35,16 +34,6 @@ class Store {
   }
 
   @action
-  addAlreadyView (res) {
-    this.alreadyView = res
-  }
-
-  @action
-  resetAlreadyView() {
-    this.alreadyView = []
-  }
-
-  @action
   addResultPopular (res) {
     this.pageResultPopular = this.pageResultPopular + 1
     if (this.resultPopular.length !== 0) {
@@ -57,6 +46,12 @@ class Store {
   resetPopular () {
     this.pageResultPopular = 1
     this.resultPopular = []
+  }
+
+  @action
+  resetTopRated () {
+    this.pageResultTopRated = 1
+    this.resultTopRated = []
   }
 
   @action
