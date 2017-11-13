@@ -56,7 +56,7 @@ class Player extends Component {
       }
       if (this.props.src.indexOf('transcod') !== -1) {
         this.video.addEventListener('pause', () => {
-          this.video.play()
+          if (this.video) this.video.play()
         })
       }
       this.video.addEventListener('volumechange', (volume) => {
@@ -65,20 +65,13 @@ class Player extends Component {
       if (this.props.src.indexOf('transcod') !== -1) {
         let self = this
         setTimeout(() => {
-          self.video.play()
+          if (self.video)  self.video.play()
         }, 1000)
       }
       this.video.addEventListener('error', (err) => {
         this.props.history.goBack()
         store.addNotif('An error occured in this video!', 'error')
       })
-    }
-  }
-
-  ChangePlayed (evt) {
-    if (this.video) {
-      if (evt.code === 'Space' && this.video.paused) this.video.play()
-      else if (evt.code === 'Space' && !this.video.paused) this.video.pause()
     }
   }
 
