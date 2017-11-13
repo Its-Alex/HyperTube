@@ -124,6 +124,7 @@ class Popular extends Component {
       !this.state.endDate.match(/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/)) {
         if (this._isMounted === true) this.setState({
           useDate: false
+
         })
       } else {
         if (this._isMounted === true) this.setState({
@@ -153,7 +154,7 @@ class Popular extends Component {
 }
 
   handleStartSort () {
-    if (this.state.useDate === true) {
+    if (this.state.useDate === true || this.state.startDate !== '' || this.state.endDate !== '') {
       if (getDiff(this.state.startDate1, this.state.endDate1) === true) {
         store.resetPopular()
         setTimeout(() => {
