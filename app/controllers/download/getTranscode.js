@@ -1,8 +1,6 @@
 const ffmpeg = require('fluent-ffmpeg')
 const pump = require('pump')
 
-const model = require('../../models/download.js')
-
 function error (res, error, status) {
   res.status(status)
   res.json({

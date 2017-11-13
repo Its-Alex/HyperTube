@@ -14,6 +14,7 @@ class Store {
   @observable notif = ''
   @observable choicelangue = ''
   @observable movie = null
+  @observable refresh = false
 
   @action
   addMovie (res) {
@@ -22,11 +23,13 @@ class Store {
 
 	@action
 	addResultSearch (res) {
+    this.refresh = false
+    this.totalPages = res.total_pages
     this.pageSearchResult = this.pageSearchResult + 1
     if (this.searchResult.length !== 0) {
-      this.searchResult = this.searchResult.concat(res)
+      this.searchResult = this.searchResult.concat(res.results)
     } else {
-      this.searchResult = res
+      this.searchResult = res.results
     }
   }
 
@@ -45,6 +48,11 @@ class Store {
     this.resultPopular = []
   }
 
+  @action
+  resetTopRated () {
+    this.pageResultTopRated = 1
+    this.resultTopRated = []
+  }
 
   @action
   addResultTopRated (res) {
@@ -60,9 +68,16 @@ class Store {
 	resetSearch (res) {
     this.totalPages = res.total_pages
     this.pageSearchResult = 2
-		this.searchResult = res.results
+    this.searchResult = res.results
   }
-  
+
+  @action
+	resetSearchRefresh () {
+    this.refresh = true
+    this.pageSearchResult = 1
+    this.searchResult = []
+  }
+
   @action
   addNotif (msg, type) {
     let notif = document.getElementById('notification')

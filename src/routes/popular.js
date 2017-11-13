@@ -43,7 +43,7 @@ class Popular extends Component {
       getViewed: false,
       viewed: [],
       useDate: false,
-      useSort: false
+      useSort: false,
     }
     this._isMounted = false
     this.handleSortsChoice = this.handleSortsChoice.bind(this)
@@ -74,7 +74,6 @@ class Popular extends Component {
       store.resetPopular()
     }
   }
-  
 
   handleSortsChoice (choice, name) {
     this.setState({
