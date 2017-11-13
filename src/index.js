@@ -12,6 +12,8 @@ import OtherProfile from './routes/otherProfile'
 import TopRated from './routes/topRated'
 import Movie from './routes/movie'
 import Search from './routes/search'
+import Reset from './routes/reset'
+import Forget from './routes/forget'
 import Notification from './components/notification'
 import Play from './routes/play'
 
@@ -21,12 +23,16 @@ class Index extends React.Component {
   componentWillMount () {
     if (global.localStorage.getItem('token') &&
     (this.props.location.pathname === '/login' ||
-    this.props.location.pathname === '/register')) {
+    this.props.location.pathname === '/register' ||
+      this.props.location.pathname.indexOf('/reset') !== -1 ||
+    this.props.location.pathname === '/forget')) {
       this.props.history.push('/popular')
     }
     if (!global.localStorage.getItem('token') &&
     this.props.location.pathname !== '/login' &&
-    this.props.location.pathname !== '/register') {
+    this.props.location.pathname !== '/register' &&
+    this.props.location.pathname.indexOf('/reset') === -1 &&
+    this.props.location.pathname !== '/forget') {
       this.props.history.push('/login')
     }
   }
@@ -42,6 +48,8 @@ class Index extends React.Component {
         <Switch>
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
+          <Route exact path='/reset/:hash' component={Reset} />
+          <Route exact path='/forget' component={Forget} />
           <Route exact path='/popular' component={Popular} />
           <Route exact path='/top_rated' component={TopRated} />
           <Route exact path='/profile' component={Profile} />

@@ -63,7 +63,7 @@ class Login extends Component {
       .catch(err => {
         this.setState({loadingBtn: false})
         if (err.response) {
-          store.addNotif(err.response.data.error)
+          store.addNotif(err.response.data.error, 'error')
         }
       })
     }
@@ -132,6 +132,7 @@ class Login extends Component {
           </Button.Group>
           <div />
           <Link to='register'>Register</Link>
+          <Link to='forget'>Forgot password ?</Link>
         </div>
         <h1 className='title centerMiddle'>Hypertube</h1>
 

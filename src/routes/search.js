@@ -45,7 +45,7 @@ class Search extends Component {
           }
           return element
         }, this)
-        store.addResultSearch(res.data)
+        store.addResultSearch(res.data.results)
         if (this.state.page <= res.data.total_pages) return this.setState({
           hasMore: this.state.page !== res.data.total_pages ? true : false
         })

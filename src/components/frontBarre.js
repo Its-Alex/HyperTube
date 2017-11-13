@@ -67,15 +67,6 @@ class FrontBarre extends Component {
           query: this.state.search
         }
       }).then((res) => {
-        console.log(res)
-        res.data.results = res.data.results.map((element) => {
-          if (store.alreadyView.indexOf(element.id) !== -1) {
-            element.isViewed = true
-          } else {
-            element.isViewed = false
-          }
-          return element
-        }, this)
         store.resetSearch(res.data)
         this.setState({ search: '' })
       }).catch((err) => {
