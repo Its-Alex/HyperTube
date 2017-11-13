@@ -49,7 +49,7 @@
     "start-js": "node scripts/start",
     "test-api": "nodemon app/index.js",
     "start-api": "node app/index.js",
-    "start": "npm-run-all -p watch-css start-js test-api",
+    "start": "npm-run-all -p start-js watch-css start-api",
     "build": "npm run build-css && node scripts/build",
     "test": "node scripts/test.js --env=jsdom"
   },
