@@ -9,7 +9,8 @@ function QualityBtn (props) {
     <Button animated
       onClick={props.onClick}
       color={props.color}
-      name='submit' >
+      name='submit'
+      className='buttonOklm' >
       <Button.Content visible>{props.quality}</Button.Content>
       <Button.Content hidden>
         <Icon name='play' />

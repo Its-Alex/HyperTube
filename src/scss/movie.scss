@@ -11,10 +11,14 @@
 }
 
 .quality {
-    margin-top: 2%;
-    margin: auto;
-    display: table;
-    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.button.buttonOklm {
+    margin: 5px!important;
 }
 
 .ui.horizontal.divider {
