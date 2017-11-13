@@ -53,11 +53,11 @@ module.exports = {
       }).catch(err => reject(err))
     })
   },
-  cronDelete: () => {
+  cronDelete: (date) => {
     return new Promise((resolve, reject) => {
       db.get().then(db => {
-        db.query(`DELETE FROM download WHERE state = 'search' AND date <= ?`, [
-          Date.now() - 5000
+        db.query(`DELETE download FROM download INNER JOIN viewed ON download.tmdbId = viewed.tmdbId WHERE viewed.date <= ?`, [
+          date
         ], (err, res) => {
           if (err) reject(err)
           resolve(res)
