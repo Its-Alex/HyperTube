@@ -29,9 +29,7 @@ class TopRated extends Component {
             getViwed: true
           })
         }
-      }).catch((err) => {
-        console.log(err.response)
-      })
+      }).catch(() => {})
     }
   }
 
