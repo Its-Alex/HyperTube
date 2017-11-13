@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker'
 
+import store from './utils/store'
+import { local } from './utils/api'
+
 import FrontBarre from './components/frontBarre'
 import Login from './routes/login'
 import Register from './routes/register'
@@ -28,7 +31,24 @@ class Index extends React.Component {
   }
 
   componentWillMount () {
-    if (global.localStorage.getItem('token')) this.setState({ hasToken: true })
+    if (global.localStorage.getItem('token')) {
+      local().get('/user/me').then((res) => {
+        console.log(res)
+        if (res.data.success === true) {
+          this.setState({ hasToken: true })
+        } else {
+          store.addNotif(res.data.error, 'error')
+          global.localStorage.removeItem('token')
+          this.props.history.push('/login')
+        }
+      }).catch((err) => {
+        if (err.response) {
+          store.addNotif(err.response.data.error, 'error')
+          global.localStorage.removeItem('token')
+          this.props.history.push('/login')
+        }
+      })
+    }
     if (global.localStorage.getItem('token') &&
     (this.props.location.pathname === '/login' ||
     this.props.location.pathname === '/register' ||
