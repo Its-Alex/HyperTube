@@ -44,7 +44,6 @@ class Popular extends Component {
       viewed: [],
       useDate: false,
       useSort: false,
-      alreadyView: []
     }
     this._isMounted = false
     this.handleSortsChoice = this.handleSortsChoice.bind(this)

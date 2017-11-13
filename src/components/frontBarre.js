@@ -60,19 +60,19 @@ class FrontBarre extends Component {
 
   handleKeySearch (event) {
     if (typeof event.target.value === 'string' && event.target.value !== '' && event.key === 'Enter') {
-      tmdb().get(`https://api.themoviedb.org/3/search/movie`, {
-        params: {
-          api_key: '4add767f00472cadffc84346bd8572e6',
-          page: 1,
-          query: this.state.search
-        }
-      }).then((res) => {
-        store.resetSearch(res.data)
-        this.setState({ search: '' })
-      }).catch((err) => {
-      })
+      // tmdb().get(`https://api.themoviedb.org/3/search/movie`, {
+      //   params: {
+      //     api_key: '4add767f00472cadffc84346bd8572e6',
+      //     page: 1,
+      //     query: this.state.search
+      //   }
+      // }).then((res) => {
+      //   store.resetSearch(res.data)
+      //   this.setState({ search: '' })
+      // }).catch((err) => {
+      // })
       this.props.history.push(`/search/${event.target.value}`)
-      event.target.value = ''
+      this.setState({search: ''})
     }
   }
   
