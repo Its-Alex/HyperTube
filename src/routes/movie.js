@@ -46,6 +46,7 @@ class Movie extends Component {
     this.handlePlayMovie = _.debounce(this.handlePlayMovie.bind(this), 1000)
     this.handleShow = this.handleShow.bind(this)
     this.handleHide = this.handleHide.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentWillMount () {
