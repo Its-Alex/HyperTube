@@ -58,6 +58,8 @@ class Register extends Component {
         this.setState({loadingBtn: false})
         if (err.response) {
           store.addNotif(err.response.data.error, 'error')
+        } else {
+          store.addNotif('Somethings goes wrong :(', 'error')
         }
       })
     } else {
