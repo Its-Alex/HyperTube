@@ -25,36 +25,42 @@ function genToken () {
 
 function updateOauth (id, provider, oauthId) {
   return new Promise((resolve, reject) => {
-    if (provider === '42') {
-      modelUser.updateFortyTwoId(id, oauthId.fortyTwo)
-      .then(res => {
-        resolve()
-      })
-      .catch(err => {
-        console.log(err)
-        reject(err)
-      })
-    } else if (provider === 'github') {
-      modelUser.updateGithubId(id, oauthId.github)
-      .then(res => {
-        resolve()
-      })
-      .catch(err => {
-        console.log(err)
-        reject(err)
-      })
-    } else if (provider === 'facebook') {
-      modelUser.updateFacebookId(id, oauthId.facebook)
-      .then(res => {
-        resolve()
-      })
-      .catch(err => {
-        console.log(err)
-        reject(err)
-      })
-    } else {
-      reject(new Error('No provider found'))
-    }
+    modelUser.getUserByOauth(oauthId).then(result => {
+      if (result.length !== 0) return resolve()
+      if (provider === '42') {
+        modelUser.updateFortyTwoId(id, oauthId.fortyTwo)
+        .then(res => {
+          resolve()
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err)
+        })
+      } else if (provider === 'github') {
+        modelUser.updateGithubId(id, oauthId.github)
+        .then(res => {
+          resolve()
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err)
+        })
+      } else if (provider === 'facebook') {
+        modelUser.updateFacebookId(id, oauthId.facebook)
+        .then(res => {
+          resolve()
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err)
+        })
+      } else {
+        reject(new Error('No provider found'))
+      }
+    }).catch(err => {
+      console.log(err)
+      reject(err)
+    })
   })
 }
 
