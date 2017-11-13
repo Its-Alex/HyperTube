@@ -61,7 +61,7 @@ function updateOauth (id, provider, oauthId) {
 function passportCb (req, res) {
   let token = genToken()
 
-  if (!req.user || req.user === null || req.user === undefined) {
+  if (!req.user || req.user === null || req.user === undefined || !req.user.mail) {
     return res.redirect('http://localhost:3000/login?success=false&error=Not%20enough%20data')
   }
 
