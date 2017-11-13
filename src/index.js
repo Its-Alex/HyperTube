@@ -20,7 +20,15 @@ import Play from './routes/play'
 import './scss/index.css'
 
 class Index extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      hasToken: false
+    }
+  }
+
   componentWillMount () {
+    if (global.localStorage.getItem('token')) this.setState({ hasToken: true })
     if (global.localStorage.getItem('token') &&
     (this.props.location.pathname === '/login' ||
     this.props.location.pathname === '/register' ||
@@ -57,7 +65,9 @@ class Index extends React.Component {
           <Route exact path='/movie/:id' component={Movie} />
           <Route exact path='/search/:id' component={Search} />
           <Route exact path='/play/:uuid/:id' component={Play} />
-          <Redirect to='/popular' />
+          {this.state.hasToken
+            ? <Redirect to='/popular' />
+            : <Redirect to='/login' />}
         </Switch>
       </div>
     )
