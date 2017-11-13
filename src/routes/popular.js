@@ -117,7 +117,6 @@ class Popular extends Component {
         return tmdbElem
       }))
     }).catch((err) => {
-        console.log(err)
         store.addNotif('Themoviedb error', 'error')
     })
   }

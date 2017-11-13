@@ -14,8 +14,6 @@ function error (res, error, status) {
 module.exports = (req, res) => {
   if (!fs.existsSync(picsDir)) fs.mkdirSync(picsDir)
 
-  console.log(req.body.pic.substr(0, 200))
-
   let base64Data = req.body.pic.replace(/^data:image\/png;base64,/, '')
   if (!checkBase.isBase64(base64Data)) return error(res, 'Invalid photo', 403)
 

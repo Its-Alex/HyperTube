@@ -27,9 +27,7 @@ class Search extends Component {
           getViwed: true
         })
       }
-    }).catch((err) => {
-      console.log(err.response)
-    })
+    }).catch(() => {})
   }
 
   componentWillReceiveProps (nextProps) {
@@ -66,7 +64,6 @@ class Search extends Component {
           hasMore: this.state.page !== res.data.total_pages ? true : false
         })
       }).catch((err) => {
-        console.log(err)
         store.addNotif('Themoviedb error', 'error')
       })
     }
