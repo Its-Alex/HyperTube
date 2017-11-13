@@ -125,6 +125,7 @@ router.get('/42', (req, res, next) => {
 })
 router.get('/42/callback',
 passport.authenticate('42', {
+  scope: 'email',
   session: false
 }), passportCb)
 
@@ -136,6 +137,7 @@ router.get('/github', (req, res, next) => {
 })
 router.get('/github/callback',
 passport.authenticate('github', {
+  scope: 'email',
   session: false
 }), passportCb)
 
@@ -148,9 +150,8 @@ router.get('/facebook', (req, res, next) => {
 })
 router.get('/facebook/callback',
 passport.authenticate('facebook', {
-  failureRedirect: 'http://localhost:3000/auth/signup',
-  session: false,
-  scope: 'email'
+  scope: 'email',
+  session: false
 }), passportCb)
 
 module.exports = router
