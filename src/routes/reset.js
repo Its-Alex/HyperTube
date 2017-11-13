@@ -43,7 +43,7 @@ class Reset extends Component {
           <img className='logoImg' src='http://www.eatlogos.com/alphabet_logos/png/vector_h_cut_logo.png' alt='logo' />
           <Form className='formReset'>
             <Form.Field>
-              <label>Your Email</label>
+              <label>Your new password</label>
               <input type='password' name='password' value={this.state.password} onChange={this.handleChange} />
             </Form.Field>
             <Button name='reset' onClick={this.handleAjax}>Change password</Button>
