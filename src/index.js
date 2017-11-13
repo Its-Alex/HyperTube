@@ -66,22 +66,23 @@ class Index extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    local().get('/user/me').then((res) => {
-      console.log(res)
-      if (res.data.success === true) {
-        this.setState({ hasToken: true })
-      } else {
-        store.addNotif(res.data.error, 'error')
-        global.localStorage.removeItem('token')
-        this.props.history.push('/login')
-      }
-    }).catch((err) => {
-      if (err.response) {
-        store.addNotif(err.response.data.error, 'error')
-        global.localStorage.removeItem('token')
-        this.props.history.push('/login')
-      }
-    })
+    if (global.localStorage.getItem('token')) {
+      local().get('/user/me').then((res) => {
+        if (res.data.success === true) {
+          this.setState({ hasToken: true })
+        } else {
+          store.addNotif(res.data.error, 'error')
+          global.localStorage.removeItem('token')
+          this.props.history.push('/login')
+        }
+      }).catch((err) => {
+        if (err.response) {
+          store.addNotif(err.response.data.error, 'error')
+          global.localStorage.removeItem('token')
+          this.props.history.push('/login')
+        }
+      })
+    }
   }
 
   render () {
