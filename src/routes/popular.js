@@ -213,8 +213,8 @@ class Popular extends Component {
           <Menu.Item>
           <Dropdown text={this.state.choiceOfSorts} icon='filter' floating labeled button className='icon'>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => {this.handleSortsChoice('popularity.desc', 'Pop Décroissante (défaut)')}}>Pop Décroissante (défaut)</Dropdown.Item>
-              <Dropdown.Item onClick={() => {this.handleSortsChoice('popularity.asc', 'Pop Croissante')}}>Pop Croissante</Dropdown.Item>
+              <Dropdown.Item onClick={() => {this.handleSortsChoice('popularity.desc', 'Pop Croissante (défaut)')}}>Pop Croissante (défaut)</Dropdown.Item>
+              <Dropdown.Item onClick={() => {this.handleSortsChoice('popularity.asc', 'Pop Décroissante') }}>Pop Décroissante</Dropdown.Item>
               <Dropdown.Item onClick={() => {this.handleSortsChoice('release_date.desc', 'Date Décroissante')}}>Date Décroissante</Dropdown.Item>
               <Dropdown.Item onClick={() => {this.handleSortsChoice('release_date.asc', 'Date Croissante')}}>Date Croissante</Dropdown.Item>
               <Dropdown.Item onClick={() => {this.handleSortsChoice('vote_average.desc', 'Vote Décroissante')}}>Vote Décroissante</Dropdown.Item>
