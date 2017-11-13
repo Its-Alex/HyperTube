@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import store from '../utils/store'
 import { local } from '../utils/api'
+import { Form, Button, Segment } from 'semantic-ui-react'
 
 class Forget extends Component {
   constructor (props) {
@@ -35,8 +36,16 @@ class Forget extends Component {
   render () {
     return (
       <div className='forget'>
-        <input name='mail' value={this.state.mail} onChange={this.handleChange} />
-        <button name='reset' onClick={this.handleAjax}>Ask new password</button>
+        <Segment className='segmentForget'>
+          <img className='logoImg' src='http://www.eatlogos.com/alphabet_logos/png/vector_h_cut_logo.png' alt='logo' />
+          <Form className='formForget'>
+            <Form.Field>
+              <label>Your Email</label>
+              <input name='mail' value={this.state.mail} onChange={this.handleChange} />
+            </Form.Field>
+            <Button name='reset' onClick={this.handleAjax}>new password</Button>
+          </Form>
+        </Segment>
       </div>
     )
   }

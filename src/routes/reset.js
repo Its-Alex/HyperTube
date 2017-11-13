@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { local } from '../utils/api'
 import store from '../utils/store'
+import { Form, Button, Segment } from 'semantic-ui-react'
 
 class Reset extends Component {
   constructor (props) {
@@ -38,8 +39,16 @@ class Reset extends Component {
   render () {
     return (
       <div className='reset'>
-        <input name='password' value={this.state.password} onChange={this.handleChange} />
-        <button name='reset' onClick={this.handleAjax}>Change password</button>
+        <Segment className='segmentReset'>
+          <img className='logoImg' src='http://www.eatlogos.com/alphabet_logos/png/vector_h_cut_logo.png' alt='logo' />
+          <Form className='formReset'>
+            <Form.Field>
+              <label>Your Email</label>
+              <input type='password' name='password' value={this.state.password} onChange={this.handleChange} />
+            </Form.Field>
+            <Button name='reset' onClick={this.handleAjax}>Change password</Button>
+          </Form>
+        </Segment>
       </div>
     )
   }
