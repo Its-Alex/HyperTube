@@ -5,7 +5,6 @@ import store from '../utils/store.js'
 import { observer } from 'mobx-react'
 
 @observer
-
 class Search extends Component {
   constructor (props) {
     super(props)
