@@ -60,18 +60,20 @@ class Movie extends Component {
           })
         }
       }
-      if (this._isMounted === true) this.setState({
-        title: res.data.title,
-        titleOriginal: res.data.original_title,
-        description: res.data.overview,
-        path_img: `https://image.tmdb.org/t/p/w500${res.data.poster_path}`,
-        note: res.data.vote_average,
-        background: `https://image.tmdb.org/t/p/w1000${res.data.backdrop_path}`,
-        date: res.data.release_date,
-        imdbId: res.data.imdb_id,
-        id: res.data.id,
-        runtime: getTimming(res.data.runtime)
-      }, () => { store.addMovie(res.data) })
+      if (this._isMounted === true) {
+        this.setState({
+          title: res.data.title,
+          titleOriginal: res.data.original_title,
+          description: res.data.overview,
+          path_img: `https://image.tmdb.org/t/p/w500${res.data.poster_path}`,
+          note: res.data.vote_average,
+          background: `https://image.tmdb.org/t/p/w1000${res.data.backdrop_path}`,
+          date: res.data.release_date,
+          imdbId: res.data.imdb_id,
+          id: res.data.id,
+          runtime: getTimming(res.data.runtime)
+        }, () => { store.addMovie(res.data) })
+      }
       tmdb().get(`/movie/${this.state.movie}/credits`).then((res1) => {
         res1.data.cast.forEach(element => {
           if (typeof element.profile_path === 'string') {
@@ -83,10 +85,12 @@ class Movie extends Component {
             element.profile_path = `https://image.tmdb.org/t/p/w500${element.profile_path}`
           }
         })
-        if (this._isMounted === true) this.setState({
-          cast: res1.data.cast,
-          crew: res1.data.crew
-        })
+        if (this._isMounted === true) {
+          this.setState({
+            cast: res1.data.cast,
+            crew: res1.data.crew
+          })
+        }
       }).catch(() => {
       })
       local().get('/search', {
@@ -98,9 +102,11 @@ class Movie extends Component {
         }
       }).then((res) => {
         if (res.data.success === true) {
-          if (this._isMounted === true) this.setState({
-            source: res.data.result
-          })
+          if (this._isMounted === true) {
+            this.setState({
+              source: res.data.result
+            })
+          }
         } else {
           store.addNotif(res.data.error, 'error')
           this.setState({
@@ -110,14 +116,18 @@ class Movie extends Component {
       }).catch((err) => {
         if (err.response) {
           store.addNotif(err.response.data.error, 'error')
-          if (this._isMounted === true) this.setState({
-            source: null
-          })
+          if (this._isMounted === true) {
+            this.setState({
+              source: null
+            })
+          }
         } else {
           store.addNotif('Somethings is wrong with our server', 'error')
-          if (this._isMounted === true) this.setState({
-            source: null
-          })
+          if (this._isMounted === true) {
+            this.setState({
+              source: null
+            })
+          }
         }
       })
     }).catch((err) => {
@@ -128,14 +138,18 @@ class Movie extends Component {
         } else {
           store.addNotif(err.response.data.status_message, 'error')
         }
-        if (this._isMounted === true) this.setState({
-          source: null
-        })
+        if (this._isMounted === true) {
+          this.setState({
+            source: null
+          })
+        }
       } else {
         store.addNotif('Somethings is wrong with tmdb server', 'error')
-        if (this._isMounted === true) this.setState({
-          source: null
-        })
+        if (this._isMounted === true) {
+          this.setState({
+            source: null
+          })
+        }
       }
     })
   }
@@ -143,9 +157,8 @@ class Movie extends Component {
   componentWillUnmount () {
     this._isMounted = false
   }
-  
 
-  handleClick = (e, titleProps) => {
+  handleClick (e, titleProps) {
     const { index } = titleProps
     const { activeIndex } = this.state
     const newIndex = activeIndex === index ? -1 : index
@@ -153,10 +166,10 @@ class Movie extends Component {
     if (this._isMounted === true) this.setState({ activeIndex: newIndex })
   }
 
-  handleShow() { if (this._isMounted === true) this.setState({ active: true }) }
-  handleHide() { if (this._isMounted === true) this.setState({ active: false }) }
+  handleShow () { if (this._isMounted === true) this.setState({ active: true }) }
+  handleHide () { if (this._isMounted === true) this.setState({ active: false }) }
 
-  handlePlayMovie(uuid) {
+  handlePlayMovie (uuid) {
     local().post(`/download/${uuid}`).then((res) => {
       if (res.data.success === true) {
         if (res.data.info === 'downloading' || res.data.info === 'downloaded' || res.data.info === 'transcoding') {
@@ -185,7 +198,7 @@ class Movie extends Component {
     return (
       <div className='backMovie'>
         <h1>{this.state.title}</h1>
-        <h5 className="movieDateTime">{this.state.date}</h5>
+        <h5 className='movieDateTime'>{this.state.date}</h5>
         <Dimmer.Dimmable
           as={Image}
           dimmed={active}
@@ -259,39 +272,39 @@ class Movie extends Component {
           <Accordion.Content active={activeIndex === 2}>
             <div className='detail'>
               {this.state.crew ? this.state.crew.map((result, index) => {
-                  if (result.profile_path) {
-                    return (
-                      <div key={index} className='card-container'>
-                        <Card className='detailCard' style={{backgroundImage: `url('${result.profile_path}')`}} >
-                          <div className='opacitavy'>
-                            <div className='myCard'>
-                              <Card.Content>
-                                <Card.Header className='cardName'>
-                                  {result.name}
-                                </Card.Header>
-                                <p className='job'>{result.job}</p>
-                              </Card.Content>
-                            </div>
+                if (result.profile_path) {
+                  return (
+                    <div key={index} className='card-container'>
+                      <Card className='detailCard' style={{backgroundImage: `url('${result.profile_path}')`}} >
+                        <div className='opacitavy'>
+                          <div className='myCard'>
+                            <Card.Content>
+                              <Card.Header className='cardName'>
+                                {result.name}
+                              </Card.Header>
+                              <p className='job'>{result.job}</p>
+                            </Card.Content>
                           </div>
-                        </Card>
-                      </div>
-                    )
-                  } else {
-                    return (
-                      <div key={index} className='card-container'>
-                        <Card className='detailCard' style={{backgroundImage: 'url(https://museum.wales/media/40374/empty-profile-grey.jpg)'}} >
-                          <div className='opacitavy'>
-                            <div className='myCard'>
-                              <Card.Content>
-                                <Card.Header className='cardName'>
-                                  {result.name}
-                                </Card.Header>
-                                <p className='job'>{result.job}</p>
-                              </Card.Content>
-                            </div>
+                        </div>
+                      </Card>
+                    </div>
+                  )
+                } else {
+                  return (
+                    <div key={index} className='card-container'>
+                      <Card className='detailCard' style={{backgroundImage: 'url(https://museum.wales/media/40374/empty-profile-grey.jpg)'}} >
+                        <div className='opacitavy'>
+                          <div className='myCard'>
+                            <Card.Content>
+                              <Card.Header className='cardName'>
+                                {result.name}
+                              </Card.Header>
+                              <p className='job'>{result.job}</p>
+                            </Card.Content>
                           </div>
-                        </Card>
-                      </div>
+                        </div>
+                      </Card>
+                    </div>
                   )
                 }
               })

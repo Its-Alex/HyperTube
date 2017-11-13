@@ -1,5 +1,3 @@
-const model = require('../../models/comment.js')
-
 function error (res, error, status) {
   res.status(status)
   res.json({
