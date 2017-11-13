@@ -42,50 +42,25 @@ class Movie extends Component {
       crew: [],
       activeIndex: 0
     }
+    this._isMounted = false
     this.handlePlayMovie = _.debounce(this.handlePlayMovie.bind(this), 1000)
     this.handleShow = this.handleShow.bind(this)
     this.handleHide = this.handleHide.bind(this)
   }
 
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps
-    const { activeIndex } = this.state
-    const newIndex = activeIndex === index ? -1 : index
-
-    this.setState({ activeIndex: newIndex })
-  }
-
-  handleShow () { this.setState({ active: true }) }
-  handleHide () { this.setState({ active: false }) }
-
-  handlePlayMovie (uuid) {
-    local().post(`/download/${uuid}`).then((res) => {
-      if (res.data.success === true) {
-        if (res.data.info === 'downloading' || res.data.info === 'downloaded' || res.data.info === 'transcoding') {
-          this.props.history.push(`/play/${uuid}/${this.state.id}`)
-        } else {
-          store.addNotif(`Can't play this movie`, 'error')
-        }
-      } else {
-        store.addNotif(res.data.error, 'error')
-      }
-    }).catch((err) => {
-      if (err.response) {
-        store.addNotif(err.response.data.error, 'error')
-      }
-    })
-  }
-
   componentWillMount () {
+    this._isMounted = true
     tmdb().get(`movie/${this.state.movie}`)
     .then((res) => {
       if (res.data.success === false) {
         store.addNotif('Server tmdb offline', 'error')
-        return this.setState({
-          source: null
-        })
+        if (this._isMounted === true) {
+          return this.setState({
+            source: null
+          })
+        }
       }
-      this.setState({
+      if (this._isMounted === true) this.setState({
         title: res.data.title,
         titleOriginal: res.data.original_title,
         description: res.data.overview,
@@ -108,7 +83,7 @@ class Movie extends Component {
             element.profile_path = `https://image.tmdb.org/t/p/w500${element.profile_path}`
           }
         })
-        this.setState({
+        if (this._isMounted === true) this.setState({
           cast: res1.data.cast,
           crew: res1.data.crew
         })
@@ -123,7 +98,7 @@ class Movie extends Component {
         }
       }).then((res) => {
         if (res.data.success === true) {
-          this.setState({
+          if (this._isMounted === true) this.setState({
             source: res.data.result
           })
         } else {
@@ -135,12 +110,12 @@ class Movie extends Component {
       }).catch((err) => {
         if (err.response) {
           store.addNotif(err.response.data.error, 'error')
-          this.setState({
+          if (this._isMounted === true) this.setState({
             source: null
           })
         } else {
           store.addNotif('Somethings is wrong with our server', 'error')
-          this.setState({
+          if (this._isMounted === true) this.setState({
             source: null
           })
         }
@@ -148,14 +123,48 @@ class Movie extends Component {
     }).catch((err) => {
       if (err.response) {
         store.addNotif(err.response.data.error, 'error')
-        this.setState({
+        if (this._isMounted === true) this.setState({
           source: null
         })
       } else {
         store.addNotif('Somethings is wrong with tmdb server', 'error')
-        this.setState({
+        if (this._isMounted === true) this.setState({
           source: null
         })
+      }
+    })
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+  
+
+  handleClick = (e, titleProps) => {
+    const { index } = titleProps
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index
+
+    if (this._isMounted === true) this.setState({ activeIndex: newIndex })
+  }
+
+  handleShow() { if (this._isMounted === true) this.setState({ active: true }) }
+  handleHide() { if (this._isMounted === true) this.setState({ active: false }) }
+
+  handlePlayMovie(uuid) {
+    local().post(`/download/${uuid}`).then((res) => {
+      if (res.data.success === true) {
+        if (res.data.info === 'downloading' || res.data.info === 'downloaded' || res.data.info === 'transcoding') {
+          this.props.history.push(`/play/${uuid}/${this.state.id}`)
+        } else {
+          store.addNotif(`Can't play this movie`, 'error')
+        }
+      } else {
+        store.addNotif(res.data.error, 'error')
+      }
+    }).catch((err) => {
+      if (err.response) {
+        store.addNotif(err.response.data.error, 'error')
       }
     })
   }
