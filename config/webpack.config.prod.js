@@ -149,8 +149,8 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
-              
-              compact: true,
+              plugins: ['transform-decorators-legacy'],
+              compact: true
             },
           },
           // The notation here is somewhat confusing.
