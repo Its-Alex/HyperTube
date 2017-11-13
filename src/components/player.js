@@ -54,6 +54,11 @@ class Player extends Component {
       } else {
         this.video.volume = 0.8
       }
+      if (this.props.src.indexOf('transcod') !== -1) {
+        this.video.addEventListener('pause', () => {
+          this.video.play()
+        })
+      }
       this.video.addEventListener('volumechange', (volume) => {
         global.localStorage.setItem('volume', this.video.volume)
       })
