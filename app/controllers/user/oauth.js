@@ -51,6 +51,7 @@ let getUserFromProfile = (profile) => {
 }
 
 module.exports = (accessToken, refreshToken, profile, cb) => {
+  console.log(profile)
   if (!profile || !profile.emails) return cb(null, null)
   model.getUserByOauth(profile.id).then(res => {
     if (res.length === 0) {
