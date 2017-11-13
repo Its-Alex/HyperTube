@@ -13,8 +13,7 @@ try {
   .resolve(require('path')
   .dirname(__dirname), '.config.json'), 'UTF-8'))
 } catch (error) {
-  console.log(error)
-  console.log(`PLEASE DON'T FORGET TO ADD .config.json FILE IN ROOT!`)
+  console.log(new Error(`PLEASE DON'T FORGET TO ADD .config.json FILE IN ROOT!`))
   process.exit()
 }
 
