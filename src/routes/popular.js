@@ -234,13 +234,13 @@ class Popular extends Component {
             <Menu.Header>Between :</Menu.Header>
             </Menu.Item>
           <Menu.Item>            
-            <Input name='startDate' value={this.state.startDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
+            <Input name='startDate' value={this.state.startDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017-11-10' />
           </Menu.Item>
           <Menu.Item>
             <Menu.Header>and</Menu.Header>
             </Menu.Item>
           <Menu.Item>
-            <Input name='endDate' value={this.state.endDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017/11/10' />
+            <Input name='endDate' value={this.state.endDate} onChange={this.handleChangeDate} focus placeholder='Format: 2017-11-10' />
           </Menu.Item>
         </Menu>
         {this.state.getViewed === true
