@@ -55,6 +55,7 @@ class Popular extends Component {
   }
 
   componentWillMount () {
+    this._isMounted = true
     store.resetPopular()
     local().get('/view').then(res => {
       this.setState({
@@ -64,10 +65,6 @@ class Popular extends Component {
     }).catch(err => {})
   }  
 
-  componentDidMount () {
-    this._isMounted = true
-  }
-
   componentWillUnmount () {
     this._isMounted = false
     if (this.state.useSort === true) {
@@ -76,7 +73,7 @@ class Popular extends Component {
   }
 
   handleSortsChoice (choice, name) {
-    this.setState({
+    if (this._isMounted === true) this.setState({
       choiceSort: choice,
       choiceOfSorts: name,
     })
@@ -84,12 +81,12 @@ class Popular extends Component {
   
   handleSortTheme (num, name) {
     if (num === 0) {
-      this.setState({
+      if (this._isMounted === true) this.setState({
         choiceOfTheme: name,
         choiceTheme: null
       })        
     } else {
-      this.setState({
+      if (this._isMounted === true) this.setState({
         choiceOfTheme: name,
         choiceTheme: num
       })
@@ -107,7 +104,7 @@ class Popular extends Component {
       }
     }).then((res) => {
       if (this.state.page === res.data.total_pages && this._isMounted === true) {
-        this.setState({hasMore: false})
+        if (this._isMounted === true) this.setState({hasMore: false})
       }
       store.addResultPopular(res.data.results.map(tmdbElem => {
         this.state.viewed.forEach(viewElem => {
@@ -122,14 +119,14 @@ class Popular extends Component {
   }
 
   handleChangeDate (evt) {
-    this.setState({[evt.target.name]: evt.target.value}, () => {
+    if (this._isMounted === true) this.setState({[evt.target.name]: evt.target.value}, () => {
       if (!this.state.startDate.match(/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/) ||
       !this.state.endDate.match(/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/)) {
-        this.setState({
+        if (this._isMounted === true) this.setState({
           useDate: false
         })
       } else {
-        this.setState({
+        if (this._isMounted === true) this.setState({
           startDate1: this.state.startDate,
           endDate1: this.state.endDate,
           useDate: true
@@ -140,7 +137,7 @@ class Popular extends Component {
 
   handleReset () {
     store.resetPopular()
-    this.setState({
+    if (this._isMounted === true) this.setState({
       startDate1: '',
       startDate: '',
       endDate1: '',
@@ -160,8 +157,7 @@ class Popular extends Component {
       if (getDiff(this.state.startDate1, this.state.endDate1) === true) {
         store.resetPopular()
         setTimeout(() => {
-          this._isMounted = true
-          this.setState({
+          if (this._isMounted === true) this.setState({
             useSort: true,
             hasMore: true
           })
@@ -172,8 +168,7 @@ class Popular extends Component {
     } else {
       store.resetPopular()
       setTimeout(() => {
-        this._isMounted = true
-        this.setState({
+        if (this._isMounted === true) this.setState({
           useSort: true,
           hasMore: true
         })
