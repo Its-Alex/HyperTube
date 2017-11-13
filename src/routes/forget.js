@@ -37,7 +37,7 @@ class Forget extends Component {
     return (
       <div className='forget'>
         <Segment className='segmentForget'>
-          <img className='logoImg' src='http://www.eatlogos.com/alphabet_logos/png/vector_h_cut_logo.png' />
+          <img className='logoImg' src='http://www.eatlogos.com/alphabet_logos/png/vector_h_cut_logo.png' alt='logo' />
           <Form className='formForget'>
             <Form.Field>
               <label>Your Email</label>
