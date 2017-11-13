@@ -1,6 +1,7 @@
 img.logoImg {
     display: block;
     margin: auto;
+    max-width: 90%;
 }
 
 div.forget {
@@ -10,4 +11,8 @@ div.forget {
     height: 100%;
     width: 100%;
     padding: 45px;
+}
+
+.ui.segment.segmentForget {
+    max-width: 90%;
 }
