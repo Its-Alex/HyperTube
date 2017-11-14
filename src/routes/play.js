@@ -15,7 +15,7 @@ class Play extends Component {
       src: ''
     }
   }
-  
+
   componentWillMount () {
     local().get(`/download/one/${this.props.match.params.uuid}`).then(res => {
       if (res.data.result[0].state === 'transcoding') {
@@ -24,7 +24,7 @@ class Play extends Component {
         this.props.history.goBack()
         store.addNotif('Somethings goes wrong with this movie', 'error')
       } else {
-        this.setState({src: `http://localhost:3005/download/${this.state.uuid}?Authorization=${global.localStorage.getItem('token')}`})        
+        this.setState({src: `http://localhost:3005/download/${this.state.uuid}?Authorization=${global.localStorage.getItem('token')}`})
       }
       if (store.movie === undefined || store.movie === null) {
         tmdb().get(`/movie/${this.state.id}`).then((res) => {
@@ -38,23 +38,22 @@ class Play extends Component {
       local().put('/view', {
         tmdbId: store.movie.id,
         imdbId: store.movie.imdb_id
-      }).then(res => {}).catch(err => {})
+      }).then(res => {}).catch(() => {})
     }).catch(err => {
       if (err.response) {
         store.addNotif(err.response.data.error)
       }
     })
   }
-  
 
   render () {
     return (
       <div>
         {(store.movie !== null && this.state.src !== '') ? (
-            <Player history={this.props.history}
-              id={this.props.match.params.uuid}
-              tmdbid={this.props.match.params.id}
-              src={this.state.src} />
+          <Player history={this.props.history}
+            id={this.props.match.params.uuid}
+            tmdbid={this.props.match.params.id}
+            src={this.state.src} />
         ) : null}
         <Comments history={this.props.history} uuid={this.props.match.params.uuid} />
       </div>
