@@ -32,6 +32,8 @@ module.exports = (req, res) => {
         console.log(err)
         return error(res, 'Internal server error', 500)
       })
+    } else {
+      res.json({ success: true })
     }
   }).catch(err => {
     console.log(err)
