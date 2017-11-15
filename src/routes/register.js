@@ -20,17 +20,26 @@ class Register extends Component {
       image: '',
       loadingBtn: false
     }
+    this._isMounted = false
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
   }
 
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
+  componentWillMount () {
+    this._isMounted = true
+  }
+
   handleChange (evt) {
-    this.setState({[evt.target.name]: evt.target.value})
+    if (this._isMounted === true) this.setState({[evt.target.name]: evt.target.value})
   }
 
   stackDebounce (e, data) {
     if (e.key === 'Enter' || (data && data.name === 'submit')) {
-      this.setState({loadingBtn: true})
+      if (this._isMounted === true) this.setState({loadingBtn: true})
     }
     this.handleSubmit(e.key, data)
   }
@@ -51,11 +60,11 @@ class Register extends Component {
           this.props.history.push('/login')
         } else {
           store.addNotif(res.data.error, 'error')
-          this.setState({loadingBtn: false})
+          if (this._isMounted === true) this.setState({loadingBtn: false})
         }
       })
       .catch(err => {
-        this.setState({loadingBtn: false})
+        if (this._isMounted === true) this.setState({loadingBtn: false})
         if (err.response) {
           store.addNotif(err.response.data.error, 'error')
         } else {
@@ -63,7 +72,7 @@ class Register extends Component {
         }
       })
     } else {
-      this.setState({loadingBtn: false})
+      if (this._isMounted === true) this.setState({loadingBtn: false})
     }
   }
 

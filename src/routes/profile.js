@@ -29,14 +29,20 @@ class Profile extends React.Component {
       connectGitHub: false,
       connectFortyTwo: false,
     }
+    this._isMounted = false
     this.handleChangeLangue = this.handleChangeLangue.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
   }
 
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+  
   componentWillMount () {
+    this._isMounted = true
     local().get('/user/me').then((res) => {
-      this.setState({
+      if (this._isMounted === true) this.setState({
         profileFirstName: res.data.user.firstName,
         profileLastName: res.data.user.lastName,
         profileUserName: res.data.user.username,
@@ -55,7 +61,7 @@ class Profile extends React.Component {
   }
 
   handleChange (evt) {
-    this.setState({[evt.target.name]: evt.target.value})
+    if (this._isMounted === true) this.setState({[evt.target.name]: evt.target.value})
   }
 
   handleChangeLangue (langue) {
@@ -68,7 +74,7 @@ class Profile extends React.Component {
 
   stackDebounce (e, data) {
     if (e.key === 'Enter' || (data && data.name === 'submit')) {
-      this.setState({loadingBtn: true})
+      if (this._isMounted === true) this.setState({loadingBtn: true})
     }
     this.handleSubmit(e.key, data)
   }
@@ -86,7 +92,7 @@ class Profile extends React.Component {
       .then(res => {
         if (res.data.success === true) {
           store.addNotif('Profile changed', 'success')
-          this.setState({
+          if (this._isMounted === true) this.setState({
             profileFirstName: res.data.user.firstName,
             profileLastName: res.data.user.lastName,
             profileMail: res.data.user.mail,
@@ -104,7 +110,7 @@ class Profile extends React.Component {
         }
       })
       .catch(err => {
-        this.setState({loadingBtn: false})
+        if (this._isMounted === true) this.setState({loadingBtn: false})
         if (err.response) {
           store.addNotif(err.response.data.error, 'error')
         }
