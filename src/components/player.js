@@ -14,6 +14,7 @@ class Player extends Component {
       subs: []
     }
     let self = this
+    this._isMounted = false
     setTimeout(() => {
       if (self.video && self.video.paused) self.video.play()
     }, 3000)
@@ -21,9 +22,10 @@ class Player extends Component {
 
   
   componentDidMount () {
+    this._isMounted = true
     local().get(`/download/one/${this.props.id}`).then(res => {
       if (res.data.success === true) {
-        this.setState({ localMovie: res.data.result })
+        if (this._isMounted === true) this.setState({ localMovie: res.data.result })
       } else {
         store.addNotif(res.data.error, 'error')
       }
@@ -42,7 +44,7 @@ class Player extends Component {
       }
     }).then(res => {
       if (res.data.success === true) {
-        this.setState({ subs: res.data.result })
+        if (this._isMounted === true) this.setState({ subs: res.data.result })
       } else {
         store.addNotif(res.data.error, 'error')
       }
@@ -76,6 +78,7 @@ class Player extends Component {
   }
 
   componentWillUnmount () {
+    this._isMounted = false
     clearInterval(this.timer)
   }
   
