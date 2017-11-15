@@ -12,22 +12,30 @@ class OtherProfile extends Component {
       profileMail: '',
       profileUserName: ''
     }
+    this._isMounted = false
   }
 
   componentWillMount () {
+    this._isMounted = true
     local().get(`user/${this.props.match.params.id}`
     ).then((res) => {
-      this.setState({
-        profileFirstName: res.data.user.firstName,
-        profileLastName: res.data.user.lastName,
-        profileMail: res.data.user.mail,
-        profileUserName: res.data.user.username
-      })
+      if (this._isMounted === true) {
+        this.setState({
+          profileFirstName: res.data.user.firstName,
+          profileLastName: res.data.user.lastName,
+          profileMail: res.data.user.mail,
+          profileUserName: res.data.user.username
+        })
+      }
     }).catch((err) => {
       if (err.response) {
         store.addNotif(err.response.data.error, 'error')
       }
     })
+  }
+
+  componentWillUnmount () {
+    this._isMounted = false
   }
 
   feedEmail () {

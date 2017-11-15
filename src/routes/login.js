@@ -14,11 +14,17 @@ class Login extends Component {
       password: '',
       loadingBtn: false
     }
+    this._isMounted = false
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = _.debounce(this.handleSubmit.bind(this), 200)
   }
 
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
   componentDidMount () {
+    this._isMounted = true
     if (this.props.location.search !== '') {
       let str = this.props.location.search.substr(1).split('&').map((elmt) => {
         return elmt.split('=')
@@ -34,12 +40,12 @@ class Login extends Component {
   }
 
   handleChange (evt) {
-    this.setState({[evt.target.name]: evt.target.value})
+    if (this._isMounted === true) this.setState({[evt.target.name]: evt.target.value})
   }
 
   stackDebounce (e, data) {
     if (e.key === 'Enter' || (data && data.name === 'submit')) {
-      this.setState({loadingBtn: true})
+      if (this._isMounted === true) this.setState({loadingBtn: true})
     }
     this.handleSubmit(e.key, data)
   }
@@ -51,7 +57,7 @@ class Login extends Component {
         password: this.state.password
       })
       .then(res => {
-        this.setState({loadingBtn: false})
+        if (this._isMounted === true) this.setState({loadingBtn: false})
         if (res.data.success === true) {
           global.localStorage.setItem('token', res.data.token)
           global.localStorage.setItem('langue', 'en')
@@ -61,7 +67,7 @@ class Login extends Component {
         }
       })
       .catch(err => {
-        this.setState({loadingBtn: false})
+        if (this._isMounted === true) this.setState({loadingBtn: false})
         if (err.response) {
           store.addNotif(err.response.data.error, 'error')
         }

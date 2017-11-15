@@ -9,12 +9,20 @@ class Reset extends Component {
     this.state = {
       password: ''
     }
+    this._isMounted = false
     this.handleAjax = this.handleAjax.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+
+  componentWillMount () {
+    this._isMounted = true
+  }
 
   handleChange (e) {
-    this.setState({ [e.target.name]: e.target.value })
+    if (this._isMounted === true) this.setState({ [e.target.name]: e.target.value })
   }
 
   handleAjax () {
