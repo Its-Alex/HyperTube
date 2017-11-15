@@ -43,7 +43,7 @@ class Item extends Component {
             <Segment inverted>
               <Button inverted color='green' onClick={() => this.handleMovie(this.props.id)} >See More</Button>
               {this.props.viewed === true
-              ? <p>Viwed</p>
+              ? <p>Viewed</p>
               : null}
             </Segment>
             <div className='grade'>
