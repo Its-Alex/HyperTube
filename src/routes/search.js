@@ -14,11 +14,13 @@ class Search extends Component {
       alreadyView: [],
       hasMore: true,
     }
+    this._isMounted = false
     this.handleChangePage = this.handleChangePage.bind(this)
   }
 
   
   componentWillMount () {
+    this._isMounted = true
     store.resetSearchRefresh()
     local().get('/view').then((res) => {
       if (res.data.success === true) {
@@ -32,7 +34,7 @@ class Search extends Component {
 
   componentWillReceiveProps (nextProps) {
     store.resetSearchRefresh()
-    this.setState({hasMore : true})
+    if (this._isMounted === true) this.setState({hasMore : true})
     local().get('/view').then((res) => {
       if (res.data.success === true) {
         this.setState({
@@ -60,7 +62,7 @@ class Search extends Component {
           return tmdbElem
         }, this)
         store.addResultSearch(res.data)
-        if (this.state.page <= res.data.total_pages) return this.setState({
+        if (this.state.page <= res.data.total_pages && this._isMounted === true) return this.setState({
           hasMore: this.state.page !== res.data.total_pages ? true : false
         })
       }).catch((err) => {

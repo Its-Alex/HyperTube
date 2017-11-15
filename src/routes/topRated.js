@@ -16,14 +16,16 @@ class TopRated extends Component {
       getViwed: false,
       alreadyView: []
     }
+    this._isMounted = false
     this.handleChangePage = this.handleChangePage.bind(this)
   }
 
   componentWillMount() {
+    this._isMounted = true
     store.resetTopRated()
     if (this.props.history !== undefined) {
       local().get('/view').then((res) => {
-        if (res.data.success === true) {
+        if (res.data.success === true && this._isMounted === true) {
           this.setState({
             alreadyView: res.data.result,
             getViwed: true
@@ -32,6 +34,11 @@ class TopRated extends Component {
       }).catch(() => {})
     }
   }
+
+  componentWillUnmount () {
+    this._isMounted = false
+  }
+  
 
   handleChangePage () {
     tmdb().get('discover/movie', {
@@ -48,7 +55,7 @@ class TopRated extends Component {
         })
         return tmdbElem
       }, this)
-      if (this.state.page === res.data.total_pages) this.setState({hasMore: false})
+      if (this.state.page === res.data.total_pages && this._isMounted === true) this.setState({hasMore: false})
       store.addResultTopRated(res.data.results)
     }).catch((err) => {
       store.addNotif('Themoviedb error', 'error')

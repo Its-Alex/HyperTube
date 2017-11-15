@@ -58,7 +58,7 @@ class Popular extends Component {
     this._isMounted = true
     store.resetPopular()
     local().get('/view').then(res => {
-      this.setState({
+      if (this._isMounted === true) this.setState({
         viewed: res.data.result,
         getViewed: true
       })
