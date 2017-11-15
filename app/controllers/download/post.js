@@ -109,9 +109,9 @@ module.exports = (req, res) => {
                   console.log('Failed to convert this movie')
                   model.update('state = ? WHERE id = ?', ['error', file.id]).then(result => {
                     global.download[file.id].state = 'error'
-                    console.log(err)
-                  }).catch(err => {
-                    console.log(err)
+                    // console.log(err)
+                  }).catch(() => {
+                    // console.log(err)
                   })
                 })
                 .save(global.download[file.id].path)

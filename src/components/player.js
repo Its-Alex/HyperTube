@@ -13,6 +13,10 @@ class Player extends Component {
       played: false,
       subs: []
     }
+    let self = this
+    setTimeout(() => {
+      if (self.video && self.video.paused) self.video.play()
+    }, 3000)
   }
 
   
@@ -48,24 +52,21 @@ class Player extends Component {
       }
     })
     if (this.video) {
+      let self = this
       if (global.localStorage.getItem('volume')) {
         this.video.volume = global.localStorage.getItem('volume')
       } else {
         this.video.volume = 0.8
       }
-      if (this.props.src.indexOf('transcod') !== -1) {
-        this.video.addEventListener('pause', () => {
-          if (this.video) this.video.play()
-        })
-      }
       this.video.addEventListener('volumechange', (volume) => {
         global.localStorage.setItem('volume', this.video.volume)
       })
       if (this.props.src.indexOf('transcod') !== -1) {
-        let self = this
-        setTimeout(() => {
-          if (self.video)  self.video.play()
-        }, 1000)
+        this.video.addEventListener('pause', (e) => {
+          e.preventDefault()
+          if (self.video && self.video.currentTime > 0 && self.video.paused && !self.video.ended
+            && self.video.readyState > 2) self.video.play()
+        })
       }
       this.video.addEventListener('error', (err) => {
         this.props.history.goBack()
@@ -73,6 +74,11 @@ class Player extends Component {
       })
     }
   }
+
+  componentWillUnmount () {
+    clearInterval(this.timer)
+  }
+  
 
   render () {
     return (

@@ -62,12 +62,12 @@ module.exports = (req, res) => {
       .on('error', err => {
         if (err.message !== 'Output stream closed') {
           console.log(`Cannot convert '${file.title}' for ${req.user.id}...`)
-          console.log(err.message)
+          // console.log(err.message)
           model.update('state = ? WHERE id = ?', ['error', file.id]).then(result => {
             global.download[file.id].state = 'error'
-            console.log(err)
-          }).catch(err => {
-            console.log(err)
+            // console.log(err)
+          }).catch(() => {
+            // console.log(err)
           })
           convert.kill()
         }
