@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const cors = require('cors')
 const db = require('./utils/db.js')
+const execSQL = require('exec-sql')
 
 require('./utils/cron.js')
 
@@ -16,6 +17,20 @@ try {
   console.log(new Error(`PLEASE DON'T FORGET TO ADD .config.json FILE IN ROOT!`))
   process.exit()
 }
+
+execSQL.connect({
+  host: global.config.db.host,
+  database: global.config.db.database,
+  user: global.config.db.user,
+  password: global.config.db.password
+})
+execSQL.executeFile('./app/utils/db.sql', err => {
+  if (err) {
+    console.log(err)
+    process.exit()
+  }
+  execSQL.disconnect()
+})
 
 global.download = []
 
