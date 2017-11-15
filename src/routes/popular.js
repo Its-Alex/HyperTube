@@ -159,7 +159,7 @@ class Popular extends Component {
         choiceTheme: null,
         choiceOfTheme: 'Genre',
         choiceSort: 'popularity.desc',
-        choiceOfSorts: 'Trie',
+        choiceOfSorts: 'Sort by',
         useDate: false,
         useSort: false,
         hasMore: true

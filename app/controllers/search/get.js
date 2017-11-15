@@ -15,10 +15,10 @@ function error (res, error, status) {
 }
 
 module.exports = (req, res) => {
-  if (typeof req.query.tmdbId !== 'string' ||
-  typeof req.query.title !== 'string' ||
-  typeof req.query.imdbId !== 'string' ||
-  typeof req.query.type !== 'string') return error(res, 'Invalid fields', 403)
+  if (typeof req.query.tmdbId !== 'string' || req.query.tmdbId === '' ||
+    typeof req.query.title !== 'string' || req.query.title === '' ||
+    typeof req.query.imdbId !== 'string' || req.query.imdbId === '' ||
+    typeof req.query.type !== 'string' || req.query.type === '') return error(res, 'Invalid fields', 403)
 
   if (req.query.type !== 'movies' && req.query.type !== 'series') {
     return error(res, 'Wrong args', 403)
